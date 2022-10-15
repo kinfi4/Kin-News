@@ -1,0 +1,3 @@
+[submodule "kin-news-service-core"]
+	path = news-service/submodules/kin-news-core
+	url = git@github.com:kinfi4/Kin-News-Core.git
