@@ -17,7 +17,7 @@ class LoginView(APIView):
     def post(
         self,
         request: Request,
-        user_service: UserService = Provide[Container.services.user_service],
+        user_service: UserService = Provide[Container.domain_services.user_service],
     ) -> Response:
         try:
             user_entity = UserEntity(**request.data)
@@ -40,7 +40,7 @@ class RegisterView(APIView):
     def post(
         self,
         request: Request,
-        user_service: UserService = Provide[Container.services.user_service],
+        user_service: UserService = Provide[Container.domain_services.user_service],
     ) -> Response:
         try:
             user_entity = UserEntity(**request.data)

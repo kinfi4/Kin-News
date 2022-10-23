@@ -12,3 +12,11 @@ class UsernameAlreadyTakenError(BaseAuthError):
 
 class LoginFailedError(BaseAuthError):
     pass
+
+
+class UserIsNotSubscribed(KinNewsBaseException):
+    pass
+
+
+class ChannelDoesNotExists(KinNewsBaseException):
+    pass

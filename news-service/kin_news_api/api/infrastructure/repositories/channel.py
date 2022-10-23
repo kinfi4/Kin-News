@@ -2,7 +2,7 @@ import logging
 
 from django.contrib.auth.models import User
 
-from api.infrastructure.models import Channel
+from api.models import Channel
 
 
 class ChannelRepository:
@@ -20,3 +20,11 @@ class ChannelRepository:
 
         channel.subscribers.add(user)
         channel.save()
+
+    def unsubscribe_user(self, user: User, channel_link: str) -> None:
+        channel = self._query.get(link=channel_link)
+        channel.subscribers.remove(user)
+        channel.save()
+
+        if channel.subscribers.count() == 0:
+            channel.delete()

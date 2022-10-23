@@ -64,6 +64,8 @@ DATABASES = {
         'PORT': os.getenv('DATABASE_PORT', '5432')
     }
 }
+MIGRATION_MODULES = {'api': 'api.infrastructure.migrations'}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,3 +104,7 @@ REST_FRAMEWORK = {
         'kin_news_core.auth.JWTAuthentication',
     ]
 }
+
+TELEGRAM_API_ID = int(os.getenv('TELEGRAM_API_ID'))
+TELEGRAM_API_HASH = os.getenv('TELEGRAM_API_HASH')
+TELEGRAM_SESSION_STRING = os.getenv('TELEGRAM_SESSION_STRING')

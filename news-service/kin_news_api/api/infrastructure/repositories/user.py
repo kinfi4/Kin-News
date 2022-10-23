@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 
-from api.infrastructure.models import Channel
+from api.models import Channel
 
 
 class UserRepository:
@@ -32,7 +32,7 @@ class UserRepository:
 
         return self._user_query.filter(username=username).exists()
 
-    def get_user_subscriptions(self, user: User) -> QuerySet:
+    def get_user_subscriptions(self, user: User) -> QuerySet[Channel]:
         self._logger.info('[UserRepository] Get user subscriptions from db')
 
         return self._channel_query.filter(subscribers__username=user.username)

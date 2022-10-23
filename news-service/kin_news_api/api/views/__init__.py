@@ -1,9 +1,9 @@
-from django.conf import settings
-
 from .user import UserView, LoginView, RegisterView
-from .channels import ChannelListView
+from .channels import ChannelListView, ChannelUnsubscribeView
+from .ratings import ChannelRateView
 
 from config.containers import Container
+from config import settings
 from api import views
 
 container = Container()

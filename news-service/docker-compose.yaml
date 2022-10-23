@@ -17,6 +17,7 @@ services:
     volumes:
       - ./kin_news_api/api:/app/api
       - ./kin_news_api/config:/app/config
+      - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
     depends_on:
       - postgres
 

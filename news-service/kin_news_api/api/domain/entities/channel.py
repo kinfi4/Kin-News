@@ -1,11 +1,11 @@
-from typing import Optional
-
 from pydantic import BaseModel
+
+from kin_news_core.telegram.entities import ChannelEntity
 
 
 class ChannelPostEntity(BaseModel):
     link: str
 
 
-class ChannelGetEntity(ChannelPostEntity):
-    display_name: Optional[str] = None
+class ChannelGetEntity(ChannelEntity):
+    pass
