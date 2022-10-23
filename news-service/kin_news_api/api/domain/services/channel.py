@@ -3,9 +3,9 @@ import logging
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
-from api.domain.entities import ChannelGetEntity, ChannelPostEntity, ChannelRateEntity, Rating
+from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.exceptions import UserIsNotSubscribed
-from api.infrastructure.repositories import ChannelRepository, UserRepository, RatingsRepository
+from api.infrastructure.repositories import ChannelRepository, UserRepository
 from kin_news_core.telegram.interfaces import ITelegramProxy
 from kin_news_core.telegram.entities import ChannelEntity
 from kin_news_core.exceptions import InvalidChannelURLError

@@ -49,7 +49,7 @@ class DomainServices(containers.DeclarativeContainer):
         user_repository=repositories.user_repository,
     )
 
-    channel_service = providers.Singleton(
+    channel_service = providers.Factory(
         ChannelService,
         user_repository=repositories.user_repository,
         channel_repository=repositories.channel_repository,
@@ -59,7 +59,7 @@ class DomainServices(containers.DeclarativeContainer):
 
     rating_service = providers.Singleton(
         RatingsService,
-        ratings_repository = repositories.ratings_repository,
+        ratings_repository=repositories.ratings_repository,
     )
 
 
