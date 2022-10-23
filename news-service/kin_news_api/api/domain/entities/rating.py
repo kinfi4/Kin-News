@@ -4,7 +4,7 @@ from api.models import PossibleRating
 
 
 class ChannelRateEntity(BaseModel):
-    channel_link: str = Field(..., alias='channelLink')
+    channel_link: str = Field(..., alias='str')
     rating: PossibleRating
 
     class Config:
@@ -12,7 +12,7 @@ class ChannelRateEntity(BaseModel):
 
 
 class Rating(BaseModel):
-    channel_link: str = Field(..., alias='channelLink')
+    channel_link: str = Field(..., alias='str')
     my_rate: PossibleRating = Field(..., alias='myRate')
     total_rates: int = Field(..., alias='totalRates')
     average_rating: float = Field(..., alias='averageRating')

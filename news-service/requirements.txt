@@ -1,9 +1,11 @@
 asgiref==3.5.2
+async-timeout==4.0.2
 certifi==2022.9.24
 charset-normalizer==2.1.1
 coreapi==2.3.3
 coreschema==0.0.4
 dependency-injector==4.40.0
+Deprecated==1.2.13
 Django==4.1.2
 djangorestframework==3.14.0
 drf-yasg==1.21.4
@@ -20,6 +22,7 @@ pydantic==1.10.2
 PyJWT==2.5.0
 pyparsing==3.0.9
 pytz==2022.4
+redis==4.3.4
 requests==2.28.1
 rsa==4.9
 ruamel.yaml==0.17.21
@@ -30,3 +33,4 @@ Telethon==1.25.4
 typing_extensions==4.4.0
 uritemplate==4.1.1
 urllib3==1.26.12
+wrapt==1.14.1

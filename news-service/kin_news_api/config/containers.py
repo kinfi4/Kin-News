@@ -1,10 +1,18 @@
-from dependency_injector import containers, providers
+from typing import Optional
+
+from dependency_injector import containers, providers, resources
 
 from api.domain.services.ratings import RatingsService
 from api.infrastructure.repositories import UserRepository, ChannelRepository
 from api.domain.services import UserService, ChannelService
 from api.infrastructure.repositories.ratings import RatingsRepository
 from kin_news_core.telegram.client import TelegramClientProxy, telegram_client_proxy_creator
+from kin_news_core.cache import RedisCache, AbstractCache
+
+
+class RedisResource(resources.Resource):
+    def init(self, host: str, port: int = 6379, password: Optional[str] = None) -> RedisCache:
+        return RedisCache.from_settings(host, port, password)
 
 
 class Repositories(containers.DeclarativeContainer):
@@ -15,6 +23,12 @@ class Repositories(containers.DeclarativeContainer):
 
 class Clients(containers.DeclarativeContainer):
     config = providers.Configuration()
+
+    cache_client: providers.Resource[AbstractCache] = providers.Resource(
+        RedisResource,
+        host=config.REDIS_HOST,
+        port=config.REDIS_PORT,
+    )
 
     telegram_client: providers.Resource[TelegramClientProxy] = providers.Factory(
         telegram_client_proxy_creator,
@@ -40,6 +54,7 @@ class DomainServices(containers.DeclarativeContainer):
         user_repository=repositories.user_repository,
         channel_repository=repositories.channel_repository,
         telegram_client=clients.telegram_client,
+        cache_client=clients.cache_client,
     )
 
     rating_service = providers.Singleton(
