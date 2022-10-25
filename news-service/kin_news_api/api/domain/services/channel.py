@@ -9,7 +9,6 @@ from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.exceptions import UserIsNotSubscribed
 from api.infrastructure.repositories import ChannelRepository, UserRepository
 from kin_news_core.telegram import ITelegramProxy
-from kin_news_core.telegram.entities import ChannelEntity
 from kin_news_core.exceptions import InvalidChannelURLError
 from kin_news_core.cache import AbstractCache
 
