@@ -1,18 +1,22 @@
 from pydantic import ValidationError
 from dependency_injector.wiring import inject, Provide
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from api.domain.entities import UserEntity
 from api.domain.services import UserService
 from api.exceptions import LoginFailedError, UsernameAlreadyTakenError
 from config.containers import Container
+from kin_news_core.auth import JWTAuthentication
 
 
 class LoginView(APIView):
+    permission_classes = (AllowAny,)
+
     @inject
     def post(
         self,
@@ -36,6 +40,8 @@ class LoginView(APIView):
 
 
 class RegisterView(APIView):
+    permission_classes = (AllowAny,)
+
     @inject
     def post(
         self,
@@ -59,6 +65,7 @@ class RegisterView(APIView):
 
 
 class UserView(APIView):
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request) -> Response:

@@ -66,11 +66,10 @@ class ChannelService:
 
     def _get_channel_profile_photo_url(self, channel_link: str) -> str:
         photo_path = self._cache_client.get_channel_photo_url(channel_link)
-        photo_absolute_path = os.path.join(settings.MEDIA_ROOT, photo_path)
 
-        print(photo_absolute_path)
-        if photo_path is None or not os.path.exists(photo_absolute_path):
+        if photo_path is None or not os.path.exists(os.path.join(settings.MEDIA_ROOT, photo_path)):
             photo_path = os.path.join('profile_photos', f'{channel_link}.jpg')
+            photo_absolute_path = os.path.join(settings.MEDIA_ROOT, photo_path)
 
             self._telegram_client.download_channel_profile_photo(channel_link, photo_absolute_path)
             self._cache_client.set_channel_photo_url(channel_link, photo_path)

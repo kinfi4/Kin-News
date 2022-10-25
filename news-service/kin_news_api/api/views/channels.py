@@ -5,15 +5,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 from api.domain.services import ChannelService
 from api.domain.entities import ChannelPostEntity
 from api.exceptions import UserIsNotSubscribed
 from config.containers import Container
 from kin_news_core.exceptions import InvalidChannelURLError
+from kin_news_core.auth import JWTAuthentication
 
 
 class ChannelListView(APIView):
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     @inject
@@ -45,6 +48,7 @@ class ChannelListView(APIView):
 
 
 class ChannelUnsubscribeView(APIView):
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     @inject

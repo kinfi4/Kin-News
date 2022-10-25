@@ -101,13 +101,6 @@ LOCAL_TIMEZONE = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinf
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TOKEN_LIFE_MINUTES = int(os.environ.get('TOKEN_LIFE_MINUTES'))
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'kin_news_core.auth.JWTAuthentication',
-    ]
-}
-
 TELEGRAM_API_ID = int(os.getenv('TELEGRAM_API_ID'))
 TELEGRAM_API_HASH = os.getenv('TELEGRAM_API_HASH')
 TELEGRAM_SESSION_STRING = os.getenv('TELEGRAM_SESSION_STRING')

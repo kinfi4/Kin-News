@@ -1,6 +1,7 @@
 from dependency_injector.wiring import Provide, inject
 from pydantic import ValidationError
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,9 +11,11 @@ from api.domain.entities import ChannelRateEntity
 from api.domain.services import RatingsService
 from api.exceptions import ChannelDoesNotExists
 from config.containers import Container
+from kin_news_core.auth import JWTAuthentication
 
 
 class ChannelRateView(APIView):
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     @inject
