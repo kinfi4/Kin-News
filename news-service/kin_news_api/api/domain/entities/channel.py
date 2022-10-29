@@ -1,8 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
-from kin_news_core.telegram.entities import ChannelEntity
 from api.domain.utils import truncate_channel_link_to_username
 
 
@@ -12,7 +11,14 @@ class ChannelPostEntity(BaseModel):
     _extract_link = validator('link', pre=True, allow_reuse=True)(truncate_channel_link_to_username)
 
 
-class ChannelGetEntity(ChannelEntity):
+class ChannelGetEntity(BaseModel):
+    link: str
+    title: str
+    description: str
+    participants_count: str = Field(..., alias='subscribersNumber')
     profile_photo_url: Optional[str]
 
     _extract_link = validator('link', pre=True, allow_reuse=True)(truncate_channel_link_to_username)
+
+    class Config:
+        allow_population_by_field_name = True

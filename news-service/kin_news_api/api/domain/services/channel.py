@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
+from api.constants import DELETED_CHANNEL_TITLE
 from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.exceptions import UserIsNotSubscribed
 from api.infrastructure.repositories import ChannelRepository, UserRepository
@@ -56,12 +57,12 @@ class ChannelService:
 
     def _get_channel_entity(self, channel_link: str) -> ChannelGetEntity:
         channel_entity = self._cache_client.get_channel_info(channel_link)
-        profile_url = self._get_channel_profile_photo_url(channel_link)
 
         if channel_entity is None:
             channel_entity = self._telegram_client.get_channel(channel_link)
             self._cache_client.set_channel_info(channel_entity)
 
+        profile_url = self._get_channel_profile_photo_url(channel_link)
         return ChannelGetEntity(**channel_entity.dict(), profile_photo_url=profile_url)
 
     def _get_channel_profile_photo_url(self, channel_link: str) -> str:
@@ -80,7 +81,7 @@ class ChannelService:
     def _build_deleted_channel_entity(link: str) -> ChannelGetEntity:
         return ChannelGetEntity(
             link=link,
-            title='This Channel was deleted, or channel link has changed',
+            title=DELETED_CHANNEL_TITLE,
             description='',
             participants_count='0 K',
             profile_photo_url=f'{settings.MEDIA_URL}{os.path.join("profile_photos", "default.jpg")}',

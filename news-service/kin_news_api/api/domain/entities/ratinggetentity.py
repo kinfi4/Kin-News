@@ -4,7 +4,7 @@ from api.models import PossibleRating
 from api.domain.utils import truncate_channel_link_to_username
 
 
-class ChannelRateEntity(BaseModel):
+class RatePostEntity(BaseModel):
     channel_link: str = Field(..., alias='str')
     rating: PossibleRating
 
@@ -14,7 +14,7 @@ class ChannelRateEntity(BaseModel):
         allow_population_by_field_name = True
 
 
-class Rating(BaseModel):
+class RatingGetEntity(BaseModel):
     channel_link: str = Field(..., alias='str')
     my_rate: PossibleRating = Field(..., alias='myRate')
     total_rates: int = Field(..., alias='totalRates')

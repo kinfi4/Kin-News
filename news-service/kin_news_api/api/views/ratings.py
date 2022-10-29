@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
-from api.domain.entities import ChannelRateEntity
+from api.domain.entities import RatePostEntity
 from api.domain.services import RatingsService
 from api.exceptions import ChannelDoesNotExists
 from config.containers import Container
@@ -43,7 +43,7 @@ class ChannelRateView(APIView):
         rating_service: RatingsService = Provide[Container.domain_services.rating_service],
     ) -> Response:
         try:
-            channel_rate_entity = ChannelRateEntity(**request.data)
+            channel_rate_entity = RatePostEntity(**request.data)
             ratings = rating_service.rate_channel(request.user, channel_rate_entity)
         except ValidationError as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})

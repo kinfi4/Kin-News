@@ -20,3 +20,7 @@ class UserIsNotSubscribed(KinNewsBaseException):
 
 class ChannelDoesNotExists(KinNewsBaseException):
     pass
+
+
+class InvalidURIParams(KinNewsBaseException):
+    pass

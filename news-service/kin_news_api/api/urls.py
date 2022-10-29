@@ -8,6 +8,7 @@ from api.views import (
     ChannelRateView,
     ChannelUnsubscribeView,
     HealthCheckView,
+    MessagesView,
 )
 
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('channels/rates', ChannelRateView.as_view()),
     path('channels/<str:channel>', ChannelUnsubscribeView.as_view()),
     path('healthcheck', HealthCheckView.as_view()),
+    path('messages', MessagesView.as_view()),
 ]

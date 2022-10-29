@@ -2,11 +2,12 @@ from typing import Optional
 
 from dependency_injector import containers, providers, resources
 
+from api.domain.services.message import MessageService
 from api.domain.services.ratings import RatingsService
 from api.infrastructure.repositories import UserRepository, ChannelRepository
 from api.domain.services import UserService, ChannelService
 from api.infrastructure.repositories.ratings import RatingsRepository
-from kin_news_core.telegram.client import TelegramClientProxy, telegram_client_proxy_creator
+from kin_news_core.telegram.client import TelegramClientProxy
 from kin_news_core.cache import RedisCache, AbstractCache
 
 
@@ -31,8 +32,8 @@ class Clients(containers.DeclarativeContainer):
     )
 
     telegram_client: providers.Resource[TelegramClientProxy] = providers.Factory(
-        telegram_client_proxy_creator,
-        session_sting=config.TELEGRAM_SESSION_STRING,
+        TelegramClientProxy,
+        session_str=config.TELEGRAM_SESSION_STRING,
         api_id=config.TELEGRAM_API_ID,
         api_hash=config.TELEGRAM_API_HASH,
     )
@@ -47,6 +48,11 @@ class DomainServices(containers.DeclarativeContainer):
     user_service = providers.Singleton(
         UserService,
         user_repository=repositories.user_repository,
+    )
+
+    message_service = providers.Factory(
+        MessageService,
+        telegram_client=clients.telegram_client,
     )
 
     channel_service = providers.Factory(
