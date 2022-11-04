@@ -31,7 +31,7 @@ class Clients(containers.DeclarativeContainer):
         port=config.REDIS_PORT,
     )
 
-    telegram_client: providers.Resource[TelegramClientProxy] = providers.Factory(
+    telegram_client: providers.Factory[TelegramClientProxy] = providers.Factory(
         TelegramClientProxy,
         session_str=config.TELEGRAM_SESSION_STRING,
         api_id=config.TELEGRAM_API_ID,

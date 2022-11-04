@@ -9,7 +9,7 @@ db.sqlite3
 django_static/
 # Logs
 logs/
-media/profile_photos/*.jpg
+media/**/*.jpg
 
 .idea/
 
