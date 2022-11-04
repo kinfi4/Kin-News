@@ -8,6 +8,4 @@ class HealthCheckView(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request: Request) -> Response:
-        from django.contrib.auth.models import User
-        print(User.objects.all())
         return Response(data={'status': 'OK'})

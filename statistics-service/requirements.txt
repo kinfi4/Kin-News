@@ -8,6 +8,7 @@ dependency-injector==4.40.0
 Deprecated==1.2.13
 Django==4.1.2
 djangorestframework==3.14.0
+dnspython==2.2.1
 drf-yasg==1.21.4
 idna==3.4
 inflection==0.5.1
@@ -20,6 +21,7 @@ pyaes==1.6.1
 pyasn1==0.4.8
 pydantic==1.10.2
 PyJWT==2.5.0
+pymongo==4.3.2
 pyparsing==3.0.9
 pytz==2022.4
 redis==4.3.4
