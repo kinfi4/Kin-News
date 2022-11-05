@@ -1,8 +1,13 @@
 from dependency_injector import containers, providers, resources
 from pymongo import MongoClient
 
-from api.infrastructure.repositories import ReportsMongoRepository, IReportRepository, ReportsAccessManagementRepository
-from api.domain.services import ManagingReportsService, IGeneratingReportsService, GeneratingReportsService
+from api.infrastructure.repositories import (
+    ReportsMongoRepository,
+    IReportRepository,
+    ReportsAccessManagementRepository,
+    UserRepository,
+)
+from api.domain.services import ManagingReportsService, IGeneratingReportsService, GeneratingReportsService, UserService
 from kin_news_core.telegram import TelegramClientProxy
 
 
@@ -23,6 +28,10 @@ class Repositories(containers.DeclarativeContainer):
 
     reports_access_management_repository: providers.Singleton[ReportsAccessManagementRepository] = providers.Singleton(
         ReportsAccessManagementRepository,
+    )
+
+    user_repository: providers.Singleton[UserRepository] = providers.Singleton(
+        UserRepository,
     )
 
 
@@ -53,6 +62,11 @@ class Services(containers.DeclarativeContainer):
         telegram_client=clients.telegram_client,
         reports_repository=repositories.reports_repository,
         report_access_repository=repositories.reports_access_management_repository,
+    )
+
+    user_service: providers.Singleton[UserService] = providers.Singleton(
+        UserService,
+        access_repository=repositories.user_repository,
     )
 
 
