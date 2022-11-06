@@ -5,10 +5,12 @@ from rest_framework.views import APIView, Request, Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 
-from api.domain.services import ManagingReportsService, IGeneratingReportsService
+from api.domain.services import ManagingReportsService
 from api.domain.entities import ReportPutEntity, GenerateReportEntity
 from api.exceptions import ReportAccessForbidden
+from api.tasks import generate_report_task
 from config.containers import Container
+from config.constants import DEFAULT_DATE_FORMAT
 from kin_news_core.auth import JWTAuthentication
 
 
@@ -32,11 +34,15 @@ class ReportsListView(APIView):
     def post(
         self,
         request: Request,
-        generating_reports_service: IGeneratingReportsService = Provide[Container.services.generating_reports_service],
     ) -> Response:
         try:
             generate_report = GenerateReportEntity(**request.data)
-            generating_reports_service.generate_report(generate_report, request.user)  # TODO: move this logic to Celery
+            generate_report_task.delay(
+                start_date=generate_report.start_date.strftime(DEFAULT_DATE_FORMAT),
+                end_date=generate_report.end_date.strftime(DEFAULT_DATE_FORMAT),
+                channel_list=generate_report.channel_list,
+                user_id=request.user.id,
+            )
         except ValidationError as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
 

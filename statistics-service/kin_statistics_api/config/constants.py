@@ -9,3 +9,8 @@ class MessageCategories(str, Enum):
 
 
 DEFAULT_DATE_FORMAT = '%d/%m/%Y'
+
+
+class ReportProcessingResult(str, Enum):
+    POSTPONED = 'Postponed'
+    READY = 'Ready'

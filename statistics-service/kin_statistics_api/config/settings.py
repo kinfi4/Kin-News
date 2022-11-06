@@ -97,8 +97,10 @@ MEDIA_ROOT = '/media'
 
 LOCAL_TIMEZONE = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 TOKEN_LIFE_MINUTES = int(os.environ.get('TOKEN_LIFE_MINUTES'))
 
+# Telegram
 TELEGRAM_API_ID = int(os.getenv('TELEGRAM_API_ID'))
 TELEGRAM_API_HASH = os.getenv('TELEGRAM_API_HASH')
 TELEGRAM_SESSION_STRING = os.getenv('TELEGRAM_SESSION_STRING')
@@ -108,3 +110,11 @@ MONGO_DB_CONNECTION_STRING = os.getenv('MONGO_DB_CONNECTION_STRING')
 MAX_SUBSCRIPTIONS_ALLOWED = os.getenv('MAX_SUBSCRIPTIONS_ALLOWED', 12)
 
 KIN_TOKEN = os.getenv('KIN_TOKEN')
+
+
+# Celery
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

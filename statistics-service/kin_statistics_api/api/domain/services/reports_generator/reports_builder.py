@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from api.domain.entities import ReportGetEntity
-from config.constants import MessageCategories
+from config.constants import MessageCategories, ReportProcessingResult
 
 
 class ReportsBuilder:
@@ -9,6 +9,8 @@ class ReportsBuilder:
         self._report_name = self._default_report_name_generator()
         self._report_id = report_id
         self._total_messages_count = 0
+        self._status = ReportProcessingResult.READY
+        self._failed_reason = None
 
         self._messages_count_by_category = {category: 0 for category in MessageCategories}
         self._messages_count_by_day_hour = {str(hour): 0 for hour in range(24)}
@@ -43,10 +45,20 @@ class ReportsBuilder:
         self._messages_count_by_category = messages_by_category
         return self
 
+    def set_status(self, result_status: ReportProcessingResult) -> "ReportsBuilder":
+        self._status = result_status
+        return self
+
+    def set_failed_reason(self, reason: str) -> "ReportsBuilder":
+        self._failed_reason = reason
+        return self
+
     def build(self) -> ReportGetEntity:
         return ReportGetEntity(
             report_id=self._report_id,
             name=self._report_name,
+            processing_status=self._status,
+            report_failed_reason=self._failed_reason,
             total_messages_count=self._total_messages_count,
             messages_count_by_category=self._messages_count_by_category,
             messages_count_by_day_hour=self._messages_count_by_day_hour,

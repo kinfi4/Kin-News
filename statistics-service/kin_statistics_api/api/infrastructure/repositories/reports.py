@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from django.contrib.auth.models import User
@@ -16,6 +17,8 @@ class ReportsMongoRepository(IReportRepository):
         self._reports_db = mongo_client['statistics_service']
         self._reports_collection = self._reports_db['reports']
 
+        self._logger = logging.getLogger(self.__class__.__name__)
+
     def get_report_names(self, report_ids: list[int]) -> list[ReportIdentificationEntity]:
         dict_reports = self._reports_collection.find(
             {
@@ -29,6 +32,8 @@ class ReportsMongoRepository(IReportRepository):
         ]
 
     def save_user_report(self, report: ReportGetEntity) -> None:
+        self._logger.info(f'[ReportsMongoRepository] Saving user report with id: {report.report_id} and status: {report.processing_status}')
+
         report_dict = report.dict()
         self._reports_collection.insert_one(report_dict)
 
@@ -59,6 +64,8 @@ class ReportsMongoRepository(IReportRepository):
         return ReportGetEntity(
             report_id=dict_report['report_id'],
             name=dict_report['name'],
+            processing_status=dict_report['processing_status'],
+            report_failed_reason=dict_report['report_failed_reason'],
             total_messages_count=dict_report['total_messages_count'],
             messages_count_by_channel=dict_report['messages_count_by_channel'],
             messages_count_by_date=dict_report['messages_count_by_date'],

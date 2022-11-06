@@ -19,6 +19,24 @@ services:
       - ./kin_statistics_api/config:/app/config
       - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
 
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./etc/kin-stats/Dockerfile
+    image: 'kin-statistics-worker'
+    container_name: 'kin-statistics-celery-worker'
+    command: bash -c "celery -A config worker -l INFO"
+    env_file:
+      - ./etc/kin-stats/env/.dev.env
+    networks:
+      - kin-network
+    volumes:
+      - ./kin_statistics_api/api:/app/api
+      - ./kin_statistics_api/config:/app/config
+      - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
+    depends_on:
+      - statistics-api
+
 networks:
   kin-network:
     external:

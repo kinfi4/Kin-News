@@ -4,11 +4,12 @@ from .register_user import RegisterUserView
 
 from config.containers import Container
 from config import settings
-from api import views
+from api import views, tasks
 
 container = Container()
 container.config.from_dict(settings.__dict__)
 container.init_resources()
 container.wire(
-    packages=[views]
+    packages=[views],
+    modules=[tasks],
 )
