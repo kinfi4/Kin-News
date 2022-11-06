@@ -5,7 +5,7 @@ from rest_framework.views import APIView, Request, Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 
-from api.domain.services import ManagingReportsService
+from api.domain.services import ManagingReportsService, UserService
 from api.domain.entities import ReportPutEntity, GenerateReportEntity
 from api.exceptions import ReportAccessForbidden
 from api.tasks import generate_report_task
@@ -34,7 +34,11 @@ class ReportsListView(APIView):
     def post(
         self,
         request: Request,
+        user_service: UserService = Provide[Container.services.user_service],
     ) -> Response:
+        if user_service.is_user_report_generating(request.user.id):
+            return Response(status=status.HTTP_409_CONFLICT, data={'error_message': 'User is generating report right now'})
+
         try:
             generate_report = GenerateReportEntity(**request.data)
             generate_report_task.delay(

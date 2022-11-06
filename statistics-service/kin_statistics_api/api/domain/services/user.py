@@ -12,3 +12,6 @@ class UserService:
             raise UsernameTaken('User with this username already exists')
 
         self._access_repository.create_user_by_username(create_user_entity.username)
+
+    def is_user_report_generating(self, user_id: int) -> bool:
+        return self._access_repository.is_user_report_generating(user_id=user_id)
