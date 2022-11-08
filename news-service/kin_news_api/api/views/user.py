@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from api.domain.entities import UserEntity
+from api.domain.entities import UserEntity, UserRegistrationEntity
 from api.domain.services import UserService
 from api.exceptions import LoginFailedError, UsernameAlreadyTakenError
 from config.containers import Container
@@ -26,7 +26,7 @@ class LoginView(APIView):
         try:
             user_entity = UserEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': err})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
 
         try:
             token = user_service.login(user_entity)
@@ -49,9 +49,9 @@ class RegisterView(APIView):
         user_service: UserService = Provide[Container.domain_services.user_service],
     ) -> Response:
         try:
-            user_entity = UserEntity(**request.data)
+            user_entity = UserRegistrationEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': err})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
 
         try:
             token = user_service.register(user_entity)

@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from api.infrastructure.clients.statistics_service import StatisticsServiceProxy
 from api.infrastructure.repositories import UserRepository
 from api.exceptions import UsernameAlreadyTakenError, LoginFailedError
-from api.domain.entities import UserEntity
+from api.domain.entities import UserEntity, UserRegistrationEntity
 from kin_news_core.auth import create_jwt_token
 from kin_news_core.exceptions import ServiceProxyError
 
@@ -27,7 +27,7 @@ class UserService:
 
         return create_jwt_token(user.username)
 
-    def register(self, user: UserEntity) -> str:
+    def register(self, user: UserRegistrationEntity) -> str:
         if self._repository.check_if_username_exists(user.username):
             raise UsernameAlreadyTakenError(f'User with {user.username=} already exists, please select another username')
 
