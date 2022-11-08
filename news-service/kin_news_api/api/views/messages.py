@@ -28,10 +28,10 @@ class MessagesView(APIView):
     ) -> Response:
 
         try:
-            offset_time, end_time = self._parse_query_params(request)
+            start_time, end_time = self._parse_query_params(request)
             user_channels = channel_service.get_user_channels(request.user)
 
-            messages = message_service.get_user_posts(user_channels, offset_time=offset_time, end_time=end_time)
+            messages = message_service.get_user_posts(user_channels, start_time=start_time, end_time=end_time)
         except InvalidURIParams as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
 
@@ -43,16 +43,22 @@ class MessagesView(APIView):
 
     @staticmethod
     def _parse_query_params(request: Request) -> tuple[Optional[datetime], Optional[datetime]]:
-        offset_time = request.query_params.get('offset_time')
+        start_time = request.query_params.get('start_time')
         end_time = request.query_params.get('end_time')
 
         try:
-            if offset_time is not None:
-                offset_time = datetime.fromtimestamp(int(offset_time))
+            if start_time is not None:
+                start_time = datetime.fromtimestamp(int(start_time))
 
             if end_time is not None:
                 end_time = datetime.fromtimestamp(int(end_time))
+
+            if start_time > end_time:
+                raise InvalidURIParams(f'Start time must be earlier than end time.')
+
+            if (end_time - start_time).total_seconds() > 3600 * 24:
+                raise InvalidURIParams(f'You can not fetch data for such long period of time!')
         except ValueError:
             raise InvalidURIParams(f'You have passed invalid query params! Offset/End time must be integers representing timestamp')
 
-        return offset_time, end_time
+        return start_time, end_time
