@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, validator, ValidationError
 
-from config.constants import MessageCategories, ReportProcessingResult
+from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes
 
 
 class ReportGetEntity(BaseModel):
@@ -18,6 +18,30 @@ class ReportGetEntity(BaseModel):
     messages_count_by_date: Optional[dict[str, int]] = Field(None, alias='messagesCountByDate')
     messages_count_by_day_hour: Optional[dict[str, int]] = Field(None, alias='messagesCountByDayHour')
     messages_count_by_category: Optional[dict[MessageCategories, int]] = Field(None, alias='messagesCountByCategory')
+
+    messages_count_by_date_by_category: Optional[dict[str, dict[MessageCategories, int]]] = Field(
+        None,
+        alias='messagesCountByDateByCategory',
+    )
+
+    messages_count_by_channel_by_category: Optional[dict[str, dict[MessageCategories, int]]] = Field(
+        None,
+        alias='messagesCountByChannelByCategory',
+    )
+
+    messages_count_by_sentiment_type: Optional[dict[SentimentTypes, int]] = Field(
+        None,
+        alias='messagesCountBySentimentType',
+    )
+
+    messages_count_by_channel_by_sentiment_type: Optional[dict[str, dict[SentimentTypes, int]]] = Field(
+        None,
+        alias='messagesCountByChannelBySentimentType',
+    )
+    messages_count_by_date_by_sentiment_type: Optional[dict[str, dict[SentimentTypes, int]]] = Field(
+        None,
+        alias='messagesCountByDateBySentimentType',
+    )
 
     @validator('messages_count_by_day_hour', pre=True)
     def _validate_day_hour(cls, messages_dict: dict[str, int]):

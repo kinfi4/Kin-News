@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from api.domain.entities import ReportGetEntity
-from config.constants import MessageCategories, ReportProcessingResult
+from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes
 
 
 class ReportsBuilder:
@@ -13,9 +13,14 @@ class ReportsBuilder:
         self._failed_reason = None
 
         self._messages_count_by_category = {category: 0 for category in MessageCategories}
+        self._messages_count_by_sentiment_type = {sentiment_type: 0 for sentiment_type in SentimentTypes}
         self._messages_count_by_day_hour = {str(hour): 0 for hour in range(24)}
         self._messages_count_by_date = {}
         self._messages_count_by_channel = {}
+        self._messages_count_by_date_by_category = {}
+        self._messages_count_by_channel_by_category = {}
+        self._messages_count_by_channel_by_sentiment_type = {}
+        self._messages_count_by_date_by_sentiment_type = {}
 
     @classmethod
     def from_report_id(cls, report_id: int) -> "ReportsBuilder":
@@ -35,6 +40,26 @@ class ReportsBuilder:
 
     def set_messages_count_by_date(self, messages_by_date: dict[str, int]) -> "ReportsBuilder":
         self._messages_count_by_date = messages_by_date
+        return self
+
+    def set_messages_count_by_date_by_category(self, messages_count: dict[str, dict[MessageCategories, int]]) -> "ReportsBuilder":
+        self._messages_count_by_date_by_category = messages_count
+        return self
+
+    def set_messages_count_by_channel_by_category(self, messages_count: dict[str, dict[MessageCategories, int]]) -> "ReportsBuilder":
+        self._messages_count_by_channel_by_category = messages_count
+        return self
+
+    def set_messages_count_by_sentiment_type(self, messages_count: dict[SentimentTypes, int]) -> "ReportsBuilder":
+        self._messages_count_by_sentiment_type = messages_count
+        return self
+
+    def set_messages_count_by_channel_by_sentiment_type(self, messages_count: dict[str, dict[SentimentTypes, int]]) -> "ReportsBuilder":
+        self._messages_count_by_channel_by_sentiment_type = messages_count
+        return self
+
+    def set_messages_count_by_date_by_sentiment_type(self, messages_count: dict[str, dict[SentimentTypes, int]]) -> "ReportsBuilder":
+        self._messages_count_by_date_by_sentiment_type = messages_count
         return self
 
     def set_messages_count_by_day_hour(self, messages_by_hour: dict[str, int]) -> "ReportsBuilder":
@@ -64,6 +89,11 @@ class ReportsBuilder:
             messages_count_by_day_hour=self._messages_count_by_day_hour,
             messages_count_by_date=self._messages_count_by_date,
             messages_count_by_channel=self._messages_count_by_channel,
+            messages_count_by_date_by_category=self._messages_count_by_date_by_category,
+            messages_count_by_channel_by_category=self._messages_count_by_channel_by_category,
+            messages_count_by_sentiment_type=self._messages_count_by_sentiment_type,
+            messages_count_by_channel_by_sentiment_type=self._messages_count_by_channel_by_sentiment_type,
+            messages_count_by_date_by_sentiment_type=self._messages_count_by_date_by_sentiment_type,
         )
 
     @staticmethod

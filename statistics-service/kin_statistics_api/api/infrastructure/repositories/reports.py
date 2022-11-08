@@ -74,6 +74,11 @@ class ReportsMongoRepository(IReportRepository):
             messages_count_by_date=dict_report['messages_count_by_date'],
             messages_count_by_day_hour=dict_report['messages_count_by_day_hour'],
             messages_count_by_category=dict_report['messages_count_by_category'],
+            messages_count_by_date_by_category=dict_report['messages_count_by_date_by_category'],
+            messages_count_by_channel_by_category=dict_report['messages_count_by_channel_by_category'],
+            messages_count_by_sentiment_type=dict_report['messages_count_by_sentiment_type'],
+            messages_count_by_channel_by_sentiment_type=dict_report['messages_count_by_channel_by_sentiment_type'],
+            messages_count_by_date_by_sentiment_type=dict_report['messages_count_by_date_by_sentiment_type'],
         )
 
 

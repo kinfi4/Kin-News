@@ -54,6 +54,11 @@ class GeneratingReportsService(IGeneratingReportsService):
             .set_messages_count_by_category(report_data['messages_count_by_category'])
             .set_messages_count_by_channel(report_data['messages_count_by_channel'])
             .set_messages_count_by_date(report_data['messages_count_by_date'])
+            .set_messages_count_by_date_by_category(report_data['messages_count_by_date_by_category'])
+            .set_messages_count_by_channel_by_category(report_data['messages_count_by_channel_by_category'])
+            .set_messages_count_by_sentiment_type(report_data['messages_count_by_sentiment_type'])
+            .set_messages_count_by_channel_by_sentiment_type(report_data['messages_count_by_channel_sentiment_type'])
+            .set_messages_count_by_date_by_sentiment_type(report_data['messages_count_by_date_by_sentiment_type'])
             .build()
         )
 
@@ -102,6 +107,24 @@ class GeneratingReportsService(IGeneratingReportsService):
 
                 report_data['messages_count_by_date'][message_date_str] += 1
 
+                if message_date_str not in report_data['messages_count_by_date_by_category']:
+                    report_data['messages_count_by_date_by_category'][message_date_str] = {
+                        category: 0 for category in MessageCategories
+                    }
+
+                report_data['messages_count_by_date_by_category'][message_date_str][message_category] += 1
+
+                report_data['messages_count_by_channel_by_category'][channel][message_category] += 1
+                report_data['messages_count_by_sentiment_type'][message_sentiment_category] += 1
+                report_data['messages_count_by_channel_sentiment_type'][channel][message_sentiment_category] += 1
+
+                if message_date_str not in report_data['messages_count_by_date_by_sentiment_type']:
+                    report_data['messages_count_by_date_by_sentiment_type'][message_date_str] = {
+                        sentiment_type: 0 for sentiment_type in SentimentTypes
+                    }
+
+                report_data['messages_count_by_date_by_sentiment_type'][message_date_str][message_sentiment_category] += 1
+
         return report_data
 
     @staticmethod
@@ -124,14 +147,26 @@ class GeneratingReportsService(IGeneratingReportsService):
                 str(hour): 0 for hour in range(24)
             },
             'messages_count_by_category': {
-                MessageCategories.HUMANITARIAN: 0,
-                MessageCategories.SHELLING: 0,
-                MessageCategories.ECONOMICAL: 0,
-                MessageCategories.POLITICAL: 0,
+                category: 0 for category in MessageCategories
             },
             'message_count_by_sentiment': {
                 SentimentTypes.NEUTRAL: 0,
                 SentimentTypes.POSITIVE: 0,
                 SentimentTypes.NEGATIVE: 0,
-            }
+            },
+            'messages_count_by_date_by_category': {},
+            'messages_count_by_channel_by_category': {
+                channel: {
+                    category: 0 for category in MessageCategories
+                }
+                for channel in generate_entity.channel_list
+            },
+            'messages_count_by_sentiment_type': {sentiment_type: 0 for sentiment_type in SentimentTypes},
+            'messages_count_by_channel_sentiment_type': {
+                channel: {
+                    sentiment_type: 0 for sentiment_type in SentimentTypes
+                }
+                for channel in generate_entity.channel_list
+            },
+            'messages_count_by_date_by_sentiment_type': {},
         }
