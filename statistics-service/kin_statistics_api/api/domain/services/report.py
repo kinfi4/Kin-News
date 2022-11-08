@@ -47,6 +47,12 @@ class ManagingReportsService:
     def is_report_is_generating(self, user: User) -> bool:
         return self._access_management_repository.is_report_is_generating(user_id=user.id)
 
+    def delete_report(self, user: User, report_id: int) -> None:
+        self._check_user_access(user, [report_id])
+
+        self._access_management_repository.delete_report(report_id=report_id)
+        self._reports_repository.delete_report(report_id=report_id)
+
     def _check_user_access(self, user: User, report_ids: list[int]) -> None:
         user_reports = self._access_management_repository.get_user_report_ids(user_id=user.id)
 

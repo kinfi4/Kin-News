@@ -99,3 +99,17 @@ class ReportsSingleView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN, data={'error_message': 'User does not have rights to this report!'})
 
         return Response(data=report_identity.dict())
+
+    @inject
+    def delete(
+        self,
+        request: Request,
+        report_id: int,
+        reports_service: ManagingReportsService = Provide[Container.services.managing_reports_service],
+    ) -> Response:
+        try:
+            reports_service.delete_report(request.user, report_id)
+        except ReportAccessForbidden:
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'error_message': 'User does not have rights to this report!'})
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

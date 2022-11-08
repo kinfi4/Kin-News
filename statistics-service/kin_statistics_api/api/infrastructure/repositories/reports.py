@@ -44,13 +44,16 @@ class ReportsMongoRepository(IReportRepository):
         )
 
     def get_report(self, report_id: int) -> ReportGetEntity:
-        dict_report = self._reports_collection.find_one(
-            {
+        dict_report = self._reports_collection.find_one({
                 'report_id': report_id
-            }
-        )
+        })
 
         return self._map_dict_to_entity(dict_report)
+
+    def delete_report(self, report_id: int) -> None:
+        self._reports_collection.delete_one({
+            'report_id': report_id
+        })
 
     @staticmethod
     def _map_dict_to_identification_entity(dict_report: dict[str, Any]) -> ReportIdentificationEntity:
@@ -112,3 +115,9 @@ class ReportsAccessManagementRepository:
         report_generating, _ = self._user_generating_query.get_or_create(user_id=user_id)
 
         return report_generating.report_is_generating
+
+    def delete_report(self, report_id: int) -> None:
+        try:
+            self._user_reports_query.get(report_id=report_id).delete()
+        except UserReport.DoesNotExist:
+            pass

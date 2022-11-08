@@ -20,3 +20,7 @@ class IReportRepository(ABC):
     @abstractmethod
     def update_report_name(self, report_id: int, report_name: str) -> None:
         pass
+
+    @abstractmethod
+    def delete_report(self, report_id: int) -> None:
+        pass
