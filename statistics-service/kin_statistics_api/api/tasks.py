@@ -1,9 +1,14 @@
+import logging
+
 from dependency_injector.wiring import inject, Provide
 
 from api.domain.services import IGeneratingReportsService
 from api.domain.entities import GenerateReportEntity
 from config.celery import celery_app
 from config.containers import Container
+
+
+_logger = logging.getLogger(__name__)
 
 
 @celery_app.task
@@ -15,6 +20,8 @@ def generate_report_task(
     user_id: int,
     generating_reports_service: IGeneratingReportsService = Provide[Container.services.generating_reports_service],
 ) -> None:
+    _logger.info(f'Instantiating generate report entity and running the processing...')
+
     generate_report_entity = GenerateReportEntity(
         start_date=start_date,
         end_date=end_date,

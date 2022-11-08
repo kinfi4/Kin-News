@@ -24,7 +24,6 @@ class RegisterUserView(APIView):
         user_service: UserService = Provide[Container.services.user_service],
     ) -> Response:
         try:
-            print(request.data)
             create_user_entity = CreateUserEntity(username=request.data.get('username'))
             user_service.register_user(create_user_entity)
         except ValidationError as err:

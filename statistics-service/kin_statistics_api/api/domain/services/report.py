@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.models import User
 
 from api.domain.entities.report import ReportIdentificationEntity, ReportGetEntity, ReportPutEntity
@@ -14,14 +16,21 @@ class ManagingReportsService:
     ) -> None:
         self._access_management_repository = reports_access_management_repository
         self._reports_repository = reports_repository
+        self._logger = logging.getLogger(self.__class__.__name__)
 
     def get_user_repository_names(self, user: User) -> list[ReportIdentificationEntity]:
         user_reports_ids = self._access_management_repository.get_user_report_ids(user.id)
+        self._logger.info(f'[ManagingReportsService] got user_reports for user: {user.username}')
 
         return self._reports_repository.get_report_names(user_reports_ids)
 
     def set_report_name(self, user: User, report_put_entity: ReportPutEntity) -> ReportIdentificationEntity:
         self._check_user_access(user, report_ids=[report_put_entity.report_id])
+
+        self._logger.info(
+            f'[ManagingReportsService] '
+            f'updating report {report_put_entity.report_id} with new name: {report_put_entity.name}'
+        )
 
         self._reports_repository.update_report_name(report_put_entity.report_id, report_put_entity.name)
 

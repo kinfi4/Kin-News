@@ -1,6 +1,7 @@
 from dependency_injector import containers, providers, resources
 from pymongo import MongoClient
 
+from api.domain.services.reports_generator.predictor.predictor import Predictor
 from api.infrastructure.repositories import (
     ReportsMongoRepository,
     IReportRepository,
@@ -9,6 +10,28 @@ from api.infrastructure.repositories import (
 )
 from api.domain.services import ManagingReportsService, IGeneratingReportsService, GeneratingReportsService, UserService
 from kin_news_core.telegram import TelegramClientProxy
+
+
+class PredictorResource(resources.Resource):
+    def init(
+        self,
+        sentiment_dictionary_path: str,
+        sklearn_vectorizer_path: str,
+        keras_tokenizer_path: str,
+        knn_model_path: str,
+        svc_model_path: str,
+        gaussian_model_path: str,
+        lstm_model_path: str,
+    ) -> Predictor:
+        return Predictor.create_from_files(
+            sentiment_dictionary_path=sentiment_dictionary_path,
+            sklearn_vectorizer_path=sklearn_vectorizer_path,
+            keras_tokenizer_path=keras_tokenizer_path,
+            knn_model_path=knn_model_path,
+            gaussian_model_path=gaussian_model_path,
+            svc_model_path=svc_model_path,
+            lstm_model_path=lstm_model_path
+        )
 
 
 class MongodbRepositoryResource(resources.Resource):
@@ -35,6 +58,21 @@ class Repositories(containers.DeclarativeContainer):
     )
 
 
+class Predicting(containers.DeclarativeContainer):
+    config = providers.Configuration()
+
+    predictor: providers.Resource[PredictorResource] = providers.Resource(
+        PredictorResource,
+        sentiment_dictionary_path=config.SENTIMENT_DICTIONARY_PATH,
+        sklearn_vectorizer_path=config.SKLEARN_VECTORIZER_PATH,
+        keras_tokenizer_path=config.KERAS_TOKENIZER_PATH,
+        knn_model_path=config.KNN_MODEL_PATH,
+        gaussian_model_path=config.GAUSSIAN_MODEL_PATH,
+        svc_model_path=config.SVC_MODEL_PATH,
+        lstm_model_path=config.LSTM_MODEL_PATH,
+    )
+
+
 class Clients(containers.DeclarativeContainer):
     config = providers.Configuration()
 
@@ -50,6 +88,7 @@ class Services(containers.DeclarativeContainer):
     config = providers.Configuration()
     repositories = providers.DependenciesContainer()
     clients = providers.DependenciesContainer()
+    predicting = providers.DependenciesContainer()
 
     managing_reports_service: providers.Singleton[ManagingReportsService] = providers.Singleton(
         ManagingReportsService,
@@ -62,6 +101,7 @@ class Services(containers.DeclarativeContainer):
         telegram_client=clients.telegram_client,
         reports_repository=repositories.reports_repository,
         report_access_repository=repositories.reports_access_management_repository,
+        predictor=predicting.predictor,
     )
 
     user_service: providers.Singleton[UserService] = providers.Singleton(
@@ -78,6 +118,11 @@ class Container(containers.DeclarativeContainer):
         config=config,
     )
 
+    predicting: providers.Container[Predicting] = providers.Container(
+        Predicting,
+        config=config,
+    )
+
     clients: providers.Container[Clients] = providers.Container(
         Clients,
         config=config,
@@ -88,4 +133,5 @@ class Container(containers.DeclarativeContainer):
         config=config,
         repositories=repositories,
         clients=clients,
+        predicting=predicting,
     )

@@ -1,8 +1,8 @@
 from datetime import date, datetime
-from typing import Union
+from typing import Union, Any
 
 from django.conf import settings
-from pydantic import BaseModel, validator, ValidationError, Field
+from pydantic import BaseModel, validator, ValidationError, Field, root_validator
 
 from config.constants import DEFAULT_DATE_FORMAT
 
@@ -31,17 +31,24 @@ class GenerateReportEntity(BaseModel):
         if isinstance(value, str):
             return _cast_string_to_date(value)
 
-        return value  # validation for correct date will be later
+        return value
 
     @validator('end_date', pre=True)
     def validate_and_cast_end_date(cls, value: Union[str, date]):
         if isinstance(value, str):
             return _cast_string_to_date(value)
 
-        return value  # validation for correct date will be later
+        return value
+
+    @root_validator()
+    def validate_start_and_end_dates_difference(cls, fields: dict[str, Any]):
+        if fields['end_date'] < fields['start_date']:
+            raise ValueError('Start date must be earlier than end date.')
+
+        if (fields['end_date'] - fields['start_date']).days > 365:
+            raise ValueError('The period of time between start and end dates must be less than 1 year')
+
+        return fields
 
     class Config:
         allow_population_by_field_name = True
-
-
-# {"startDate":"03/03/2002", "endDate": "03/05/2003", "channels": ["some-name"]}

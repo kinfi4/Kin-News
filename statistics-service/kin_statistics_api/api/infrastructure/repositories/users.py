@@ -15,4 +15,7 @@ class UserRepository:
         self._user_query.create_user(username=username)
 
     def is_user_report_generating(self, user_id: int) -> bool:
-        return self._user_generates_report_query.get(user_id=user_id).report_is_generating
+        try:
+            return self._user_generates_report_query.get(user_id=user_id).report_is_generating
+        except UserGeneratesReport.DoesNotExist:
+            return False

@@ -1,3 +1,5 @@
+import logging
+
 from pydantic import ValidationError
 from dependency_injector.wiring import inject, Provide
 from rest_framework import status
@@ -12,6 +14,9 @@ from api.tasks import generate_report_task
 from config.containers import Container
 from config.constants import DEFAULT_DATE_FORMAT
 from kin_news_core.auth import JWTAuthentication
+
+
+_logger = logging.getLogger(__name__)
 
 
 class ReportsListView(APIView):
@@ -40,7 +45,14 @@ class ReportsListView(APIView):
             return Response(status=status.HTTP_409_CONFLICT, data={'error_message': 'User is generating report right now'})
 
         try:
-            generate_report = GenerateReportEntity(**request.data)
+            generate_report = GenerateReportEntity(
+                start_date=request.data['startDate'],
+                end_date=request.data['endDate'],
+                channel_list=request.data['channels'],
+            )
+
+            _logger.info(f'Creating Celery job for report generation...')
+
             generate_report_task.delay(
                 start_date=generate_report.start_date.strftime(DEFAULT_DATE_FORMAT),
                 end_date=generate_report.end_date.strftime(DEFAULT_DATE_FORMAT),
