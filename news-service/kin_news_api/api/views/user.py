@@ -26,14 +26,14 @@ class LoginView(APIView):
         try:
             user_entity = UserEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': [str(err)]})
 
         try:
             token = user_service.login(user_entity)
         except LoginFailedError:
             return Response(
                 status=status.HTTP_404_NOT_FOUND,
-                data={'error_message': 'Username and/or password are incorrect'}
+                data={'errors': 'Username and/or password are incorrect'}
             )
 
         return Response(status=status.HTTP_200_OK, data={'token': token})
@@ -51,14 +51,14 @@ class RegisterView(APIView):
         try:
             user_entity = UserRegistrationEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': [str(err)]})
 
         try:
             token = user_service.register(user_entity)
         except UsernameAlreadyTakenError:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={'error_message': 'User with specified username already exists'}
+                data={'errors': 'User with specified username already exists'}
             )
 
         return Response(status=status.HTTP_201_CREATED, data={'token': token})

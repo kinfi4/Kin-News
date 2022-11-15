@@ -42,7 +42,7 @@ class ReportsListView(APIView):
         user_service: UserService = Provide[Container.services.user_service],
     ) -> Response:
         if user_service.is_user_report_generating(request.user.id):
-            return Response(status=status.HTTP_409_CONFLICT, data={'error_message': 'User is generating report right now'})
+            return Response(status=status.HTTP_409_CONFLICT, data={'errors': 'User is generating report right now'})
 
         try:
             generate_report = GenerateReportEntity(
@@ -60,7 +60,7 @@ class ReportsListView(APIView):
                 user_id=request.user.id,
             )
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         return Response(status=status.HTTP_202_ACCEPTED, data={'message': 'Generating report process started successfully!'})
 
@@ -79,7 +79,7 @@ class ReportsSingleView(APIView):
         try:
             report = reports_service.get_user_detailed_report(request.user, report_id)
         except ReportAccessForbidden:
-            return Response(status=status.HTTP_403_FORBIDDEN, data={'error_message': 'User does not have rights to this report!'})
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
 
         return Response(data=report.dict())
 
@@ -94,9 +94,9 @@ class ReportsSingleView(APIView):
             report_put_entity = ReportPutEntity(**request.data, report_id=report_id)
             report_identity = reports_service.set_report_name(request.user, report_put_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
         except ReportAccessForbidden:
-            return Response(status=status.HTTP_403_FORBIDDEN, data={'error_message': 'User does not have rights to this report!'})
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
 
         return Response(data=report_identity.dict())
 
@@ -110,6 +110,6 @@ class ReportsSingleView(APIView):
         try:
             reports_service.delete_report(request.user, report_id)
         except ReportAccessForbidden:
-            return Response(status=status.HTTP_403_FORBIDDEN, data={'error_message': 'User does not have rights to this report!'})
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
 
         return Response(status=status.HTTP_204_NO_CONTENT)

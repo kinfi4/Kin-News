@@ -27,7 +27,7 @@ class RegisterUserView(APIView):
             create_user_entity = CreateUserEntity(username=request.data.get('username'))
             user_service.register_user(create_user_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
         except UsernameTaken:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,3 +1,21 @@
 .defaultButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    padding: 6px 10px;
+    border-radius: 7px;
+    border: 0;
+
+    cursor: pointer;
+
+    transition: linear 0.2s;
+    background-color: #646464;
+    color: black;
+
+    font-weight: bold;
+}
+.defaultButton:hover {
+    background-color: #262626;
+    color: #a9a9a9;
 }

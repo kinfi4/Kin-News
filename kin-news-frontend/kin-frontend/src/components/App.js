@@ -25,8 +25,8 @@ function App() {
           <Route exact path={'/sign-up'} render={() => <Register />} />
 
           <Header />
-              <Route exact path={'/tape'} render={() => <Tape />} />
               <Route exact path={'/statistics'} render={() => <Statistics />} />
+              <Route path={'/'} render={() => <Tape />} />
           <Footer />
       </>
   );

@@ -33,7 +33,7 @@ class MessagesView(APIView):
 
             messages = message_service.get_user_posts(user_channels, start_time=start_time, end_time=end_time)
         except InvalidURIParams as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error_message': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         messages_serialized = [message.dict(by_alias=True) for message in messages]
         return Response(data={

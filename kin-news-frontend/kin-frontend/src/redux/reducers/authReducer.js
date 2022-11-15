@@ -102,8 +102,7 @@ export function auth (state=initialState, action){
                 isAuthenticated: true
             }
         case REGISTRATION_ERROR:
-            let errors = Object.entries(action.errors).map(el => `${el[0]}: ${el[1]}`)
-            showMessage(errors.map((err) => {
+            showMessage(action.errors.map((err) => {
                 return {message: err, type: 'danger'}
             }))
 
