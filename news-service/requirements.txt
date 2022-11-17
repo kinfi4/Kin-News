@@ -7,6 +7,7 @@ coreschema==0.0.4
 dependency-injector==4.40.0
 Deprecated==1.2.13
 Django==4.1.2
+django-cors-headers==3.13.0
 djangorestframework==3.14.0
 drf-yasg==1.21.4
 idna==3.4

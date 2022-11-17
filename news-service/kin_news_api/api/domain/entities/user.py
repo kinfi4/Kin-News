@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, root_validator, Field
 
 
 class UserEntity(BaseModel):
@@ -9,7 +9,7 @@ class UserEntity(BaseModel):
 class UserRegistrationEntity(BaseModel):
     username: str
     password: str
-    password_repeated: str
+    password_repeated: str = Field(..., alias='passwordRepeated')
 
     @root_validator()
     def validate_passwords_equal(cls, fields: dict[str, str]) -> dict[str, str]:
@@ -18,3 +18,6 @@ class UserRegistrationEntity(BaseModel):
             raise ValueError('Passwords must be equal!')
 
         return fields
+
+    class Config:
+        allow_population_by_field_name = True

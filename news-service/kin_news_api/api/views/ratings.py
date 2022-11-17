@@ -46,7 +46,7 @@ class ChannelRateView(APIView):
             channel_rate_entity = RatePostEntity(**request.data)
             ratings = rating_service.rate_channel(request.user, channel_rate_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
         except ChannelDoesNotExists as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 

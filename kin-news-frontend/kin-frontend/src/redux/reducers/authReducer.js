@@ -36,9 +36,13 @@ export const loadUser = () => (dispatch, getState) => {
     }).then(res => {
         if(res.status !== 200) {
             dispatch({type: AUTH_ERROR})
+        } else {
+            dispatch({type: LOGIN_SUCCESS, token: token})
         }
     }).catch(
-        er => console.log(er)
+        er => {
+            dispatch({type: AUTH_ERROR})
+        }
     )
 }
 
@@ -55,7 +59,7 @@ export const login = (username, password) => (dispatch) => {
         password,
     })
 
-    axios.post(NEWS_SERVICE_URL + '/api/v1/login/', body, {
+    axios.post(NEWS_SERVICE_URL + '/api/v1/login', body, {
         headers: headers,
     }).then(res => {
         dispatch({ type: LOGIN_SUCCESS, token: res.data.token })
@@ -71,21 +75,20 @@ export const logout = (dispatch) => {
 
 // REGISTER
 export const register = (username, password1, password2) => (dispatch) => {
-    let body = {
+    const body = {
         username,
-        password1,
-        password2
+        password: password1,
+        passwordRepeated: password2
     }
 
-    axios.post(NEWS_SERVICE_URL + 'api/v1/register/', JSON.stringify(body), {
+    axios.post(NEWS_SERVICE_URL + '/api/v1/register', JSON.stringify(body), {
         headers: {
             'Content-Type': 'application/json',
         }
-    }).then(
-        res => {
+    }).then(res => {
             dispatch({ type: LOGIN_SUCCESS, token: res.data.token })
         }).catch(err => {
-            dispatch({type: REGISTRATION_ERROR, errors: err.response.data})
+            dispatch({ type: REGISTRATION_ERROR, errors: err.response.data.errors })
         })
 }
 
@@ -95,16 +98,23 @@ export function auth (state=initialState, action){
     switch (action.type) {
         case LOGIN_SUCCESS:
             localStorage.setItem('token', action.token)
-            window.location.replace('/')
+            if(window.location.pathname === '/sign-in' || window.location.pathname === '/sign-up') {
+                window.location.replace('/')
+            }
+
             return {
                 ...state,
                 token: action.token,
                 isAuthenticated: true
             }
         case REGISTRATION_ERROR:
-            showMessage(action.errors.map((err) => {
-                return {message: err, type: 'danger'}
-            }))
+            if(Array.isArray(action.errors)) {
+                showMessage(action.errors.map((err) => {
+                    return {message: err, type: 'danger'}
+                }))
+            } else {
+                showMessage([{message: action.errors, type: 'danger'}])
+            }
 
             return {
                 isAuthenticated: false,
@@ -121,7 +131,10 @@ export function auth (state=initialState, action){
         case AUTH_ERROR:
         case LOGOUT:
             localStorage.removeItem('token')
-            window.location.replace('/sign-in')
+            if(window.location.pathname !== '/sign-in' && window.location.pathname !== '/sign-up') {
+                window.location.replace('/sign-in')
+            }
+
             return {
                 ...state,
                 token: null,

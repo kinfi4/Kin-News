@@ -2,3 +2,32 @@
     color: #4c4cb4;
     font-weight: bold;
 }
+
+.authForm {
+    max-width: 700px;
+    height: 200px;
+
+    padding: 30px 50px;
+
+    background-color: #915757;
+    box-shadow: 20px 10px 10px #440d0d;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.authContainer{
+    width: 100%;
+    height: 100vh;
+
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.authContainer h3 {
+    font-size: 30px;
+}

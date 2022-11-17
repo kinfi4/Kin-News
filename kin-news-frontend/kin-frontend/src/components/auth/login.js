@@ -14,27 +14,32 @@ function Login(props) {
 
     return (
         <>
-            <div className="form">
-                <Input
-                    type={"text"}
-                    onChange={(element) => setDetails({...details, username: element.target.value})}
-                    value={details.username}
-                    placeholder={"Username"}
-                    id={"username"}
-                />
-                <Input
-                    type={"password"}
-                    onChange={(element) => setDetails({...details, password: element.target.value})}
-                    value={details.password}
-                    placeholder={"Password"}
-                    id={"password"}
-                />
+            <div className={authCss.authContainer}>
+                <div className={authCss.authForm}>
+                    <h3>LOGIN</h3>
 
-                <Button
-                    onClick={(event) => onLoginSubmit()}
-                />
+                    <Input
+                        type={"text"}
+                        onChange={(element) => setDetails({...details, username: element.target.value})}
+                        value={details.username}
+                        placeholder={"Username"}
+                        id={"username"}
+                    />
+                    <Input
+                        type={"password"}
+                        onChange={(element) => setDetails({...details, password: element.target.value})}
+                        value={details.password}
+                        placeholder={"Password"}
+                        id={"password"}
+                    />
 
-                <NavLink to={'/sign-up'} className={authCss.formLink}>Register</NavLink>
+                    <Button
+                        onClick={(event) => onLoginSubmit()}
+                        text={'Sign In'}
+                    />
+
+                    <NavLink to={'/sign-up'} className={authCss.formLink}>Register</NavLink>
+                </div>
             </div>
         </>
     );

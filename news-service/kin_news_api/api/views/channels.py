@@ -40,7 +40,7 @@ class ChannelListView(APIView):
             channels_entity = ChannelPostEntity(**request.data)
             channel = channel_service.subscribe_user(request.user, channels_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
         except InvalidChannelURLError as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
@@ -62,7 +62,7 @@ class ChannelUnsubscribeView(APIView):
             channels_entity = ChannelPostEntity(link=channel)
             channel_service.unsubscribe_channel(request.user, channel_post_entity=channels_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
         except UserIsNotSubscribed as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 

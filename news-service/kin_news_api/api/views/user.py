@@ -26,7 +26,7 @@ class LoginView(APIView):
         try:
             user_entity = UserEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': [str(err)]})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
 
         try:
             token = user_service.login(user_entity)
@@ -51,7 +51,7 @@ class RegisterView(APIView):
         try:
             user_entity = UserRegistrationEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': [str(err)]})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
 
         try:
             token = user_service.register(user_entity)

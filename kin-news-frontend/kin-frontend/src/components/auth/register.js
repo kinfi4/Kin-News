@@ -15,7 +15,7 @@ function Register(props) {
 
     return (
         <>
-            <div className="form">
+            <div className={authCss.authForm}>
                 <Input
                     type={"text"}
                     onChange={(element) => setDetails({...details, username: element.target.value})}
@@ -40,6 +40,7 @@ function Register(props) {
 
                 <Button
                     onClick={(event) => onRegisterSubmit()}
+                    text={'Sign Up'}
                 />
 
                 <NavLink to={'/sign-in'} className={authCss.formLink}>Login</NavLink>
