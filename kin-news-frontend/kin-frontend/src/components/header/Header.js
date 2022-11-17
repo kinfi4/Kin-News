@@ -1,26 +1,21 @@
 import {NavLink} from "react-router-dom";
-import {login, logout} from "../../redux/reducers/authReducer";
+import {logout} from "../../redux/reducers/authReducer";
 import {connect} from "react-redux";
+
+import headerCss from "./Header.module.css"
 
 function Header(props) {
     return (
         <>
-            <header>
-                <nav>
-                    <NavLink to={'/'}>
-                        <h3>Tape</h3>
-                    </NavLink>
+            <header className={headerCss.header}>
+                <h3><NavLink to={'/'}>Tape</NavLink></h3>
+                <h3><NavLink to={'/'}>Statistics</NavLink></h3>
 
-                    <NavLink to={'/'}>
-                        <h3>Analytics</h3>
-                    </NavLink>
-
-                    <h3
-                        onClick={(e) => props.logout()}
-                    >
-                        Log out
-                    </h3>
-                </nav>
+                <h3
+                    onClick={(e) => props.logout()}
+                >
+                    Log out
+                </h3>
             </header>
         </>
     )

@@ -18,8 +18,8 @@ function Main() {
         <>
             <Header />
             <Routes>
-                <Route exact path={'/statistics'} render={() => <Statistics />} />
-                <Route path={'/'} render={() => <Tape />} />
+                <Route path={'/statistics'} element={<Statistics />} />
+                <Route path={'/*'} element={<Tape />} />
             </Routes>
             <Footer />
         </>
@@ -39,7 +39,7 @@ function App() {
           <Routes>
               <Route exact path={'/sign-in'} element={<Login />} />
               <Route exact path={'/sign-up'} element={<Register />} />
-              <Route path={'/'} element={<Main />} />
+              <Route path={''} element={<Main />} />
           </Routes>
       </>
   );
