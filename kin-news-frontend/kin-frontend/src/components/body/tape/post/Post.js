@@ -16,12 +16,10 @@ const Post = (props) => {
         script.async = true;
 
         document.querySelector(`.${postClassName}`).appendChild(script);
-    }, [])
+    }, [props.postLink])
 
     return (
-        <div className={postClassName}>
-
-        </div>
+        <div className={postClassName}></div>
     );
 };
 

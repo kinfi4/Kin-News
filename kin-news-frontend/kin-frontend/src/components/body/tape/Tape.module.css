@@ -1,3 +1,47 @@
 .tape {
-    padding: 120px;
+    margin-top: 120px;
+    margin-left: 30%;
+}
+.sideBar {
+    position: fixed;
+    background-color: #b99f9f;
+    height: 100%;
+    width: 30%;
+}
+.container {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr 2.5fr;
+}
+.addChannelButton {
+    padding: 7px 12px;
+    width: fit-content;
+    font-size: 25px;
+    background-color: #737373;
+    border-radius: 2px;
+    cursor: pointer;
+
+    transition: linear 0.2s;
+}
+.addChannelButton:hover {
+    background-color: #c7c7c7;
+}
+.sideBarContent {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 60px 20px;
+    margin: 100px 0;
+    height: 100%;
+    width: 100%;
+}
+.enterLinkContainer{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.enterLinkContainer *{
+    width: 80%;
 }

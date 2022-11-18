@@ -1,6 +1,7 @@
 import axios from "axios";
 import {NEWS_SERVICE_URL} from "../../config"
 import {showMessage} from "../../utils/messages";
+import {FETCH_ERROR} from "./channelsReducer";
 
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -108,6 +109,7 @@ export function auth (state=initialState, action){
                 isAuthenticated: true
             }
         case REGISTRATION_ERROR:
+        case FETCH_ERROR:
             if(Array.isArray(action.errors)) {
                 showMessage(action.errors.map((err) => {
                     return {message: err, type: 'danger'}
