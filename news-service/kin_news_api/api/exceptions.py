@@ -24,3 +24,7 @@ class ChannelDoesNotExists(KinNewsBaseException):
 
 class InvalidURIParams(KinNewsBaseException):
     pass
+
+
+class UserAlreadyFetchingNews(KinNewsBaseException):
+    pass

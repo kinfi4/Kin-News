@@ -35,3 +35,13 @@ class ChannelRatings(models.Model):
 
     def __str__(self):
         return f'{self.channel.link} - {self.user.username} | rate={self.rate}'
+
+
+class UserFetchingNews(models.Model):
+    __table_name__ = 'user_news_is_fetching'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_fetching = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'User {self.user.username} is fetching news: {self.is_fetching}'

@@ -16,7 +16,7 @@ class ChannelGetEntity(BaseModel):
     title: str
     description: str
     participants_count: str = Field(..., alias='subscribersNumber')
-    profile_photo_url: Optional[str]
+    profile_photo_url: Optional[str] = Field(..., alias='profilePhotoUrl')
 
     _extract_link = validator('link', pre=True, allow_reuse=True)(truncate_channel_link_to_username)
 

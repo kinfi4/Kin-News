@@ -66,6 +66,7 @@ class DomainServices(containers.DeclarativeContainer):
     message_service = providers.Factory(
         MessageService,
         telegram_client=clients.telegram_client,
+        user_repository=repositories.user_repository,
     )
 
     channel_service = providers.Factory(
