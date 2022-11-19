@@ -8,10 +8,12 @@ let initialState = {
     channels: [],
     activeChannel: {},
     loading: false,
+
 }
 
 
 const GOT_CHANNELS = 'GOT_CHANNELS'
+const CHANNEL_ADDED = 'CHANNEL_ADDED'
 const CLEAR_STATE = 'CLEAR_STATE'
 const SET_LOADING = 'SET_LOADING'
 
@@ -26,6 +28,8 @@ export let addChannel = (link) => (dispatch) => {
             'Authorization': `Token ${token}`,
             'Content-Type': 'application/json',
         }
+    }).then(res => {
+        dispatch({type: CHANNEL_ADDED})
     }).catch(err => {
         console.log(err.response.data.errors)
         dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
@@ -61,6 +65,8 @@ export let channelsReducer = (state=initialState, action) => {
             }
         case CLEAR_STATE:
             return initialState
+        case CHANNEL_ADDED:
+            return window.location.replace('/')
         default:
             return state
     }

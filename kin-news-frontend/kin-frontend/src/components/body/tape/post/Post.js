@@ -19,7 +19,7 @@ const Post = (props) => {
     }, [props.postLink])
 
     return (
-        <div className={postClassName}></div>
+        <div className={postClassName} style={{width: "70%"}}></div>
     );
 };
 

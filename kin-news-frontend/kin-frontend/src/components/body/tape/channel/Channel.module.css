@@ -1,0 +1,20 @@
+.channelBlockContainer {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.channelBlockContainer img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+.channelBlockContainer img:hover{
+    background-color: #ff0000;
+    opacity:0.7 !important;
+    filter:alpha(opacity=70) !important; /* For IE8 and earlier */
+    box-shadow: 0 0 0 #000000 !important;
+}

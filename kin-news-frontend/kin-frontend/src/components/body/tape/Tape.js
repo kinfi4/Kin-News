@@ -6,7 +6,10 @@ import {connect} from "react-redux";
 import {showModalWindow} from "../../../redux/reducers/modalWindowReducer";
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
-import {addChannel} from "../../../redux/reducers/channelsReducer";
+import {addChannel, fetchChannels} from "../../../redux/reducers/channelsReducer";
+import ChannelBlock from "./channel/ChannelBlock";
+import {fetchNextPosts} from "../../../redux/reducers/postsReducer";
+import PostsTape from "./PostsTape";
 
 
 const EnterLink = (props) => {
@@ -33,6 +36,11 @@ const EnterLink = (props) => {
 
 
 const Tape = (props) => {
+    useEffect(() => {
+        props.fetchChannels();
+        props.fetchNewPosts();
+    }, [])
+
     return (
         <div className={TapeCss.container}>
             <div className={TapeCss.sideBar}>
@@ -44,13 +52,17 @@ const Tape = (props) => {
                         SUBSCRIBE
                     </div>
 
+                    <div className={TapeCss.channelsContainer}>
+                        {
+                            props.channels.map(
+                                (channelEntity, i) => <ChannelBlock channel={channelEntity} key={i} />
+                            )
+                        }
+                    </div>
                 </div>
             </div>
             <div className={TapeCss.tape}>
-                <Post postLink={"ukraina_novosti/43990"} />
-                <Post postLink={"ukraina_novosti/43991"} />
-                <Post postLink={"ukraina_novosti/43992"} />
-                <Post postLink={"ukraina_novosti/43993"} />
+                <PostsTape {...props} />
             </div>
         </div>
     )
@@ -59,14 +71,20 @@ const Tape = (props) => {
 let mapStateToProps = (state) => {
     return {
         channels: state.channels.channels,
+        posts: state.postsReducer.posts,
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
         showModal: (content, width, height) => dispatch(showModalWindow(content, width, height)),
-        addChannel: (link) => dispatch(addChannel(link))
+        addChannel: (link) => dispatch(addChannel(link)),
+        fetchChannels: (link) => dispatch(fetchChannels(link)),
+        fetchNewPosts: () => dispatch(fetchNextPosts()),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tape);
+
+
+// <Post postLink={"ukraina_novosti/43990"} />
