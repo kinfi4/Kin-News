@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import TapeCss from "./Tape.module.css"
 import Post from "./post/Post";
 import {login} from "../../../redux/reducers/authReducer";

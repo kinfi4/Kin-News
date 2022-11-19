@@ -1,20 +1,16 @@
 import channelCss from './Channel.module.css'
 import {NEWS_SERVICE_URL} from "../../../../config";
 import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
-import {addChannel, fetchChannels} from "../../../../redux/reducers/channelsReducer";
 import {connect} from "react-redux";
 import ChannelInfo from "./ChannelInfo";
+import {truncate} from "../../../../utils/utils";
 
 const ChannelBlock = (props) => {
-    function truncate(str, n){
-        return (str.length > n) ? str.slice(0, n-1) + '...' : str;
-    }
-
     return (
         <div
             className={channelCss.channelBlockContainer}
             onClick={(event) => {
-                props.showModal(<ChannelInfo channel={props.channel} />, 800, 600)
+                props.showModal(<ChannelInfo channel={props.channel} />, 900, 400)
             }}
         >
             {

@@ -9,7 +9,7 @@
     opacity: 0;
     transition: 0.5s;
     pointer-events: none;
-    z-index: 13;
+    z-index: 14;
 }
 
 .overflow.active{

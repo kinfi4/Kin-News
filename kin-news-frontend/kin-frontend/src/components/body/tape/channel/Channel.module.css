@@ -18,3 +18,31 @@
     filter:alpha(opacity=70) !important; /* For IE8 and earlier */
     box-shadow: 0 0 0 #000000 !important;
 }
+.channelInfoContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}.channelInfoContainer h1{
+     margin-bottom: 4px;
+ }
+.channelInfoContainer img {
+    width: 250px;
+    height: 250px;
+    margin: 20px;
+
+    border-radius: 50%;
+}
+.channelInfoContainer p {
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px black;
+    width: 80%;
+    overflow: auto;
+    white-space: pre-line;
+}
+.subsribersCount {
+    margin-top: -10px;
+    font-size: 20px;
+    color: #b0b0b0;
+}

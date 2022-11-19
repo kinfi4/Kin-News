@@ -8,7 +8,6 @@ let initialState = {
     channels: [],
     activeChannel: {},
     loading: false,
-
 }
 
 

@@ -1,7 +1,5 @@
 import React, {useCallback, useRef} from 'react';
 import LoadingSpinner from "../../common/spiner/LoadingSpinner";
-import {showModalWindow} from "../../../redux/reducers/modalWindowReducer";
-import {addChannel, fetchChannels} from "../../../redux/reducers/channelsReducer";
 import {fetchNextPosts} from "../../../redux/reducers/postsReducer";
 import {connect} from "react-redux";
 import Post from "./post/Post";
