@@ -1,6 +1,6 @@
 import Header from "./header/Header";
 import ModalWindow from "./common/modal/ModalWindow";
-import {Route, Routes} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 import Login from "./auth/login";
 import Register from "./auth/register";
 import Footer from "./footer/Footer";
@@ -13,14 +13,17 @@ import {ReactNotifications} from "react-notifications-component";
 import 'react-notifications-component/dist/theme.css'
 
 
-function Main() {
+export function Main() {
     return (
         <>
-            <Header />
-            <Routes>
-                <Route path={'/statistics'} element={<Statistics />} />
-                <Route path={'/*'} element={<Tape />} />
-            </Routes>
+            <Header/>
+
+            <Switch>
+                <Route exact path={'/statistics'} render={() => <Statistics />} />
+                <Route exact path={'/tape'} render={() => <Tape />} />
+                <Route path={'/'} render={() => <Redirect to={'/tape'}/>} />
+            </Switch>
+
             <Footer />
         </>
     )
@@ -36,11 +39,11 @@ function App() {
           <ReactNotifications />
           <ModalWindow />
 
-          <Routes>
-              <Route exact path={'/sign-in'} element={<Login />} />
-              <Route exact path={'/sign-up'} element={<Register />} />
-              <Route path={''} element={<Main />} />
-          </Routes>
+          <Switch>
+              <Route exact path={'/sign-in'} render={() => <Login />} />
+              <Route exact path={'/sign-up'} render={() => <Register />} />
+              <Route path={'/'} render={() => <Main />} />
+          </Switch>
       </>
   );
 }

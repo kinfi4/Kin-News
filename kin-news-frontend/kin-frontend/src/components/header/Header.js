@@ -8,7 +8,7 @@ function Header(props) {
     return (
         <>
             <header className={headerCss.header}>
-                <h3><NavLink to={'/'}>Tape</NavLink></h3>
+                <h3><NavLink to={'/tape'}>Tape</NavLink></h3>
                 <h3><NavLink to={'/statistics'}>Statistics</NavLink></h3>
 
                 <h3

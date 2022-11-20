@@ -3,6 +3,8 @@ import LoadingSpinner from "../../common/spiner/LoadingSpinner";
 import {fetchNextPosts} from "../../../redux/reducers/postsReducer";
 import {connect} from "react-redux";
 import Post from "./post/Post";
+import TapeCss from "./Tape.module.css"
+
 
 const PostsTape = (props) => {
     function truncatePostLink(linkString) {
@@ -13,7 +15,7 @@ const PostsTape = (props) => {
         return `${channelId}/${postId}`
     }
 
-    let observer = useRef()
+    let observer = useRef();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     let lastUserRef = useCallback(node => {
@@ -23,14 +25,15 @@ const PostsTape = (props) => {
 
         observer.current = new IntersectionObserver(entries => {
             if(entries[0].isIntersecting){
-                props.fetchNewPosts()
+                // props.fetchNewPosts()
+                console.log("FETCHING NEW POSTS")
             }
         })
 
         if (node) {
             observer.current.observe(node)
         }
-    })
+    }, [props.posts]);
 
     if(props.posts.length === 0) {
         props.fetchNewPosts();
@@ -44,19 +47,32 @@ const PostsTape = (props) => {
             {
                 props.posts.map((el, i) => {
                     if(i === props.posts.length - 1) {
-                        return <div ref={lastUserRef} key={i}><Post postLink={truncatePostLink(el.link)} /></div>
+                        return (
+                            <div ref={lastUserRef} key={i} className={TapeCss.postWrapper}>
+                                <Post postLink={truncatePostLink(el.link)} />
+                            </div>
+                        )
                     }
                     else {
-                        return <Post postLink={truncatePostLink(el.link)} key={i} />
+                        return (
+                            <div key={i} className={TapeCss.postWrapper}>
+                                <Post postLink={truncatePostLink(el.link)} key={i} />
+                            </div>
+                        )
                     }
                 })
+            }
+            {
+                props.loading ? <LoadingSpinner width={100} height={100} marginTop={"10%"} /> : <></>
             }
         </>
     );
 };
 
 let mapStateToProps = (state) => {
-    return {}
+    return {
+        loading: state.postsReducer.loading,
+    }
 }
 
 let mapDispatchToProps = (dispatch) => {
