@@ -29,7 +29,7 @@ export let fetchNextPosts = () => (dispatch, getState) => {
         endTimeTimestamp = Date.parse(new Date().toString());
     }
 
-    let startTimeTimestamp = endTimeTimestamp - 15 * MS_IN_MINUTE
+    let startTimeTimestamp = endTimeTimestamp - 60 * MS_IN_MINUTE
 
     let startTime = new Date(startTimeTimestamp);
     let endTime = new Date(endTimeTimestamp);
@@ -37,17 +37,17 @@ export let fetchNextPosts = () => (dispatch, getState) => {
 
     dispatch({type: POSTS_LOADING})
 
-    axios.get(NEWS_SERVICE_URL + `/api/v1/messages?start_time=${startTimeTimestamp}&end_time=${endTimeTimestamp}`, {
-        headers: {
-            'Authorization': `Token ${token}`,
-        }
-    }).then(res => {
-           dispatch({type: POSTS_LOADED, posts: res.data.messages, newOffset: startTimeTimestamp})
-       }).catch(err => {
-        console.log(err)
-           dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
-           dispatch({type: POSTS_STOP_LOADING})
-       })
+    // axios.get(NEWS_SERVICE_URL + `/api/v1/messages?start_time=${startTimeTimestamp}&end_time=${endTimeTimestamp}`, {
+    //     headers: {
+    //         'Authorization': `Token ${token}`,
+    //     }
+    // }).then(res => {
+    //        dispatch({type: POSTS_LOADED, posts: res.data.messages, newOffset: startTimeTimestamp})
+    //    }).catch(err => {
+    //     console.log(err)
+    //        dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
+    //        dispatch({type: POSTS_STOP_LOADING})
+    //    })
 }
 
 

@@ -1,26 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import channelCss from './Channel.module.css'
-import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
 import {connect} from "react-redux";
 import {NEWS_SERVICE_URL} from "../../../../config";
 import {truncate} from "../../../../utils/utils";
+import {unsubscribe} from "../../../../redux/reducers/channelsReducer";
+import {fetchChannelRating, rateChannel} from "../../../../redux/reducers/ratingReducer";
+import EstimateGame from "./Rating/EstimateGame";
 
 
 const ChannelInfo = (props) => {
+    useEffect(() => {
+        props.fetchRating(props.channel.link)
+    }, [])
+
     return (
         <div className={channelCss.channelInfoContainer}>
-            <div>
+            <div className={channelCss.ratingNPhotoContainer}>
                 <img src={NEWS_SERVICE_URL + props.channel.profilePhotoUrl} alt={truncate(props.channel.title, 14)}/>
-                <div>
-                    STAR STAR STAR STAR
-                </div>
+                <EstimateGame channelLink={props.channel.link} />
             </div>
-            <div>
+            <div className={channelCss.informationContainer}>
                 <h1>
                     {props.channel.title}
                 </h1>
-                <span className={channelCss.subsribersCount}>{props.channel.subscribersNumber} subscribers</span>
+                <span className={channelCss.subscribersCount}>{props.channel.subscribersNumber} subscribers</span>
                 <p>{props.channel.description}</p>
+
+                <div
+                    className={channelCss.unsubscribeButton}
+                    onClick={(e) => props.unsubscribe(props.channel.link)}
+                >
+                    UNSUBSCRIBE
+                </div>
             </div>
         </div>
     );
@@ -28,12 +39,17 @@ const ChannelInfo = (props) => {
 
 
 let mapStateToProps = (state) => {
-    return {}
+    return {
+        myRate: state.ratingReducer.myRate,
+        totalRate: state.ratingReducer.totalRate,
+        averageRating: state.ratingReducer.averageRating,
+    }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-
+        unsubscribe: (channelLink) => dispatch(unsubscribe(channelLink)),
+        fetchRating: (channelLink) => dispatch(fetchChannelRating(channelLink)),
     }
 }
 

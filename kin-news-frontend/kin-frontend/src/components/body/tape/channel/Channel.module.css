@@ -25,12 +25,14 @@
 }.channelInfoContainer h1{
      margin-bottom: 4px;
  }
-.channelInfoContainer img {
+.ratingNPhotoContainer img {
     width: 250px;
     height: 250px;
-    margin: 20px;
 
     border-radius: 50%;
+}
+.ratingNPhotoContainer {
+    padding: 20px;
 }
 .channelInfoContainer p {
     font-size: 20px;
@@ -41,8 +43,25 @@
     overflow: auto;
     white-space: pre-line;
 }
-.subsribersCount {
-    margin-top: -10px;
+.subscribersCount {
     font-size: 20px;
     color: #b0b0b0;
+}
+.unsubscribeButton {
+    padding: 7px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: linear 0.2s;
+    color: #f3eeee;
+    background-color: #dc4444;
+    text-align: center;
+    width: 150px;
+    margin-top: 10px;
+}.unsubscribeButton:hover {
+    background-color: #dc1b1b;
+}
+.informationContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: revert;
 }

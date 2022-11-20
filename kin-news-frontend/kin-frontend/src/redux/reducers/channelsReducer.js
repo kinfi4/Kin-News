@@ -12,7 +12,7 @@ let initialState = {
 
 
 const GOT_CHANNELS = 'GOT_CHANNELS'
-const CHANNEL_ADDED = 'CHANNEL_ADDED'
+const CHANNEL_LIST_CHANGED = 'CHANNEL_LIST_CHANGED'
 const CLEAR_STATE = 'CLEAR_STATE'
 const SET_LOADING = 'SET_LOADING'
 
@@ -28,7 +28,7 @@ export let addChannel = (link) => (dispatch) => {
             'Content-Type': 'application/json',
         }
     }).then(res => {
-        dispatch({type: CHANNEL_ADDED})
+        dispatch({type: CHANNEL_LIST_CHANGED})
     }).catch(err => {
         console.log(err.response.data.errors)
         dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
@@ -49,6 +49,21 @@ export let fetchChannels = (link) => (dispatch) => {
     })
 }
 
+export let unsubscribe = (channelLink) => (dispatch) => {
+    const token = localStorage.getItem("token")
+
+    axios.delete(NEWS_SERVICE_URL + '/api/v1/channels/' + channelLink, {
+        headers: {
+            'Authorization': `Token ${token}`,
+        }
+    }).then(res => {
+        dispatch({type: CHANNEL_LIST_CHANGED})
+    }).catch(err => {
+        dispatch({type: FETCH_ERROR, errors: err.data.errors})
+    })
+}
+
+
 export let channelsReducer = (state=initialState, action) => {
     switch (action.type){
         case GOT_CHANNELS:
@@ -64,7 +79,7 @@ export let channelsReducer = (state=initialState, action) => {
             }
         case CLEAR_STATE:
             return initialState
-        case CHANNEL_ADDED:
+        case CHANNEL_LIST_CHANGED:
             return window.location.replace('/')
         default:
             return state
