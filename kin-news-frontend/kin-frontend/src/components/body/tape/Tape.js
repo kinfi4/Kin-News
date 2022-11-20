@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import TapeCss from "./Tape.module.css"
-import Post from "./post/Post";
-import {login} from "../../../redux/reducers/authReducer";
+import mainPageCss from "../MainPage.module.css"
 import {connect} from "react-redux";
 import {showModalWindow} from "../../../redux/reducers/modalWindowReducer";
 import Input from "../../common/input/Input";
@@ -42,11 +41,11 @@ const Tape = (props) => {
     }, [])
 
     return (
-        <div className={TapeCss.container}>
-            <div className={TapeCss.sideBar}>
-                <div className={TapeCss.sideBarContent}>
+        <div className={mainPageCss.container}>
+            <div className={mainPageCss.sideBar}>
+                <div className={mainPageCss.sideBarContent}>
                     <div
-                        className={TapeCss.addChannelButton}
+                        className={mainPageCss.controlButton}
                         onClick={() => props.showModal(<EnterLink addChannel={props.addChannel} />, 400, 300)}
                     >
                         SUBSCRIBE

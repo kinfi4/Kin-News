@@ -37,17 +37,17 @@ export let fetchNextPosts = () => (dispatch, getState) => {
 
     dispatch({type: POSTS_LOADING})
 
-    // axios.get(NEWS_SERVICE_URL + `/api/v1/messages?start_time=${startTimeTimestamp}&end_time=${endTimeTimestamp}`, {
-    //     headers: {
-    //         'Authorization': `Token ${token}`,
-    //     }
-    // }).then(res => {
-    //        dispatch({type: POSTS_LOADED, posts: res.data.messages, newOffset: startTimeTimestamp})
-    //    }).catch(err => {
-    //     console.log(err)
-    //        dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
-    //        dispatch({type: POSTS_STOP_LOADING})
-    //    })
+    axios.get(NEWS_SERVICE_URL + `/api/v1/messages?start_time=${startTimeTimestamp}&end_time=${endTimeTimestamp}`, {
+        headers: {
+            'Authorization': `Token ${token}`,
+        }
+    }).then(res => {
+           dispatch({type: POSTS_LOADED, posts: res.data.messages, newOffset: startTimeTimestamp})
+       }).catch(err => {
+        console.log(err)
+           dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
+           dispatch({type: POSTS_STOP_LOADING})
+       })
 }
 
 

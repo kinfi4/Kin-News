@@ -9,18 +9,6 @@ import ReactDOM from "react-dom";
 import store from "./redux/store";
 
 
-// root.render(
-//     <>
-//         <React.StrictMode>
-//             <RouterProvider router={router}>
-//                 <Provider store={store}>
-//                     <App />
-//                 </Provider>
-//             </RouterProvider>
-//         </React.StrictMode>
-//     </>
-// );
-
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

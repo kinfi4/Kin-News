@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+.sideBar {
+    position: fixed;
+    background-color: #b99f9f;
+    height: 100%;
+    width: 30%;
+}
+.sideBarContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 15px;
+    margin: 100px 0;
+    height: 100%;
+    width: 90%;
+}
+.controlButton {
+    padding: 7px 12px;
+    width: 200px;
+    text-align: center;
+    font-size: 25px;
+    background-color: #737373;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 30px;
+
+    transition: linear 0.2s;
+
+}
+.controlButton:hover {
+    background-color: #c7c7c7;
+}
