@@ -24,7 +24,7 @@ const ChannelInfo = (props) => {
                     {props.channel.title}
                 </h1>
                 <span className={channelCss.subscribersCount}>{props.channel.subscribersNumber} subscribers</span>
-                <p>{props.channel.description}</p>
+                <p>{props.channel.description ? props.channel.description : "NO DESCRIPTION PROVIDED"}</p>
 
                 <div
                     className={channelCss.unsubscribeButton}

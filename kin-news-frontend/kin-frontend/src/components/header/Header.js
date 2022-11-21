@@ -8,13 +8,13 @@ function Header(props) {
     return (
         <>
             <header className={headerCss.header}>
-                <h3><NavLink to={'/tape'}>Tape</NavLink></h3>
-                <h3><NavLink to={'/statistics'}>Statistics</NavLink></h3>
+                <h3><NavLink to={'/tape'}>TAPE</NavLink></h3>
+                <h3><NavLink to={'/statistics'}>STATISTICS</NavLink></h3>
 
                 <h3
                     onClick={(e) => props.logout()}
                 >
-                    Log out
+                    LOG OUT
                 </h3>
             </header>
         </>

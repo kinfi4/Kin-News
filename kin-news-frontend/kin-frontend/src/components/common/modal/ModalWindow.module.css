@@ -18,9 +18,10 @@
 }
 
 .inner{
+    color: #f7fdff;
     border-radius: 4px;
     position: relative;
-    background-color: #4b4b4b;
+    background-color: #15202b;
     overflow: auto;
     margin: 30px auto;
 

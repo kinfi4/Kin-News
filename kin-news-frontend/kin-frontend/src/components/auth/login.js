@@ -16,7 +16,7 @@ function Login(props) {
         <>
             <div className={authCss.authContainer}>
                 <div className={authCss.authForm}>
-                    <h3>LOGIN</h3>
+                    <h2>LOGIN</h2>
 
                     <Input
                         type={"text"}
@@ -38,7 +38,7 @@ function Login(props) {
                         text={'Sign In'}
                     />
 
-                    <NavLink to={'/sign-up'} className={authCss.formLink}>Register</NavLink>
+                    <NavLink to={'/sign-up'} className={authCss.formLink}>New to the Kin-News? <br/>Register</NavLink>
                 </div>
             </div>
         </>

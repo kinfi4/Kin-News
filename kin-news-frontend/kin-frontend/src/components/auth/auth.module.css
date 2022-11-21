@@ -1,16 +1,21 @@
 .formLink {
-    color: #4c4cb4;
+    color: #f7fdff;
     font-weight: bold;
+    text-decoration: none;
+    padding: 20px;
+
+    text-align: center;
 }
 
 .authForm {
     max-width: 700px;
-    height: 200px;
+    height: fit-content;
 
     padding: 30px 50px;
 
-    background-color: #915757;
-    box-shadow: 20px 10px 10px #440d0d;
+    color: #f7fdff;
+    background-color: #15202B;
+    box-shadow: 20px 10px 10px #353C4E;
 
     display: flex;
     align-items: center;

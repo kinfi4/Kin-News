@@ -15,35 +15,39 @@ function Register(props) {
 
     return (
         <>
-            <div className={authCss.authForm}>
-                <Input
-                    type={"text"}
-                    onChange={(element) => setDetails({...details, username: element.target.value})}
-                    value={details.username}
-                    placeholder={"Username"}
-                    id={"username"}
-                />
-                <Input
-                    type={"password"}
-                    onChange={(element) => setDetails({...details, password1: element.target.value})}
-                    value={details.password1}
-                    placeholder={"Password"}
-                    id={"password"}
-                />
-                <Input
-                    type={"password"}
-                    onChange={(element) => setDetails({...details, password2: element.target.value})}
-                    value={details.password2}
-                    placeholder={"Repeat Password"}
-                    id={"repeat-password"}
-                />
+            <div className={authCss.authContainer}>
+                <div className={authCss.authForm}>
+                    <h2>REGISTER</h2>
 
-                <Button
-                    onClick={(event) => onRegisterSubmit()}
-                    text={'Sign Up'}
-                />
+                    <Input
+                        type={"text"}
+                        onChange={(element) => setDetails({...details, username: element.target.value})}
+                        value={details.username}
+                        placeholder={"Username"}
+                        id={"username"}
+                    />
+                    <Input
+                        type={"password"}
+                        onChange={(element) => setDetails({...details, password1: element.target.value})}
+                        value={details.password1}
+                        placeholder={"Password"}
+                        id={"password"}
+                    />
+                    <Input
+                        type={"password"}
+                        onChange={(element) => setDetails({...details, password2: element.target.value})}
+                        value={details.password2}
+                        placeholder={"Repeat Password"}
+                        id={"repeat-password"}
+                    />
 
-                <NavLink to={'/sign-in'} className={authCss.formLink}>Login</NavLink>
+                    <Button
+                        onClick={(event) => onRegisterSubmit()}
+                        text={'Sign Up'}
+                    />
+
+                    <NavLink to={'/sign-in'} className={authCss.formLink}>Already have an account? <br/>Login</NavLink>
+                </div>
             </div>
         </>
     );

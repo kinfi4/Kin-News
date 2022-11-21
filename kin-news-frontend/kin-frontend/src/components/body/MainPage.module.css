@@ -5,9 +5,11 @@
 }
 .sideBar {
     position: fixed;
-    background-color: #b99f9f;
+    background-color: #1d2c3b;
     height: 100%;
     width: 30%;
+    margin: 2px 0;
+    box-shadow: 5px 3px 15px #7744bb;
 }
 .sideBarContent {
     display: flex;
@@ -23,14 +25,18 @@
     width: 200px;
     text-align: center;
     font-size: 25px;
-    background-color: #737373;
     border-radius: 2px;
     cursor: pointer;
     margin-bottom: 30px;
+
+    background-color: #353C4E;
+    color: #f7fdff;
 
     transition: linear 0.2s;
 
 }
 .controlButton:hover {
-    background-color: #c7c7c7;
+    background-color: #7744bb;
+    color: #ffffff;
+    box-shadow: 0 0 5px white;
 }

@@ -3,19 +3,20 @@
     align-items: center;
     justify-content: center;
 
-    padding: 6px 10px;
-    border-radius: 7px;
+    padding: 12px 15px;
+    border-radius: 2px;
     border: 0;
 
     cursor: pointer;
 
     transition: linear 0.2s;
-    background-color: #646464;
-    color: black;
+    background-color: #353C4E;
+    color: #f7fdff;
 
     font-weight: bold;
 }
 .defaultButton:hover {
-    background-color: #262626;
-    color: #a9a9a9;
+    background-color: #7744bb;
+    color: #ffffff;
+    box-shadow: 0 0 5px white;
 }

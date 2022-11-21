@@ -7,6 +7,10 @@
 }
 .enterLinkContainer *{
     width: 80%;
+    margin-bottom: 20px;
+}
+.enterLinkContainer h4{
+     margin-bottom: 30px;
 }
 .channelsContainer {
     display: flex;
@@ -39,7 +43,7 @@
 
     width: 100%;
 
-    background-image: url("https://img.freepik.com/free-photo/stone-texture-background_1194-8634.jpg?t=st=1668939664~exp=1668940264~hmac=be54414e8ee2a9cec779855285b51d33d3e5a97ee1819fe57bbd5858e2aaa707");
+    background-image: url("https://i.pinimg.com/564x/c4/e1/23/c4e123cfefe1b239b804c9820c2c7724.jpg");
     background-attachment: fixed;
-    background-size: 100%;
+    background-size: cover;
 }

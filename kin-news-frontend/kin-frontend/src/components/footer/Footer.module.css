@@ -10,12 +10,11 @@
 
     position: fixed;
     bottom: 0;
-    z-index: 13;
-    background-color: #151212;
+    background-color: #15202b;
 }
 
 .footer h2{
     text-transform: uppercase;
     font-size: 30px;
-    color: #d7d7d7;
+    color: #f7fdff;
 }
