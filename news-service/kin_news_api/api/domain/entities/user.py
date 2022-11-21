@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator, Field
+from pydantic import BaseModel, root_validator, Field, validator
 
 
 class UserEntity(BaseModel):
@@ -18,6 +18,13 @@ class UserRegistrationEntity(BaseModel):
             raise ValueError('Passwords must be equal!')
 
         return fields
+
+    @validator('*')
+    def empty_str_to_none(cls, value):
+        if value == '':
+            return None
+
+        return value
 
     class Config:
         allow_population_by_field_name = True

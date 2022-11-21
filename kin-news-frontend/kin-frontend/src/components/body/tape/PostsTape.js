@@ -25,8 +25,8 @@ const PostsTape = (props) => {
 
         observer.current = new IntersectionObserver(entries => {
             if(entries[0].isIntersecting){
-                // props.fetchNewPosts()
-                console.log("FETCHING NEW POSTS")
+                props.fetchNewPosts()
+                // console.log("FETCHING NEW POSTS")
             }
         })
 

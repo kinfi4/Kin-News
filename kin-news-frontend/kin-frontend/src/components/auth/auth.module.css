@@ -4,18 +4,19 @@
     text-decoration: none;
     padding: 20px;
 
+    margin-top: 40px;
     text-align: center;
 }
-
 .authForm {
+    font-size: larger;
     max-width: 700px;
     height: fit-content;
 
-    padding: 30px 50px;
+    padding: 40px 60px;
 
     color: #f7fdff;
     background-color: #15202B;
-    box-shadow: 20px 10px 10px #353C4E;
+    box-shadow: 30px 30px 40px #2b355b;
 
     display: flex;
     align-items: center;
@@ -33,6 +34,8 @@
     justify-content: center;
     flex-direction: column;
 }
-.authContainer h3 {
+
+.authContainer h2 {
+    margin-bottom: 50px;
     font-size: 30px;
 }

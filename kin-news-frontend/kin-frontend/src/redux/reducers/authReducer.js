@@ -88,9 +88,10 @@ export const register = (username, password1, password2) => (dispatch) => {
         }
     }).then(res => {
             dispatch({ type: LOGIN_SUCCESS, token: res.data.token })
-        }).catch(err => {
-            dispatch({ type: REGISTRATION_ERROR, errors: err.response.data.errors })
-        })
+      }).catch(err => {
+          console.log(err.response.data.errors)
+          dispatch({ type: REGISTRATION_ERROR, errors: err.response.data.errors })
+      })
 }
 
 

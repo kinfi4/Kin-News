@@ -7,6 +7,7 @@ function Button(props) {
             <div
                 className={defaultButtonCss.defaultButton}
                 onClick={(event) => props.onClick(event)}
+                style={props.styles}
             >
                 { props.text }
             </div>

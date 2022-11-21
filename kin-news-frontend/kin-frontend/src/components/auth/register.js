@@ -44,6 +44,9 @@ function Register(props) {
                     <Button
                         onClick={(event) => onRegisterSubmit()}
                         text={'Sign Up'}
+                        styles={{
+                            marginTop: "15px"
+                        }}
                     />
 
                     <NavLink to={'/sign-in'} className={authCss.formLink}>Already have an account? <br/>Login</NavLink>

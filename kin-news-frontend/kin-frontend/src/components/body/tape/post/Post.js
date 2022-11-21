@@ -9,9 +9,9 @@ const Post = (props) => {
 
         script.setAttribute('data-telegram-post', props.postLink)
 
-        script.setAttribute('data-dark-color', 'F95C54')
+        script.setAttribute('data-dark-color', 'BF8EFF')
         script.setAttribute('data-userpic', 'true')
-        script.setAttribute('data-color', 'E22F38')
+        script.setAttribute('data-color', 'BF8EFF')
         script.setAttribute('data-dark', '1')
         script.async = true;
 

@@ -36,6 +36,9 @@ function Login(props) {
                     <Button
                         onClick={(event) => onLoginSubmit()}
                         text={'Sign In'}
+                        styles={{
+                            marginTop: "15px"
+                        }}
                     />
 
                     <NavLink to={'/sign-up'} className={authCss.formLink}>New to the Kin-News? <br/>Register</NavLink>

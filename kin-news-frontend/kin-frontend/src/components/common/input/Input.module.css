@@ -16,11 +16,11 @@
 }
 .input-container input{
     border:0;
-    border-bottom:1px solid #ad71ff;
+    border-bottom: 1px solid #ad71ff;
     background:transparent;
     width:100%;
     padding:8px 0 5px 0;
-    font-size:16px;
+    font-size: inherit;
     color: #f7fdff;
 }
 .input-container input:focus{

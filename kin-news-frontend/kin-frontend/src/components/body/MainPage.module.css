@@ -9,7 +9,7 @@
     height: 100%;
     width: 30%;
     margin: 2px 0;
-    box-shadow: 5px 3px 15px #7744bb;
+    box-shadow: 0 3px 59px #7744bb;
 }
 .sideBarContent {
     display: flex;
