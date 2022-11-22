@@ -19,7 +19,7 @@ class UserRegistrationEntity(BaseModel):
 
         return fields
 
-    @validator('*')
+    @validator('*', pre=True)
     def empty_str_to_none(cls, value):
         if value == '':
             return None

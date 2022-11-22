@@ -12,6 +12,7 @@ from api.domain.services import UserService
 from api.exceptions import LoginFailedError, UsernameAlreadyTakenError
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
+from kin_news_core.utils import pydantic_errors_prettifier
 
 
 class LoginView(APIView):
@@ -26,7 +27,7 @@ class LoginView(APIView):
         try:
             user_entity = UserEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
 
         try:
             token = user_service.login(user_entity)
@@ -52,7 +53,7 @@ class RegisterView(APIView):
         try:
             user_entity = UserRegistrationEntity(**request.data)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
 
         try:
             token = user_service.register(user_entity)

@@ -12,6 +12,7 @@ from api.domain.services import RatingsService
 from api.exceptions import ChannelDoesNotExists
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
+from kin_news_core.utils import pydantic_errors_prettifier
 
 
 class ChannelRateView(APIView):
@@ -46,7 +47,7 @@ class ChannelRateView(APIView):
             channel_rate_entity = RatePostEntity(**request.data)
             ratings = rating_service.rate_channel(request.user, channel_rate_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except ChannelDoesNotExists as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 

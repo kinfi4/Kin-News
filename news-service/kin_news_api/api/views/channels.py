@@ -13,6 +13,7 @@ from api.exceptions import UserIsNotSubscribed
 from config.containers import Container
 from kin_news_core.exceptions import InvalidChannelURLError
 from kin_news_core.auth import JWTAuthentication
+from kin_news_core.utils import pydantic_errors_prettifier
 
 
 class ChannelListView(APIView):
@@ -40,7 +41,7 @@ class ChannelListView(APIView):
             channels_entity = ChannelPostEntity(**request.data)
             channel = channel_service.subscribe_user(request.user, channels_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except InvalidChannelURLError as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
@@ -62,7 +63,7 @@ class ChannelUnsubscribeView(APIView):
             channels_entity = ChannelPostEntity(link=channel)
             channel_service.unsubscribe_channel(request.user, channel_post_entity=channels_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': err.errors()})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except UserIsNotSubscribed as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
