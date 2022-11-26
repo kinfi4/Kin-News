@@ -19,6 +19,7 @@
     margin: 100px 0;
     height: 100%;
     width: 90%;
+    color: #f7fdff;
 }
 .controlButton {
     padding: 7px 12px;
@@ -33,7 +34,6 @@
     color: #f7fdff;
 
     transition: linear 0.2s;
-
 }
 .controlButton:hover {
     background-color: #7744bb;

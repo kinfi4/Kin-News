@@ -59,9 +59,12 @@ class ReportGetEntity(BaseModel):
 
 class ReportPutEntity(BaseModel):
     name: str
-    report_id: int
+    report_id: int = Field(..., alias='reportId')
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 class ReportIdentificationEntity(BaseModel):
-    report_id: int
+    report_id: int = Field(..., alias='reportId')
     name: str

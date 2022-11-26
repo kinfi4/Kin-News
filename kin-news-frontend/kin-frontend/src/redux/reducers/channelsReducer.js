@@ -35,7 +35,7 @@ export let addChannel = (link) => (dispatch) => {
     })
 }
 
-export let fetchChannels = (link) => (dispatch) => {
+export let fetchChannels = () => (dispatch) => {
     const token = localStorage.getItem("token")
 
     axios.get(NEWS_SERVICE_URL + '/api/v1/channels', {

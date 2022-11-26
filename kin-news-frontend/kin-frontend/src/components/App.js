@@ -19,7 +19,7 @@ export function Main() {
             <Header/>
 
             <Switch>
-                <Route exact path={'/statistics'} render={() => <Statistics />} />
+                <Route path={'/statistics'} render={() => <Statistics />} />
                 <Route exact path={'/tape'} render={() => <Tape />} />
                 <Route path={'/'} render={() => <Redirect to={'/tape'}/>} />
             </Switch>

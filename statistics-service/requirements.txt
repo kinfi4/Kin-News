@@ -18,6 +18,7 @@ DAWG-Python==0.7.2
 dependency-injector==4.40.0
 Deprecated==1.2.13
 Django==4.1.2
+django-cors-headers==3.13.0
 djangorestframework==3.14.0
 dnspython==2.2.1
 docopt==0.6.2

@@ -1,46 +1,27 @@
 import mainPageCss from "../MainPage.module.css";
-import React, {useState} from "react";
-import { DateRangePicker } from 'react-date-range';
+import React from "react";
+
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import "./GenerateReportMenu/DateRangePickerStyles.css"
+import {Link, Route, Switch} from "react-router-dom";
+import {useRouteMatch} from "react-router-dom/cjs/react-router-dom";
+import GenerateReportMenu from "./GenerateReportMenu/GenerateReportMenu";
+import SelectReportMenu from "./SelectReport/SelectReportMenu";
 
 
 const Statistics = (props) => {
-    const [data, setData] = useState({startDate: new Date(), endDate: new Date()});
+    let {path, url} = useRouteMatch();
 
     return (
         <>
             <div className={mainPageCss.container}>
                 <div className={mainPageCss.sideBar}>
                     <div className={mainPageCss.sideBarContent}>
-                        <div
-                            className={mainPageCss.controlButton}
-                            onClick={() => null}
-                        >
-                            CHOSE EXISTING REPORT
-                        </div>
-
-                        <div
-                            className={mainPageCss.controlButton}
-                            onClick={() => null}
-                        >
-                            GENERATE REPORT
-                        </div>
-
-                        <DateRangePicker
-                            ranges={[{
-                                startDate: data.startDate,
-                                endDate: data.endDate,
-                                key: 'selection',
-                            }]}
-                            onChange={
-                                (range) => setData({
-                                    startDate: range.selection.startDate,
-                                    endDate: range.selection.endDate,
-                                })
-                            }
-                        />
-
+                        <Switch>
+                            <Route exact path={path} render={() => <SelectReportMenu />} />
+                            <Route exact path={`${path}/generate`} render={() => <GenerateReportMenu />} />
+                        </Switch>
                     </div>
                 </div>
                 <div className={'statisticsCss.tape'}>

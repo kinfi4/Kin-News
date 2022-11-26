@@ -1,0 +1,12 @@
+.controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 40px;
+}
+
+.controls div {
+    margin: 0 5px;
+}

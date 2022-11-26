@@ -32,7 +32,7 @@ class ReportsListView(APIView):
         report_identities = reports_service.get_user_repository_names(request.user)
 
         return Response(
-            data={'reports': [report.dict() for report in report_identities]}
+            data={'reports': [report.dict(by_alias=True) for report in report_identities]}
         )
 
     @inject

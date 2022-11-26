@@ -78,7 +78,7 @@ let mapDispatchToProps = (dispatch) => {
     return {
         showModal: (content, width, height) => dispatch(showModalWindow(content, width, height)),
         addChannel: (link) => dispatch(addChannel(link)),
-        fetchChannels: (link) => dispatch(fetchChannels(link)),
+        fetchChannels: () => dispatch(fetchChannels()),
         fetchNewPosts: () => dispatch(fetchNextPosts()),
     }
 }
