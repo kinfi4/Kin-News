@@ -8,6 +8,7 @@ import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
 import SelectChannelsWindow from "./SelectChannels";
 import {generateReport, setChannelsListForGeneration} from "../../../../redux/reducers/reportsReducer";
 import {fetchChannels} from "../../../../redux/reducers/channelsReducer";
+import {IoIosArrowRoundBack} from "react-icons/io"
 
 
 const GenerateReportMenu = (props) => {
@@ -22,49 +23,49 @@ const GenerateReportMenu = (props) => {
 
     return (
         <>
-            <div className={statsCss.controls}>
+            <div className={statsCss.choseReportLink}>
                 <Link to={`/statistics`}>
+                   <IoIosArrowRoundBack style={{marginRight: "5px", fontSize: "40px"}}/> <span style={{fontSize: "25px"}}>BACK</span>
+                </Link>
+            </div>
+
+            <div className={statsCss.generateReportForm}>
+                <DateRangePicker
+                    className={"bg-dark"}
+                    rangeColors={["#2CA884"]}
+                    ranges={[{
+                        startDate: data.startDate,
+                        endDate: data.endDate,
+                        key: 'selection',
+                    }]}
+                    onChange={
+                        (range) => setData({
+                            startDate: range.selection.startDate,
+                            endDate: range.selection.endDate,
+                        })
+                    }
+                />
+                <div className={statsCss.controls}>
                     <div
                         className={mainPageCss.controlButton}
-                        onClick={() => null}
+                        onClick={() => props.showModal(
+                            <SelectChannelsWindow />,
+                            500,
+                            800,
+                        )}
                     >
-                        CHOSE EXISTING REPORT
+                        SELECT CHANNELS
                     </div>
-                </Link>
 
-                <div
-                    className={mainPageCss.controlButton}
-                    onClick={() => props.showModal(
-                        <SelectChannelsWindow />,
-                        500,
-                        800,
-                    )}
-                >
-                    SELECT CHANNELS
+                    <div
+                        className={mainPageCss.controlButton}
+                        onClick={() => props.sendGenerationRequest(data.startDate, data.endDate, props.channels)}
+                        style={{backgroundColor: "#2CA884"}}
+                    >
+                        GENERATE
+                    </div>
                 </div>
-            </div>
-            <DateRangePicker
-                className={"bg-dark"}
-                rangeColors={["#2CA884"]}
-                ranges={[{
-                    startDate: data.startDate,
-                    endDate: data.endDate,
-                    key: 'selection',
-                }]}
-                onChange={
-                    (range) => setData({
-                        startDate: range.selection.startDate,
-                        endDate: range.selection.endDate,
-                    })
-                }
-            />
 
-            <div
-                className={mainPageCss.controlButton}
-                onClick={() => props.sendGenerationRequest(data.startDate, data.endDate, props.channels)}
-                style={{marginTop: "100px", padding: "30px"}}
-            >
-                GENERATE
             </div>
         </>
     )

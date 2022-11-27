@@ -15,8 +15,8 @@ import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
 import TapeCss from "../../tape/Tape.module.css";
 import Input from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
-import {fetchChannels} from "../../../../redux/reducers/channelsReducer";
 import {REPORT_STATUS_POSTPONED} from "../../../../config";
+
 
 const EditReport = (props) => {
     let [data, setData] = useState({reportName: props.reportName});
@@ -83,7 +83,7 @@ const SelectReportMenu = (props) => {
 
     return (
         <div>
-            <h2>Select your report or <Link to={`${path}/generate`}><span style={{color: "#7744bb"}}>generate new</span></Link></h2>
+            <h2 style={{marginBottom: "50px"}}>SELECT YOUR REPORT OR <Link to={`${path}/generate`}><span style={{color: "#7744bb"}}>GENERATE NEW</span></Link></h2>
 
             <div className={selectReportMenuCss.reportsList}>
                 {

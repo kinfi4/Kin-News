@@ -4,11 +4,18 @@
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 40px;
+    margin-top: 40px;
 }
 
 .controls div {
     margin: 0 5px;
+
+    padding: 10px 20px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .statsContainer {
     min-height: 100vh;
@@ -27,4 +34,30 @@
     align-items: center;
 
     width: 100%;
+}
+
+.generateReportForm {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.choseReportLink {
+    text-decoration: none;
+    font-weight: bold;
+
+    position: absolute;
+    left: 20px;
+    top: 140px;
+}
+.choseReportLink a {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    transition: linear 0.1s;
+    color: #c2c2c2;
+}
+.choseReportLink a:hover {
+    color: #7744bb;
 }

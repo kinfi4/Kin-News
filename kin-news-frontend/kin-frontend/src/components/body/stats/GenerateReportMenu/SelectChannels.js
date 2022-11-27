@@ -7,6 +7,8 @@ import {AiFillDelete} from "react-icons/ai";
 import {connect} from "react-redux";
 import {setChannelsListForGeneration} from "../../../../redux/reducers/reportsReducer";
 import {showMessage} from "../../../../utils/messages";
+import axios from "axios";
+import {NEWS_SERVICE_URL} from "../../../../config";
 
 
 const SelectChannelsWindow = (props) => {
@@ -17,8 +19,27 @@ const SelectChannelsWindow = (props) => {
             showMessage([{message: "Sorry, but you have to specify the link.", type: "danger"}])
             return
         }
-        const newList = [...props.channels, channelLink];
-        props.setChannels(newList);
+
+        if(props.channels.includes(channelLink)) {
+            showMessage([{message: "Sorry but the specified channel already in the list", type: "danger"}])
+            return
+        }
+
+        const token = localStorage.getItem("token");
+        axios.get(NEWS_SERVICE_URL + `/api/v1/channels/exists/${channelLink}`, {
+            headers: {
+                'Authorization': `Token ${token}`,
+            }
+        }).then(res => {
+            if(res.data.exists) {
+                const newList = [...props.channels, channelLink];
+                props.setChannels(newList);
+
+                setData({channelLink: ""})
+            } else {
+                showMessage([{message: 'Channel with provided link does not exists!', type: 'danger'}])
+            }
+        })
     }
 
     const removeChannelFromList = (channelLink) => {
