@@ -6,9 +6,11 @@ from django.db.models import Max, F
 from pymongo import MongoClient
 
 from api.domain.entities import ReportGetEntity
+from api.exceptions import ReportNotFound, ImpossibleToModifyProcessingReport
 from api.models import UserReport, UserGeneratesReport
 from api.domain.entities.report import ReportIdentificationEntity
 from api.infrastructure.interfaces import IReportRepository
+from config.constants import ReportProcessingResult
 
 
 class ReportsMongoRepository(IReportRepository):
@@ -35,9 +37,18 @@ class ReportsMongoRepository(IReportRepository):
         self._logger.info(f'[ReportsMongoRepository] Saving user report with id: {report.report_id} and status: {report.processing_status}')
 
         report_dict = report.dict()
-        self._reports_collection.insert_one(report_dict)
+        self._reports_collection.replace_one(
+            {'report_id': report.report_id},
+            report_dict,
+            upsert=True,
+        )
 
     def update_report_name(self, report_id: int, report_name: str) -> None:
+        report = self.get_report(report_id)
+
+        if report.processing_status == ReportProcessingResult.PROCESSING:
+            raise ImpossibleToModifyProcessingReport('You can not change the report during processing.')
+
         self._reports_collection.update_one(
             {'report_id': report_id},
             {'$set': {'name': report_name}},
@@ -45,12 +56,23 @@ class ReportsMongoRepository(IReportRepository):
 
     def get_report(self, report_id: int) -> ReportGetEntity:
         dict_report = self._reports_collection.find_one({
-                'report_id': report_id
+            'report_id': report_id
         })
+
+        if dict_report is None:
+            raise ReportNotFound('Report with this id was not found')
 
         return self._map_dict_to_entity(dict_report)
 
     def delete_report(self, report_id: int) -> None:
+        try:
+            report = self.get_report(report_id)
+        except ReportNotFound:
+            return
+
+        if report.processing_status == ReportProcessingResult.PROCESSING:
+            raise ImpossibleToModifyProcessingReport('You can not delete the report during processing.')
+
         self._reports_collection.delete_one({
             'report_id': report_id
         })
@@ -85,6 +107,7 @@ class ReportsMongoRepository(IReportRepository):
 
 class ReportsAccessManagementRepository:
     def __init__(self):
+        self._logger = logging.getLogger(self.__class__.__name__)
         self._user_query = User.objects
         self._user_reports_query = UserReport.objects
         self._user_generating_query = UserGeneratesReport.objects
@@ -108,6 +131,7 @@ class ReportsAccessManagementRepository:
         if last_report_id is None:
             last_report_id = 0
 
+        self._logger.info(f'Setting report access rights of report_id: {last_report_id + 1} to user: {user_id}')
         self._user_reports_query.create(user_id=user_id, report_id=last_report_id + 1)
 
         return last_report_id + 1

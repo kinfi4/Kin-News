@@ -31,6 +31,9 @@ class GeneratingReportsService(IGeneratingReportsService):
         self._access_repository.set_user_is_generating_report(user_id, is_generating=True)
         report_id = self._access_repository.create_new_user_report(user_id)
 
+        empty_report = self._build_empty_report(report_id)
+        self._reports_repository.save_user_report(empty_report)
+
         try:
             report_entity = self._build_report_entity(report_id, generate_report_entity)
 
@@ -59,6 +62,14 @@ class GeneratingReportsService(IGeneratingReportsService):
             .set_messages_count_by_sentiment_type(report_data['messages_count_by_sentiment_type'])
             .set_messages_count_by_channel_by_sentiment_type(report_data['messages_count_by_channel_sentiment_type'])
             .set_messages_count_by_date_by_sentiment_type(report_data['messages_count_by_date_by_sentiment_type'])
+            .build()
+        )
+
+    @staticmethod
+    def _build_empty_report(report_id: int) -> ReportGetEntity:
+        return (
+            ReportsBuilder.from_report_id(report_id)
+            .set_status(ReportProcessingResult.PROCESSING)
             .build()
         )
 

@@ -15,6 +15,7 @@ DEFAULT_DATE_FORMAT = '%d/%m/%Y'
 class ReportProcessingResult(str, Enum):
     POSTPONED = 'Postponed'
     READY = 'Ready'
+    PROCESSING = 'Processing'
 
 
 MAX_POST_LEN_IN_WORDS = 20

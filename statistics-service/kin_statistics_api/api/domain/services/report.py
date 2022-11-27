@@ -50,11 +50,11 @@ class ManagingReportsService:
     def delete_report(self, user: User, report_id: int) -> None:
         self._check_user_access(user, [report_id])
 
-        self._access_management_repository.delete_report(report_id=report_id)
         self._reports_repository.delete_report(report_id=report_id)
+        self._access_management_repository.delete_report(report_id=report_id)
 
     def _check_user_access(self, user: User, report_ids: list[int]) -> None:
         user_reports = self._access_management_repository.get_user_report_ids(user_id=user.id)
 
         if not all([report_id in user_reports for report_id in report_ids]):
-            raise ReportAccessForbidden(f'User does not have permission for this report!')
+            raise ReportAccessForbidden(f'You do not have permission for this report!')

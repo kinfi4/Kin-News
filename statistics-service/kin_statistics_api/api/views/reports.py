@@ -14,7 +14,7 @@ from api.tasks import generate_report_task
 from config.containers import Container
 from config.constants import DEFAULT_DATE_FORMAT
 from kin_news_core.auth import JWTAuthentication
-
+from kin_news_core.exceptions import KinNewsCoreException
 
 _logger = logging.getLogger(__name__)
 
@@ -42,7 +42,10 @@ class ReportsListView(APIView):
         user_service: UserService = Provide[Container.services.user_service],
     ) -> Response:
         if user_service.is_user_report_generating(request.user.id):
-            return Response(status=status.HTTP_409_CONFLICT, data={'errors': 'User is generating report right now'})
+            return Response(
+                status=status.HTTP_409_CONFLICT,
+                data={'errors': 'Sorry but you already generating report. You can generate only one report at the same time'}
+            )
 
         try:
             generate_report = GenerateReportEntity(
@@ -60,6 +63,8 @@ class ReportsListView(APIView):
                 user_id=request.user.id,
             )
         except ValidationError as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+        except KinNewsCoreException as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         return Response(status=status.HTTP_202_ACCEPTED, data={'message': 'Generating report process started successfully!'})
@@ -79,7 +84,9 @@ class ReportsSingleView(APIView):
         try:
             report = reports_service.get_user_detailed_report(request.user, report_id)
         except ReportAccessForbidden:
-            return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'You do not have rights to this report!'})
+        except KinNewsCoreException as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         return Response(data=report.dict(by_alias=True))
 
@@ -97,6 +104,8 @@ class ReportsSingleView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
         except ReportAccessForbidden:
             return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
+        except KinNewsCoreException as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         return Response(data=report_identity.dict(by_alias=True))
 
@@ -111,5 +120,7 @@ class ReportsSingleView(APIView):
             reports_service.delete_report(request.user, report_id)
         except ReportAccessForbidden:
             return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
+        except KinNewsCoreException as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
         return Response(status=status.HTTP_204_NO_CONTENT)

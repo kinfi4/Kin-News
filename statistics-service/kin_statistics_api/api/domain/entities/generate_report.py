@@ -19,21 +19,21 @@ class GenerateReportEntity(BaseModel):
     end_date: date = Field(..., alias='endDate')
     channel_list: list[str] = Field(..., alias='channels')
 
-    @validator('channel_list', pre=True)
+    @validator('channel_list', pre=True, allow_reuse=True)
     def validate_channels(cls, channels: list[str]) -> list[str]:
         if len(channels) > settings.MAX_SUBSCRIPTIONS_ALLOWED or not channels:
             raise ValidationError(f'You passed invalid list of channels to process!')
 
         return channels
 
-    @validator('start_date', pre=True)
+    @validator('start_date', pre=True, allow_reuse=True)
     def validate_and_cast_start_date(cls, value: Union[str, date]):
         if isinstance(value, str):
             return _cast_string_to_date(value)
 
         return value
 
-    @validator('end_date', pre=True)
+    @validator('end_date', pre=True, allow_reuse=True)
     def validate_and_cast_end_date(cls, value: Union[str, date]):
         if isinstance(value, str):
             return _cast_string_to_date(value)

@@ -7,3 +7,11 @@ class ReportAccessForbidden(AccessForbidden):
 
 class UsernameTaken(KinNewsCoreException):
     pass
+
+
+class ImpossibleToModifyProcessingReport(KinNewsCoreException):
+    pass
+
+
+class ReportNotFound(KinNewsCoreException):
+    pass
