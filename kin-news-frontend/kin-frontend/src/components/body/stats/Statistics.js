@@ -8,6 +8,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import {useRouteMatch} from "react-router-dom/cjs/react-router-dom";
 import GenerateReportMenu from "./GenerateReportMenu/GenerateReportMenu";
 import SelectReportMenu from "./SelectReport/SelectReportMenu";
+import ReportVisualization from "./ReportVisualization/ReportVisualization";
 
 
 const Statistics = (props) => {
@@ -25,6 +26,7 @@ const Statistics = (props) => {
                     </div>
                 </div>
                 <div className={'statisticsCss.tape'}>
+                    <ReportVisualization />
                 </div>
             </div>
         </>

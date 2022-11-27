@@ -1,5 +1,5 @@
 import axios from "axios";
-import {NEWS_SERVICE_URL, STATISTICS_SERVICE_URL} from "../../config";
+import {NEWS_SERVICE_URL, REPORT_STATUS_POSTPONED, STATISTICS_SERVICE_URL} from "../../config";
 import {FETCH_ERROR} from "./channelsReducer";
 import {showMessage} from "../../utils/messages";
 import {translateDateToString} from "../../utils/utils";
@@ -11,12 +11,14 @@ let initialState = {
     reports: [],
     loading: false,
     detailedReport: null,
+    channelListForGeneration: [],
 }
 
 const REPORTS_LOADED = "REPORTS_LOADED"
 const REPORTS_LOADING = "REPORTS_LOADING"
 const REPORTS_STOP_LOADING = "REPORTS_STOP_LOADING"
 const REPORT_DETAILS_LOADED = "REPORT_DETAILS_LOADED"
+const SET_CHANNELS = "SET_CHANNELS"
 
 
 export let fetchUserReports = () => (dispatch, getState) => {
@@ -24,18 +26,17 @@ export let fetchUserReports = () => (dispatch, getState) => {
 
     dispatch({type: REPORTS_LOADING})
 
-    dispatch({type: REPORTS_LOADED, reports: [{name: "Something"}, {name: "another"}]})
 
-    // axios.get(STATISTICS_SERVICE_URL + `/api/v1/reports`, {
-    //     headers: {
-    //         'Authorization': `Token ${token}`,
-    //     }
-    // }).then(res => {
-    //        dispatch({type: REPORTS_LOADED, reports: res.data.reports})
-    //    }).catch(err => {
-    //        dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
-    //        dispatch({type: REPORTS_STOP_LOADING})
-    //    })
+    axios.get(STATISTICS_SERVICE_URL + `/api/v1/reports`, {
+        headers: {
+            'Authorization': `Token ${token}`,
+        }
+    }).then(res => {
+           dispatch({type: REPORTS_LOADED, reports: res.data.reports})
+       }).catch(err => {
+           dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
+           dispatch({type: REPORTS_STOP_LOADING})
+       })
 }
 
 export let fetchReportDetails = (reportId) => (dispatch) => {
@@ -56,6 +57,11 @@ export let fetchReportDetails = (reportId) => (dispatch) => {
 }
 
 export let generateReport = (startDate, endDate, channels) => (dispatch) => {
+    if(!channels.length) {
+        showMessage([{message: "You didn't specify any channel!", type: "danger"}])
+        return;
+    }
+
     const token = localStorage.getItem("token");
 
     const startDateString = translateDateToString(startDate);
@@ -67,7 +73,7 @@ export let generateReport = (startDate, endDate, channels) => (dispatch) => {
         channels: channels,
     }
 
-    axios.post(STATISTICS_SERVICE_URL + `reports`, body, {
+    axios.post(STATISTICS_SERVICE_URL + `/api/v1/reports`, body, {
         headers: {
             'Authorization': `Token ${token}`,
         }
@@ -108,12 +114,17 @@ export let deleteReport = (reportId) => (dispatch) => {
     }).catch(err => {
         dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
     })
+}
 
+export let setChannelsListForGeneration = (channels) => (dispatch) => {
+    dispatch({type: SET_CHANNELS, channels: channels})
 }
 
 
 export let reportsReducer = (state=initialState, action) => {
     switch (action.type){
+        case SET_CHANNELS:
+            return {...state, channelListForGeneration: action.channels}
         case REPORTS_LOADED:
             return {loading: false, reports: action.reports}
         case REPORTS_LOADING:

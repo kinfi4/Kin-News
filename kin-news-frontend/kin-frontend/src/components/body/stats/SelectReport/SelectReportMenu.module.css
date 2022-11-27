@@ -9,6 +9,8 @@
     padding: 5px;
     cursor: pointer;
 
+    color: #f7fdff;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,4 +27,7 @@
 }
 .reportControls span:hover {
     color: #7309ff;
+}
+.postponed span:first-line{
+    color: #c43535 !important;
 }

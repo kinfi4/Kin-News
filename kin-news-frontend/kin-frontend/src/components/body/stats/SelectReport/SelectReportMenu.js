@@ -16,6 +16,7 @@ import TapeCss from "../../tape/Tape.module.css";
 import Input from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
 import {fetchChannels} from "../../../../redux/reducers/channelsReducer";
+import {REPORT_STATUS_POSTPONED} from "../../../../config";
 
 const EditReport = (props) => {
     let [data, setData] = useState({reportName: props.reportName});
@@ -59,10 +60,13 @@ const ReportBlock = (props) => {
 
     return (
         <div
-            className={selectReportMenuCss.reportBlock}
-            onClick={() => fetchReportDetails(props.reportId)}
+            className={
+                `${selectReportMenuCss.reportBlock} 
+                 ${props.reportStatus === REPORT_STATUS_POSTPONED ? selectReportMenuCss.postponed : ""}`
+            }
+            onClick={() => props.fetchReportDetails(props.reportId)}
         >
-            {props.name}
+            <span>{props.name}</span>
             <div className={selectReportMenuCss.reportControls}>
                 <span onClick={onEditClick}><AiFillEdit /></span>
                 <span onClick={onDeleteClick}><AiFillDelete /></span>
@@ -87,6 +91,7 @@ const SelectReportMenu = (props) => {
                         <ReportBlock
                             name={el.name}
                             reportId={el.reportId}
+                            reportStatus={el.processingStatus}
                             updateReportName={props.updateReportName}
                             deleteReport={props.deleteReport}
                             fetchReportDetails={props.fetchReportDetails}

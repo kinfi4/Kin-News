@@ -5,7 +5,7 @@
     background-color: #15202b;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
 
     position: fixed;

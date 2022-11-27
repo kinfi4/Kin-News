@@ -10,7 +10,6 @@ function Header(props) {
     return (
         <>
             <header className={headerCss.header}>
-                <img className={headerCss.logo} src={logo} alt="Kin-News logo"/>
                 <nav>
                     <h3><NavLink to={'/tape'}>TAPE</NavLink></h3>
                     <h3><NavLink to={'/statistics'}>STATISTICS</NavLink></h3>
