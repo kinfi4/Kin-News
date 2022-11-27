@@ -9,6 +9,7 @@ from api.views import (
     ChannelUnsubscribeView,
     HealthCheckView,
     MessagesView,
+    ChannelExistsView,
 )
 
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path('channels/<str:channel>', ChannelUnsubscribeView.as_view()),
     path('healthcheck', HealthCheckView.as_view()),
     path('messages', MessagesView.as_view()),
+    path('channels/exists/<str:channel>', ChannelExistsView.as_view()),
 ]

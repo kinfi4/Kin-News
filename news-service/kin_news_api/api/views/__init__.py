@@ -1,5 +1,5 @@
 from .user import UserView, LoginView, RegisterView
-from .channels import ChannelListView, ChannelUnsubscribeView
+from .channels import ChannelListView, ChannelUnsubscribeView, ChannelExistsView
 from .ratings import ChannelRateView
 from .healthcheck import HealthCheckView
 from .messages import MessagesView

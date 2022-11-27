@@ -55,6 +55,14 @@ class ChannelService:
 
         return channels
 
+    def channel_exists(self, channel_post_entity: ChannelPostEntity) -> bool:
+        try:
+            self._telegram_client.get_channel(channel_link=channel_post_entity.link)
+        except InvalidChannelURLError:
+            return False
+
+        return True
+
     def _get_channel_entity(self, channel_link: str) -> ChannelGetEntity:
         channel_entity = self._cache_client.get_channel_info(channel_link)
 
