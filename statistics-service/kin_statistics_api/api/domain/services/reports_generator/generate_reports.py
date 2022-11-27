@@ -136,6 +136,10 @@ class GeneratingReportsService(IGeneratingReportsService):
 
                 report_data['messages_count_by_date_by_sentiment_type'][message_date_str][message_sentiment_category] += 1
 
+        report_data['messages_count_by_date_by_sentiment_type'] = self._reverse_dict_keys(report_data['messages_count_by_date_by_sentiment_type'])
+        report_data['messages_count_by_date_by_category'] = self._reverse_dict_keys(report_data['messages_count_by_date_by_category'])
+        report_data['messages_count_by_date'] = self._reverse_dict_keys(report_data['messages_count_by_date'])
+
         return report_data
 
     @staticmethod
@@ -145,6 +149,14 @@ class GeneratingReportsService(IGeneratingReportsService):
             month=dt.month,
             day=dt.day + int(end_of_day),
         )
+
+    @staticmethod
+    def _reverse_dict_keys(dct: dict[str, Any]) -> dict[str, Any]:
+        dct_reverted_keys = list(dct.keys())[::-1]
+
+        return {
+            key: dct[key] for key in dct_reverted_keys
+        }
 
     @staticmethod
     def _initialize_report_date_dict(generate_entity: GenerateReportEntity) -> dict[Union[str, MessageCategories], Any]:
