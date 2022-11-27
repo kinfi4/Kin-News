@@ -66,5 +66,9 @@ class ReportPutEntity(BaseModel):
 
 
 class ReportIdentificationEntity(BaseModel):
+    processing_status: ReportProcessingResult = Field(ReportProcessingResult.READY, alias='processingStatus')
     report_id: int = Field(..., alias='reportId')
     name: str
+
+    class Config:
+        allow_population_by_field_name = True

@@ -60,6 +60,7 @@ class ReportsMongoRepository(IReportRepository):
         return ReportIdentificationEntity(
             report_id=dict_report['report_id'],
             name=dict_report['name'],
+            processing_status=dict_report['processing_status'],
         )
 
     @staticmethod

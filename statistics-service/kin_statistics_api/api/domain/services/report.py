@@ -18,7 +18,7 @@ class ManagingReportsService:
         self._reports_repository = reports_repository
         self._logger = logging.getLogger(self.__class__.__name__)
 
-    def get_user_repository_names(self, user: User) -> list[ReportIdentificationEntity]:
+    def get_user_reports_names(self, user: User) -> list[ReportIdentificationEntity]:
         user_reports_ids = self._access_management_repository.get_user_report_ids(user.id)
         self._logger.info(f'[ManagingReportsService] got user_reports for user: {user.username}')
 

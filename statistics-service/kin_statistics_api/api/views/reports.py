@@ -29,7 +29,7 @@ class ReportsListView(APIView):
         request: Request,
         reports_service: ManagingReportsService = Provide[Container.services.managing_reports_service],
     ) -> Response:
-        report_identities = reports_service.get_user_repository_names(request.user)
+        report_identities = reports_service.get_user_reports_names(request.user)
 
         return Response(
             data={'reports': [report.dict(by_alias=True) for report in report_identities]}

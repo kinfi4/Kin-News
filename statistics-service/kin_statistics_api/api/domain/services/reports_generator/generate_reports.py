@@ -77,7 +77,7 @@ class GeneratingReportsService(IGeneratingReportsService):
         for channel in generate_entity.channel_list:
             telegram_messages = self._telegram.fetch_posts_from_channel(
                 channel_name=channel,
-                offset_date=self._datetime_from_date(generate_entity.end_date),
+                offset_date=self._datetime_from_date(generate_entity.end_date, end_of_day=True),
                 earliest_date=self._datetime_from_date(generate_entity.start_date),
                 skip_messages_without_text=True,
             )
@@ -128,11 +128,11 @@ class GeneratingReportsService(IGeneratingReportsService):
         return report_data
 
     @staticmethod
-    def _datetime_from_date(dt: date) -> datetime:
+    def _datetime_from_date(dt: date, end_of_day: bool = False) -> datetime:
         return datetime(
             year=dt.year,
             month=dt.month,
-            day=dt.day,
+            day=dt.day + int(end_of_day),
         )
 
     @staticmethod
