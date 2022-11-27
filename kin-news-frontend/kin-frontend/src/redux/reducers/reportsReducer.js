@@ -67,6 +67,8 @@ export let generateReport = (startDate, endDate, channels) => (dispatch) => {
     const startDateString = translateDateToString(startDate);
     const endDateString = translateDateToString(endDate);
 
+    console.log(`Sending generate report request for dates: ${startDateString} : ${endDateString}`)
+
     const body = {
         startDate: startDateString,
         endDate: endDateString,

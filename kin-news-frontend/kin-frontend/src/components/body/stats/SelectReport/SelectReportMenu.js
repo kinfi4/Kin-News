@@ -15,7 +15,7 @@ import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
 import TapeCss from "../../tape/Tape.module.css";
 import Input from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
-import {REPORT_STATUS_POSTPONED} from "../../../../config";
+import {REPORT_STATUS_POSTPONED, REPORT_STATUS_PROCESSING} from "../../../../config";
 
 
 const EditReport = (props) => {
@@ -62,7 +62,8 @@ const ReportBlock = (props) => {
         <div
             className={
                 `${selectReportMenuCss.reportBlock} 
-                 ${props.reportStatus === REPORT_STATUS_POSTPONED ? selectReportMenuCss.postponed : ""}`
+                 ${props.reportStatus === REPORT_STATUS_POSTPONED ? selectReportMenuCss.postponed : ""}
+                 ${props.reportStatus === REPORT_STATUS_PROCESSING ? selectReportMenuCss.processing : ""}`
             }
             onClick={() => props.fetchReportDetails(props.reportId)}
         >

@@ -31,3 +31,6 @@
 .postponed span:first-line{
     color: #c43535 !important;
 }
+.processing span:first-line{
+    color: #474ece !important;
+}

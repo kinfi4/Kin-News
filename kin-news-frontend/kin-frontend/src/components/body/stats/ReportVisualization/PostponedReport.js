@@ -5,7 +5,7 @@ import processingImageFailedIcon from "../../../../images/processing-failed-icon
 const PostponedReport = (props) => {
     return (
         <div className={reportsVisualizationCss.postponedContainer}>
-            <h1>REPORT: {props.report.name}</h1>
+            <h1>{props.report.name}</h1>
             <div>
                 <img src={processingImageFailedIcon} alt="Processing Failed"/>
                 <div>

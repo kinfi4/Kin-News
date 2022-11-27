@@ -19,3 +19,10 @@
     color: #f7fdff!important;
     background-color: #15202B;
 }
+.rdrCalendarWrapper {
+    box-shadow: 5px 5px 20px #7b6991;
+    transition: linear 0.1s;
+}
+.rdrCalendarWrapper:hover {
+    box-shadow: 5px 5px 20px #ad71ff;
+}

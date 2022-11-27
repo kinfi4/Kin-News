@@ -31,7 +31,6 @@ const GenerateReportMenu = (props) => {
 
             <div className={statsCss.generateReportForm}>
                 <DateRangePicker
-                    className={"bg-dark"}
                     rangeColors={["#2CA884"]}
                     ranges={[{
                         startDate: data.startDate,

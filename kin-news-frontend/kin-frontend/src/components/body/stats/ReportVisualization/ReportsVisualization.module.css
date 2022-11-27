@@ -27,3 +27,31 @@
 
     font-size: 35px;
 }
+.visualizationContainer {
+    padding: 100px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 20px
+}
+.visualizationContainer h1 {
+    position: absolute;
+    top: 120px;
+    left: 32%;
+
+    font-weight: bold;
+    color: #f7fdff;
+
+    font-size: 35px;
+}
+.chartContainer {
+    padding: 20px;
+    border: solid black 1px;
+    box-shadow: 2px 3px 5px black;
+}
+.chartContainer h2 {
+    color: #f7fdff;
+    margin-bottom: 30px;
+}
