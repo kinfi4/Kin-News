@@ -1,0 +1,16 @@
+.postponedContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 100px 200px;
+
+    color: #f7fdff;
+    font-weight: bold;
+
+    text-align: center;
+}
+.postponedContainer img {
+    margin-bottom: 30px;
+}

@@ -10,3 +10,21 @@
 .controls div {
     margin: 0 5px;
 }
+.statsContainer {
+    min-height: 100vh;
+    height: fit-content;
+
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+
+    padding-top: 130px;
+    padding-bottom: 200px;
+    margin-left: 30%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+}

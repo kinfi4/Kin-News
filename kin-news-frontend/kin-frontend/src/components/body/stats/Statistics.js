@@ -1,4 +1,5 @@
 import mainPageCss from "../MainPage.module.css";
+import statisticsCss from "./Statistics.module.css"
 import React from "react";
 
 import 'react-date-range/dist/styles.css'; // main style file
@@ -25,7 +26,7 @@ const Statistics = (props) => {
                         </Switch>
                     </div>
                 </div>
-                <div className={'statisticsCss.tape'}>
+                <div className={statisticsCss.statsContainer}>
                     <ReportVisualization />
                 </div>
             </div>

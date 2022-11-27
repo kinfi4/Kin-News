@@ -81,7 +81,7 @@ class ReportsSingleView(APIView):
         except ReportAccessForbidden:
             return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
 
-        return Response(data=report.dict())
+        return Response(data=report.dict(by_alias=True))
 
     @inject
     def put(
@@ -98,7 +98,7 @@ class ReportsSingleView(APIView):
         except ReportAccessForbidden:
             return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
 
-        return Response(data=report_identity.dict())
+        return Response(data=report_identity.dict(by_alias=True))
 
     @inject
     def delete(

@@ -123,6 +123,9 @@ export let setChannelsListForGeneration = (channels) => (dispatch) => {
 
 export let reportsReducer = (state=initialState, action) => {
     switch (action.type){
+        case REPORT_DETAILS_LOADED:
+            console.log(action.detailedReport)
+            return {...state, detailedReport: action.detailedReport}
         case SET_CHANNELS:
             return {...state, channelListForGeneration: action.channels}
         case REPORTS_LOADED:

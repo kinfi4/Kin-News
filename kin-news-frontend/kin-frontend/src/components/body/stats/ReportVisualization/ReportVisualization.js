@@ -1,16 +1,19 @@
 import React from 'react';
 import {connect} from "react-redux";
+import {REPORT_STATUS_POSTPONED} from "../../../../config";
+import PostponedReport from "./PostponedReport";
+import SuccessReport from "./SuccessReport";
 
 const ReportVisualization = (props) => {
-    if(props.report === null) {
+    if(props.report === null || props.report === undefined) {
         return <div></div>
     }
 
-    return (
-        <div>
+    if (props.report.processingStatus === REPORT_STATUS_POSTPONED) {
+        return <PostponedReport report={props.report} />
+    }
 
-        </div>
-    );
+    return <SuccessReport report={props.report} />;
 };
 
 let mapStateToProps = (state) => {

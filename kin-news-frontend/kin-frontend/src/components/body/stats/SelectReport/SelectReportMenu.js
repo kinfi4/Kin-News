@@ -25,7 +25,7 @@ const EditReport = (props) => {
         <div className={TapeCss.enterLinkContainer}>
             <h2 style={{marginBottom: "40px"}}>ENTER NEW NAME</h2>
             <Input
-                value={data.reportName ? data.reportName : "REPORT ERROR"}
+                value={data.reportName}
                 onChange={(event) => setData({reportName: event.target.value})}
                 placeholder={"Report Name"}
             />
