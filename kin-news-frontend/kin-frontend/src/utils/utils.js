@@ -6,3 +6,7 @@ export function truncate(str, n){
 export function translateDateToString(date) {
     return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 }
+
+export function shuffle(array) {
+    return array.sort(() => 0.5 - Math.random());
+}

@@ -14,10 +14,17 @@ import {
     Pie,
     AreaChart,
     Area,
+    Cell,
 } from "recharts";
-import {getMessagesCountByDateByCategory, transformObjectToArray} from "./helpers/DataTransformers";
+import {
+    generateColorsList,
+    makePercentage,
+    renderCustomizedLabel,
+    renderTooltipContent,
+    toPercent,
+    transformObjectToArray
+} from "./helpers/DataTransformers";
 import visualizationCss from "./ReportsVisualization.module.css"
-import {ECONOMICAL_CATEGORY, HUMANITARIAN_CATEGORY, POLITICAL_CATEGORY, SHELLING_CATEGORY} from "../../../../config";
 
 const SuccessReport = (props) => {
     const messagesByHourCount = transformObjectToArray(props.report.messagesCountByDayHour, "hour", "messagesCount");
@@ -26,6 +33,10 @@ const SuccessReport = (props) => {
     const messagesCountBySentimentType = transformObjectToArray(props.report.messagesCountBySentimentType, "sentiment", "messagesCount");
     const messagesCountByDate = transformObjectToArray(props.report.messagesCountByDate, "date", "messagesCount");
     const messagesCountByDateByCategory = transformObjectToArray(props.report.messagesCountByDateByCategory, "date", "categories");
+    const messagesCountByDateBySentimentType = transformObjectToArray(props.report.messagesCountByDateBySentimentType, "date", "sentiment");
+    const messagesCountByChannelBySentimentType = transformObjectToArray(props.report.messagesCountByChannelBySentimentType, "channel", "sentiment");
+
+    console.log(messagesCountByChannelBySentimentType)
 
     return (
         <div className={visualizationCss.visualizationContainer}>
@@ -97,6 +108,106 @@ const SuccessReport = (props) => {
                 </LineChart>
             </div>
 
+            <div className={visualizationCss.chartContainer}>
+                <h2>Sentiment distribution by channels</h2>
+
+                <BarChart
+                    width={850}
+                    height={400}
+                    data={messagesCountByChannelBySentimentType}
+                    stackOffset="expand"
+                >
+                    <XAxis dataKey="channel" />
+                    <YAxis tickFormatter={toPercent} />
+                    <Tooltip />
+                    <Legend />
+                        <Bar dataKey="sentiment.negative" name="Negative" fill="#dc4444" type="monotone" stackId="1" />
+                        <Bar dataKey="sentiment.positive" name="Positive" fill="#79FAC5" type="monotone" stackId="1" />
+                        <Bar dataKey="sentiment.neutral" name="Neutral" fill="#BA97B4" type="monotone" stackId="1" />
+                </BarChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer}>
+                <h2>Sentiment Distribution</h2>
+
+                <PieChart width={300} height={400}>
+                    <Pie
+                        data={messagesCountBySentimentType}
+                        labelLine={false}
+                        outerRadius={150}
+                        dataKey="messagesCount"
+                    >
+
+                        {
+                            messagesCountBySentimentType.map((entry, index) => {
+                                return <Cell fill={["#00C6B5", "#F9F871", "#90cf95"][index]} name={entry.sentiment} />
+                            })
+                        }
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                </PieChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer}>
+                <h2>Dependence sentiment color by date</h2>
+
+                <AreaChart
+                    width={1210}
+                    height={400}
+                    data={messagesCountByDateBySentimentType}
+                    stackOffset="expand"
+                >
+
+                    <XAxis dataKey="date" />
+                    <YAxis tickFormatter={toPercent} />
+                    <Legend />
+                    <Tooltip content={renderTooltipContent} />
+                    <Area type="monotone" dataKey="sentiment.positive" stackId="1" stroke="#8884d8" fill="#8884d8" name={"Positive"} />
+                    <Area type="monotone" dataKey="sentiment.negative" stackId="1" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
+                    <Area type="monotone" dataKey="sentiment.neutral" stackId="1" stroke="#ffc658" fill="#ffc658" name={"Neutral"} />
+                </AreaChart>
+            </div>
+            <div className={visualizationCss.chartContainer}>
+                <h2>Negative news during time</h2>
+
+                <AreaChart
+                    width={1210}
+                    height={400}
+                    data={messagesCountByDateBySentimentType}
+                    stackOffset="expand"
+                >
+
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="sentiment.negative" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
+                </AreaChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer}>
+                <h2>News Categories</h2>
+
+                <PieChart width={550} height={400}>
+                    <Pie
+                        data={messagesCountByCategory}
+                        labelLine={false}
+                        outerRadius={160}
+                        dataKey="messagesCount"
+                        fill={"#8884d8"}
+                    >
+
+                        {
+                            messagesCountByCategory.map((entry, index) => {
+                                return <Cell fill={["#2CA884", "#F9F871", "#90AECF", "#EDB7D1"][index]} name={entry.category} />
+                            })
+                        }
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                </PieChart>
+            </div>
 
         </div>
     );

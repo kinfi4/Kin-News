@@ -3,6 +3,7 @@ amqp==5.1.1
 asgiref==3.5.2
 astunparse==1.6.3
 async-timeout==4.0.2
+attrs==22.1.0
 billiard==3.6.4.0
 cachetools==5.2.0
 celery==5.2.7
@@ -23,6 +24,8 @@ djangorestframework==3.14.0
 dnspython==2.2.1
 docopt==0.6.2
 drf-yasg==1.21.4
+exceptiongroup==1.0.4
+Faker==15.3.3
 flatbuffers==22.10.26
 gast==0.4.0
 google-auth==2.14.1
@@ -33,6 +36,7 @@ h5py==3.7.0
 idna==3.4
 importlib-metadata==5.0.0
 inflection==0.5.1
+iniconfig==1.1.1
 itypes==1.2.0
 Jinja2==3.1.2
 joblib==1.2.0
@@ -49,6 +53,7 @@ oauthlib==3.2.2
 opt-einsum==3.3.0
 packaging==21.3
 pandas==1.5.1
+pluggy==1.0.0
 prompt-toolkit==3.0.32
 protobuf==3.19.6
 psycopg2-binary==2.9.4
@@ -61,6 +66,7 @@ pymongo==4.3.2
 pymorphy2==0.9.1
 pymorphy2-dicts-ru==2.4.417127.4579844
 pyparsing==3.0.9
+pytest==7.2.0
 python-dateutil==2.8.2
 pytz==2022.4
 redis==4.3.4
@@ -84,6 +90,7 @@ tensorflow-estimator==2.10.0
 tensorflow-io-gcs-filesystem==0.27.0
 termcolor==2.1.0
 threadpoolctl==3.1.0
+tomli==2.0.1
 tqdm==4.64.1
 typing_extensions==4.4.0
 uritemplate==4.1.1

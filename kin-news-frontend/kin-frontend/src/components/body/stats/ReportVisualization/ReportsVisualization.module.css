@@ -50,6 +50,11 @@
     padding: 20px;
     border: solid black 1px;
     box-shadow: 2px 3px 5px black;
+
+    transition: linear 0.2s;
+}
+.chartContainer:hover {
+    box-shadow: 2px 3px 5px #ba88ff;
 }
 .chartContainer h2 {
     color: #f7fdff;

@@ -1,5 +1,7 @@
 .reportsList {
-    height: 90%;
+    max-height: 600px;
+    overflow: auto;
+    padding-bottom: 50px;
 }
 .reportBlock{
     height: fit-content;

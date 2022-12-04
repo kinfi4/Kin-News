@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  test-statistics-api:
+    build:
+      context: .
+      dockerfile: ./etc/kin-stats/Dockerfile
+    image: 'kin-statistics-api'
+    container_name: 'kin-statistics-api-test'
+    env_file:
+      - ./etc/kin-stats/env/.test.env
+    volumes:
+      - ./kin_statistics_api/api:/app/api
+      - ./kin_statistics_api/config:/app/config
+      - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core

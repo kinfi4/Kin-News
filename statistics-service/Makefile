@@ -6,3 +6,6 @@ run-silent:
 
 run:
 	docker-compose up
+
+unit-tests:
+	docker-compose -f docker-compose.test.yaml run test-statistics-api pytest api.tests
