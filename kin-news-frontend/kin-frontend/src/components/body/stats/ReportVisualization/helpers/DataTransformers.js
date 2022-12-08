@@ -83,3 +83,14 @@ export const makePercentage = (data) => {
 
     return data;
 }
+
+export const getDataPercentage = (data, key, targetKey, targetCategory) => {
+    return data.map(el => {
+        const sum = sumValues(el[targetKey]);
+
+        let res = {}
+        res[key] = el[key]
+        res[targetCategory] = (el[targetKey][targetCategory] / sum).toFixed(2)
+        return res
+    })
+}

@@ -4,7 +4,8 @@ export function truncate(str, n){
 
 
 export function translateDateToString(date) {
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    console.log(date.getMonth() + 1)
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 }
 
 export function shuffle(array) {

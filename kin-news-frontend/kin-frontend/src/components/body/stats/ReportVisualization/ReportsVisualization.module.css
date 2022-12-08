@@ -60,3 +60,18 @@
     color: #f7fdff;
     margin-bottom: 30px;
 }
+.categoriesCounters div {
+    margin-left: 30px;
+    color: #f7fdff;
+    border-left: 2px solid;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    font-size: 20px;
+
+    box-shadow: -22px 0 10px -10px #ffffff;
+
+    transition: linear 0.1s;
+}
+.categoriesCounters div:hover {
+    box-shadow: -22px 0 10px -10px #582a91;
+}

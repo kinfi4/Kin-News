@@ -17,7 +17,7 @@ import {
     Cell,
 } from "recharts";
 import {
-    generateColorsList,
+    generateColorsList, getDataPercentage,
     makePercentage,
     renderCustomizedLabel,
     renderTooltipContent,
@@ -35,8 +35,9 @@ const SuccessReport = (props) => {
     const messagesCountByDateByCategory = transformObjectToArray(props.report.messagesCountByDateByCategory, "date", "categories");
     const messagesCountByDateBySentimentType = transformObjectToArray(props.report.messagesCountByDateBySentimentType, "date", "sentiment");
     const messagesCountByChannelBySentimentType = transformObjectToArray(props.report.messagesCountByChannelBySentimentType, "channel", "sentiment");
+    const messagesCountByChannelByCategory = transformObjectToArray(props.report.messagesCountByChannelByCategory, "channel", "category");
 
-    console.log(messagesCountByChannelBySentimentType)
+    console.log(messagesCountByDateByCategory)
 
     return (
         <div className={visualizationCss.visualizationContainer}>
@@ -89,25 +90,6 @@ const SuccessReport = (props) => {
                     <Area type="monotone" dataKey="messagesCount" stroke="#8884d8" fill="#8884d8" />
                 </AreaChart>
             </div>
-            <div className={visualizationCss.chartContainer}>
-                <h2>Dependence of news number on dates by categories</h2>
-
-                <LineChart
-                    width={1210}
-                    height={300}
-                    data={messagesCountByDateByCategory}
-                >
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey={"categories.Shelling"} stroke="#DD261B" name={"Shelling"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Political"} stroke="#009BF9" name={"Political"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Humanitarian"} stroke="#F9F871" name={"Humanitarian"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Economical"} stroke="#25B382" name={"Economical"} dot={false} />
-                </LineChart>
-            </div>
-
             <div className={visualizationCss.chartContainer}>
                 <h2>Sentiment distribution by channels</h2>
 
@@ -175,7 +157,6 @@ const SuccessReport = (props) => {
                     width={1210}
                     height={400}
                     data={messagesCountByDateBySentimentType}
-                    stackOffset="expand"
                 >
 
                     <XAxis dataKey="date" />
@@ -185,9 +166,61 @@ const SuccessReport = (props) => {
                     <Area type="monotone" dataKey="sentiment.negative" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
                 </AreaChart>
             </div>
-
             <div className={visualizationCss.chartContainer}>
+                <h2>Negative news percentage during time</h2>
+
+                <AreaChart
+                    width={1210}
+                    height={400}
+                    data={getDataPercentage(messagesCountByDateBySentimentType, "date", "sentiment", "negative")}
+                >
+
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="negative" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
+                </AreaChart>
+            </div>
+            <div className={visualizationCss.chartContainer}>
+                <h2>Message categories distribution by channels</h2>
+
+                <BarChart
+                    width={590}
+                    height={700}
+                    data={messagesCountByChannelByCategory}
+                    stackOffset="expand"
+                    layout="vertical"
+                >
+                    <XAxis type="number" />
+                    <YAxis dataKey="channel" type="category" />
+                    <Tooltip />
+                    <Legend />
+
+                    <Bar dataKey="category.Shelling" name="Shelling" fill="#dc4444" stackId={'a'} />
+                    <Bar dataKey="category.Political" name="Political" fill="#79FAC5" stackId={'a'}/>
+                    <Bar dataKey="category.Humanitarian" name="Humanitarian" fill="#7db244" stackId={'a'} />
+                    <Bar dataKey="category.Economical" name="Economical" fill="#4499b2" stackId={'a'} />
+                </BarChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer} style={{height: "775px"}}>
                 <h2>News Categories</h2>
+
+                <div className={visualizationCss.categoriesCounters}>
+                    <div>
+                        Shelling news total:  {props.report.messagesCountByCategory.Shelling}
+                    </div>
+                    <div>
+                        Political news total:  {props.report.messagesCountByCategory.Political}
+                    </div>
+                    <div>
+                        Economical news total:  {props.report.messagesCountByCategory.Economical}
+                    </div>
+                    <div>
+                        Humanitarian news total:  {props.report.messagesCountByCategory.Humanitarian}
+                    </div>
+                </div>
 
                 <PieChart width={550} height={400}>
                     <Pie
@@ -207,6 +240,58 @@ const SuccessReport = (props) => {
                     <Tooltip />
                     <Legend />
                 </PieChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer}>
+                <h2>Dependence of news number on dates by categories</h2>
+
+                <LineChart
+                    width={1210}
+                    height={400}
+                    data={messagesCountByDateByCategory}
+                >
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey={"categories.Shelling"} stroke="#DD261B" name={"Shelling"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Political"} stroke="#009BF9" name={"Political"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Humanitarian"} stroke="#F9F871" name={"Humanitarian"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Economical"} stroke="#25B382" name={"Economical"} dot={false} />
+                </LineChart>
+            </div>
+
+            <div className={visualizationCss.chartContainer}>
+                <h2>Shelling news during time</h2>
+
+                <AreaChart
+                    width={1210}
+                    height={400}
+                    data={messagesCountByDateByCategory}
+                >
+
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="categories.Shelling" stroke="#D0261B" fill="#DD261B" name={"Shelling"} />
+                </AreaChart>
+            </div>
+            <div className={visualizationCss.chartContainer}>
+                <h2>Shelling news percentage during time</h2>
+
+                <AreaChart
+                    width={1210}
+                    height={400}
+                    data={getDataPercentage(messagesCountByDateByCategory, "date", "categories", "Shelling")}
+                >
+
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="Shelling" stroke="#D0261B" fill="#DD261B" name={"Shelling"} />
+                </AreaChart>
             </div>
 
         </div>
