@@ -15,3 +15,7 @@ class ImpossibleToModifyProcessingReport(KinNewsCoreException):
 
 class ReportNotFound(KinNewsCoreException):
     pass
+
+
+class ReportDataNotFound(KinNewsCoreException):
+    pass

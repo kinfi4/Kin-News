@@ -8,7 +8,14 @@ from api.infrastructure.repositories import (
     ReportsAccessManagementRepository,
     UserRepository,
 )
-from api.domain.services import ManagingReportsService, IGeneratingReportsService, GeneratingReportsService, UserService
+from api.domain.services import (
+    ManagingReportsService,
+    IGeneratingReportsService,
+    GeneratingReportsService,
+    UserService,
+    file_generator_user_case,
+    IReportFileGenerator,
+)
 from kin_news_core.telegram import TelegramClientProxy
 
 
@@ -102,11 +109,20 @@ class Services(containers.DeclarativeContainer):
         reports_repository=repositories.reports_repository,
         report_access_repository=repositories.reports_access_management_repository,
         predictor=predicting.predictor,
+        reports_folder_path=config.USER_REPORTS_FOLDER_PATH,
     )
 
     user_service: providers.Singleton[UserService] = providers.Singleton(
         UserService,
         access_repository=repositories.user_repository,
+    )
+
+
+class UseCases(containers.DeclarativeContainer):
+    config = providers.Configuration()
+
+    report_data_use_case: providers.Callable[..., IReportFileGenerator] = providers.Callable(
+        lambda: file_generator_user_case,
     )
 
 
@@ -125,6 +141,11 @@ class Container(containers.DeclarativeContainer):
 
     clients: providers.Container[Clients] = providers.Container(
         Clients,
+        config=config,
+    )
+
+    use_cases: providers.Container[UseCases] = providers.Container(
+        UseCases,
         config=config,
     )
 

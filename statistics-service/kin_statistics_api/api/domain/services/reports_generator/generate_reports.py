@@ -1,3 +1,5 @@
+import os
+import csv
 import logging
 from datetime import datetime, date
 from typing import Union, Any
@@ -18,12 +20,16 @@ class GeneratingReportsService(IGeneratingReportsService):
         reports_repository: IReportRepository,
         report_access_repository: ReportsAccessManagementRepository,
         predictor: Predictor,
+        reports_folder_path: str,
     ) -> None:
         self._logger = logging.getLogger(self.__class__.__name__)
         self._telegram = telegram_client
         self._reports_repository = reports_repository
         self._access_repository = report_access_repository
         self._predictor = predictor
+        self._reports_folder_path = reports_folder_path
+
+        self._csv_writer = None
 
     def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> None:
         self._logger.info(f'[GeneratingReportsService] Starting generating report for user: {user_id}')
@@ -33,6 +39,10 @@ class GeneratingReportsService(IGeneratingReportsService):
 
         empty_report = self._build_empty_report(report_id)
         self._reports_repository.save_user_report(empty_report)
+
+        user_report_file = open(os.path.join(self._reports_folder_path, f'{report_id}.csv'), 'w')
+        self._csv_writer = csv.writer(user_report_file)
+        self._csv_writer.writerow(['date', 'channel', 'hour', 'text', 'sentiment', 'category'])
 
         try:
             report_entity = self._build_report_entity(report_id, generate_report_entity)
@@ -46,6 +56,7 @@ class GeneratingReportsService(IGeneratingReportsService):
             postponed_report = self._build_processing_failed_entity(report_id, error)
             self._reports_repository.save_user_report(postponed_report)
         finally:
+            user_report_file.close()
             self._access_repository.set_user_is_generating_report(user_id, is_generating=False)
 
     def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> ReportGetEntity:
@@ -106,6 +117,15 @@ class GeneratingReportsService(IGeneratingReportsService):
                     news_type=message_category,
                     make_preprocessing=True,
                 )
+
+                self._csv_writer.writerow([
+                    message_date_str,
+                    channel,
+                    message_hour,
+                    message.text,
+                    message_sentiment_category,
+                    message_category,
+                ])
 
                 report_data['total_messages'] += 1
                 report_data['messages_count_by_channel'][channel] += 1
