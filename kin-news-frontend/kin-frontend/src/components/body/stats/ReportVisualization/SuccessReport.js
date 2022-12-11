@@ -26,6 +26,7 @@ import {capitalizeFirstLetter, downloadFile} from "../../../../utils/utils";
 import FilteringBlock from "./helpers/FilteringBlock";
 import {FaFileCsv} from "react-icons/fa";
 import {VscJson} from "react-icons/vsc";
+import {getColor} from "./helpers/Colors";
 
 
 const SuccessReport = (props) => {
@@ -95,7 +96,7 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="messagesCount" fill="#5C5972" name={"Number of messages"} />
+                    <Bar dataKey="messagesCount" fill={getColor("count")} name={"Number of messages"} />
                 </BarChart>
             </div>
 
@@ -110,7 +111,7 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="messagesCount" fill="#BA97B4" name={"Number of messages"} />
+                    <Bar dataKey="messagesCount" fill={getColor("count")} name={"Number of messages"} />
                 </BarChart>
             </div>
 
@@ -127,7 +128,7 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="messagesCount" stroke="#8884d8" fill="#8884d8" />
+                    <Area type="monotone" dataKey="messagesCount" stroke={"#fff"} fill={getColor("count")} name={"Number of messages"} />
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
@@ -143,9 +144,9 @@ const SuccessReport = (props) => {
                     <YAxis tickFormatter={toPercent} />
                     <Tooltip />
                     <Legend />
-                        <Bar dataKey="sentiment.negative" name="Negative" fill="#dc4444" type="monotone" stackId="1" />
-                        <Bar dataKey="sentiment.positive" name="Positive" fill="#79FAC5" type="monotone" stackId="1" />
-                        <Bar dataKey="sentiment.neutral" name="Neutral" fill="#BA97B4" type="monotone" stackId="1" />
+                        <Bar dataKey="sentiment.negative" name="Negative" fill={getColor("negative")} type="monotone" stackId="1" />
+                        <Bar dataKey="sentiment.positive" name="Positive" fill={getColor("Positive")} type="monotone" stackId="1" />
+                        <Bar dataKey="sentiment.neutral" name="Neutral" fill={getColor("Neutral")} type="monotone" stackId="1" />
                 </BarChart>
             </div>
 
@@ -162,7 +163,8 @@ const SuccessReport = (props) => {
 
                         {
                             messagesCountBySentimentType.map((entry, index) => {
-                                return <Cell fill={["#00C6B5", "#F9F871", "#90cf95"][index]} name={entry.sentiment} />
+                                console.log(entry.sentiment)
+                                return <Cell fill={getColor(entry.sentiment)} name={entry.sentiment} />
                             })
                         }
                     </Pie>
@@ -185,9 +187,9 @@ const SuccessReport = (props) => {
                     <YAxis tickFormatter={toPercent} />
                     <Legend />
                     <Tooltip content={renderTooltipContent} />
-                    <Area type="monotone" dataKey="sentiment.positive" stackId="1" stroke="#8884d8" fill="#8884d8" name={"Positive"} />
-                    <Area type="monotone" dataKey="sentiment.negative" stackId="1" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
-                    <Area type="monotone" dataKey="sentiment.neutral" stackId="1" stroke="#ffc658" fill="#ffc658" name={"Neutral"} />
+                    <Area type="monotone" dataKey="sentiment.positive" stackId="1" stroke={getColor("Positive")} fill={getColor("Positive")} name={"Positive"} />
+                    <Area type="monotone" dataKey="sentiment.negative" stackId="1" stroke={getColor("Negative")} fill={getColor("Negative")} name={"Negative"} />
+                    <Area type="monotone" dataKey="sentiment.neutral" stackId="1" stroke={getColor("Neutral")} fill={getColor("Neutral")} name={"Neutral"} />
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
@@ -214,8 +216,8 @@ const SuccessReport = (props) => {
                     <Area
                         type="monotone"
                         dataKey={`sentiment.${filteringState.currentSentiment}`}
-                        stroke="#82ca9d"
-                        fill="#82ca9d"
+                        stroke={getColor(filteringState.currentSentiment)}
+                        fill={getColor(filteringState.currentSentiment)}
                         name={capitalizeFirstLetter(filteringState.currentSentiment)}
                     />
                 </AreaChart>
@@ -236,8 +238,8 @@ const SuccessReport = (props) => {
                     <Area
                         type="monotone"
                         dataKey={filteringState.currentSentiment}
-                        stroke="#82ca9d"
-                        fill="#82ca9d"
+                        stroke={getColor(filteringState.currentSentiment)}
+                        fill={getColor(filteringState.currentSentiment)}
                         name={capitalizeFirstLetter(filteringState.currentSentiment)}
                     />
                 </AreaChart>
@@ -257,10 +259,10 @@ const SuccessReport = (props) => {
                     <Tooltip />
                     <Legend />
 
-                    <Bar dataKey="category.Shelling" name="Shelling" fill="#dc4444" stackId={'a'} />
-                    <Bar dataKey="category.Political" name="Political" fill="#79FAC5" stackId={'a'}/>
-                    <Bar dataKey="category.Humanitarian" name="Humanitarian" fill="#7db244" stackId={'a'} />
-                    <Bar dataKey="category.Economical" name="Economical" fill="#4499b2" stackId={'a'} />
+                    <Bar dataKey="category.Shelling" name="Shelling" fill={getColor("Shelling")} stackId={'a'} />
+                    <Bar dataKey="category.Political" name="Political" fill={getColor("Political")} stackId={'a'}/>
+                    <Bar dataKey="category.Humanitarian" name="Humanitarian" fill={getColor("Humanitarian")} stackId={'a'} />
+                    <Bar dataKey="category.Economical" name="Economical" fill={getColor("Economical")} stackId={'a'} />
                 </BarChart>
             </div>
 
@@ -288,12 +290,12 @@ const SuccessReport = (props) => {
                         labelLine={false}
                         outerRadius={160}
                         dataKey="messagesCount"
-                        fill={"#8884d8"}
+                        fill={getColor("count")}
                     >
 
                         {
                             messagesCountByCategory.map((entry, index) => {
-                                return <Cell fill={["#2CA884", "#F9F871", "#90AECF", "#EDB7D1"][index]} name={entry.category} />
+                                return <Cell fill={getColor(entry.category)} name={entry.category} />
                             })
                         }
                     </Pie>
@@ -314,10 +316,10 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey={"categories.Shelling"} stroke="#DD261B" name={"Shelling"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Political"} stroke="#009BF9" name={"Political"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Humanitarian"} stroke="#F9F871" name={"Humanitarian"} dot={false} />
-                    <Line type="monotone" dataKey={"categories.Economical"} stroke="#25B382" name={"Economical"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Shelling"} stroke={getColor("shelling")} name={"Shelling"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Political"} stroke={getColor("Political")} name={"Political"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Humanitarian"} stroke={getColor("Humanitarian")} name={"Humanitarian"} dot={false} />
+                    <Line type="monotone" dataKey={"categories.Economical"} stroke={getColor("Economical")} name={"Economical"} dot={false} />
                 </LineChart>
             </div>
 
@@ -347,8 +349,8 @@ const SuccessReport = (props) => {
                     <Area
                         type="monotone"
                         dataKey={`categories.${filteringState.currentCategory}`}
-                        stroke="#D0261B"
-                        fill="#DD261B"
+                        stroke={getColor(filteringState.currentCategory)}
+                        fill={getColor(filteringState.currentCategory)}
                         name={filteringState.currentCategory}
                     />
                 </AreaChart>
@@ -369,8 +371,8 @@ const SuccessReport = (props) => {
                     <Area
                         type="monotone"
                         dataKey={filteringState.currentCategory}
-                        stroke="#D0261B"
-                        fill="#DD261B"
+                        stroke={getColor(filteringState.currentCategory)}
+                        fill={getColor(filteringState.currentCategory)}
                         name={filteringState.currentCategory}
                     />
                 </AreaChart>
