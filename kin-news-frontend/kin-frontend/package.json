@@ -11,6 +11,7 @@
     "react": "^18.2.0",
     "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-dropdown": "^1.11.0",
     "react-icons": "^4.6.0",
     "react-notifications": "^1.7.4",
     "react-notifications-component": "^4.0.1",

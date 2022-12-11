@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     BarChart,
     LineChart,
@@ -17,16 +17,44 @@ import {
     Cell,
 } from "recharts";
 import {
-    generateColorsList, getDataPercentage,
-    makePercentage,
-    renderCustomizedLabel,
+    getDataPercentage,
     renderTooltipContent,
     toPercent,
     transformObjectToArray
 } from "./helpers/DataTransformers";
 import visualizationCss from "./ReportsVisualization.module.css"
+import {STATISTICS_SERVICE_URL} from "../../../../config";
+import {showMessage} from "../../../../utils/messages";
+import {downloadFile} from "../../../../utils/utils";
+
 
 const SuccessReport = (props) => {
+    const [exportOptions, setExportOptions] = useState({activeExportOptions: false})
+    function renderExportOptions() {
+        if(exportOptions.activeExportOptions) {
+            return (
+                <div className={visualizationCss.exportOptions}>
+                    <div
+                        onClick={() => {
+                            downloadFile(STATISTICS_SERVICE_URL + `/api/v1/data/${props.report.reportId}?type=csv`, 'csv')
+                        }}
+                    >
+                        CSV
+                    </div>
+                    <div
+                        onClick={() => {
+                            downloadFile(STATISTICS_SERVICE_URL + `/api/v1/data/${props.report.reportId}?type=json`, 'json')
+                        }}
+                    >
+                        JSON
+                    </div>
+                </div>
+            )
+        }
+
+        return <></>
+    }
+
     const messagesByHourCount = transformObjectToArray(props.report.messagesCountByDayHour, "hour", "messagesCount");
     const messagesByChannelCount = transformObjectToArray(props.report.messagesCountByChannel, "channel", "messagesCount");
     const messagesCountByCategory = transformObjectToArray(props.report.messagesCountByCategory, "category", "messagesCount");
@@ -37,11 +65,20 @@ const SuccessReport = (props) => {
     const messagesCountByChannelBySentimentType = transformObjectToArray(props.report.messagesCountByChannelBySentimentType, "channel", "sentiment");
     const messagesCountByChannelByCategory = transformObjectToArray(props.report.messagesCountByChannelByCategory, "channel", "category");
 
-    console.log(messagesCountByDateByCategory)
-
     return (
         <div className={visualizationCss.visualizationContainer}>
-            <h1>{props.report.name}</h1>
+            <div className={visualizationCss.header}>
+                {props.report.name}
+                <div
+                    className={visualizationCss.exportButton}
+                    onMouseEnter={() => setExportOptions({activeExportOptions: true})}
+                    onMouseLeave={() => setExportOptions({activeExportOptions: false})}
+                >
+                    EXPORT
+
+                    {renderExportOptions()}
+                </div>
+            </div>
 
             <div className={visualizationCss.chartContainer}>
                 <h2>Number of messages distributed by hours</h2>

@@ -20,12 +20,60 @@
     margin-top: 100px;
     margin-bottom: 30px;
 }
-.postponedContainer h1 {
+.exportOptions {
+    /*background-color: rgb(45, 108, 89);*/
+    background-color: #1d2c3b;
+    border: solid white 1px;
     position: absolute;
-    top: 120px;
+    top: 57px;
+    right: 0;
+    width: 96.7%;
+
+    border-top: 4px solid #1d2c3b;
+}
+.exportOptions div {
+    margin: 10px;
+    padding: 10px;
+    border-bottom: 2px solid #f7fdff;
+
+    transition: linear 0.1s;
+
+    font-size: smaller;
+}
+.exportOptions div:last-child {
+    border-bottom: none;
+}
+.exportOptions div:hover {
+    color: #9167c7;
+}
+.header {
+    width: 62.6%;
+    position: absolute;
+    top: 125px;
     left: 32%;
 
     font-size: 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #f7fdff;
+    font-weight: bold;
+}
+.exportButton {
+    position: relative;
+    font-size: 22px;
+    background-color: #2CA884;
+    padding: 15px 20px;
+    border-radius: 2px;
+
+    transition: linear 0.2s;
+
+    cursor: pointer;
+}
+.exportButton:hover {
+    background-color: #269474;
 }
 .visualizationContainer {
     padding: 100px 100px;
