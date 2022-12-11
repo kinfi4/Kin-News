@@ -24,6 +24,8 @@ import visualizationCss from "./ReportsVisualization.module.css"
 import {STATISTICS_SERVICE_URL} from "../../../../config";
 import {capitalizeFirstLetter, downloadFile} from "../../../../utils/utils";
 import FilteringBlock from "./helpers/FilteringBlock";
+import {FaFileCsv} from "react-icons/fa";
+import {VscJson} from "react-icons/vsc";
 
 
 const SuccessReport = (props) => {
@@ -40,14 +42,14 @@ const SuccessReport = (props) => {
                             downloadFile(STATISTICS_SERVICE_URL + `/api/v1/data/${props.report.reportId}?type=csv`, 'csv')
                         }}
                     >
-                        CSV
+                       <FaFileCsv style={{marginRight: "5px"}}/> CSV
                     </div>
                     <div
                         onClick={() => {
                             downloadFile(STATISTICS_SERVICE_URL + `/api/v1/data/${props.report.reportId}?type=json`, 'json')
                         }}
                     >
-                        JSON
+                       <VscJson style={{marginRight: "5px"}} /> <span style={{fontSize: "15px"}}>JSON</span>
                     </div>
                 </div>
             )
