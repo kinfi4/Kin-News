@@ -21,20 +21,21 @@
     margin-bottom: 30px;
 }
 .exportOptions {
-    /*background-color: rgb(45, 108, 89);*/
-    background-color: #1d2c3b;
-    border: solid white 1px;
+    background-color: #2c4257;
+    border: solid #677fde 2px;
     position: absolute;
     top: 57px;
     right: 0;
     width: 96.7%;
 
-    border-top: 4px solid #1d2c3b;
+    border-top: 2px solid #1d2c3b;
 }
 .exportOptions div {
     margin: 10px;
-    padding: 10px;
     border-bottom: 2px solid #f7fdff;
+
+    border-bottom: 1px solid blueviolet;
+    padding: 10px 20px;
 
     transition: linear 0.1s;
 
@@ -47,6 +48,7 @@
     color: #9167c7;
 }
 .header {
+    z-index: 2;
     width: 62.6%;
     position: absolute;
     top: 125px;
@@ -95,6 +97,7 @@
     font-size: 35px;
 }
 .chartContainer {
+    position: relative;
     padding: 20px;
     border: solid black 1px;
     box-shadow: 2px 3px 5px black;

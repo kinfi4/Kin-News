@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import {
     BarChart,
     LineChart,
-    CartesianGrid,
     Line,
     XAxis,
     YAxis,
-    ResponsiveContainer,
     Tooltip,
     Legend,
     Bar,
@@ -24,16 +22,19 @@ import {
 } from "./helpers/DataTransformers";
 import visualizationCss from "./ReportsVisualization.module.css"
 import {STATISTICS_SERVICE_URL} from "../../../../config";
-import {showMessage} from "../../../../utils/messages";
-import {downloadFile} from "../../../../utils/utils";
+import {capitalizeFirstLetter, downloadFile} from "../../../../utils/utils";
+import FilteringBlock from "./helpers/FilteringBlock";
 
 
 const SuccessReport = (props) => {
-    const [exportOptions, setExportOptions] = useState({activeExportOptions: false})
+    const [filteringState, setFilteringState] = useState({currentCategory: "Shelling", currentSentiment: "negative"});
+    const [exportOptions, setExportOptions] = useState({activeExportOptions: false});
     function renderExportOptions() {
         if(exportOptions.activeExportOptions) {
             return (
-                <div className={visualizationCss.exportOptions}>
+                <div
+                    className={visualizationCss.exportOptions}
+                >
                     <div
                         onClick={() => {
                             downloadFile(STATISTICS_SERVICE_URL + `/api/v1/data/${props.report.reportId}?type=csv`, 'csv')
@@ -188,7 +189,15 @@ const SuccessReport = (props) => {
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
-                <h2>Negative news during time</h2>
+                <FilteringBlock
+                    currentOption={filteringState.currentSentiment}
+                    options={[
+                        {label: "Negative", onClick: () => setFilteringState({...filteringState, currentSentiment: "negative"})},
+                        {label: "Positive", onClick: () => setFilteringState({...filteringState, currentSentiment: "positive"})},
+                        {label: "Neutral", onClick: () => setFilteringState({...filteringState, currentSentiment: "neutral"})},
+                    ]}
+                />
+                <h2>{capitalizeFirstLetter(filteringState.currentSentiment)} news during time</h2>
 
                 <AreaChart
                     width={1210}
@@ -200,23 +209,35 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="sentiment.negative" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
+                    <Area
+                        type="monotone"
+                        dataKey={`sentiment.${filteringState.currentSentiment}`}
+                        stroke="#82ca9d"
+                        fill="#82ca9d"
+                        name={capitalizeFirstLetter(filteringState.currentSentiment)}
+                    />
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
-                <h2>Negative news percentage during time</h2>
+                <h2>{capitalizeFirstLetter(filteringState.currentSentiment)} news percentage during time</h2>
 
                 <AreaChart
                     width={1210}
                     height={400}
-                    data={getDataPercentage(messagesCountByDateBySentimentType, "date", "sentiment", "negative")}
+                    data={getDataPercentage(messagesCountByDateBySentimentType, "date", "sentiment", filteringState.currentSentiment)}
                 >
 
                     <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="negative" stroke="#82ca9d" fill="#82ca9d" name={"Negative"} />
+                    <Area
+                        type="monotone"
+                        dataKey={filteringState.currentSentiment}
+                        stroke="#82ca9d"
+                        fill="#82ca9d"
+                        name={capitalizeFirstLetter(filteringState.currentSentiment)}
+                    />
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
@@ -299,7 +320,17 @@ const SuccessReport = (props) => {
             </div>
 
             <div className={visualizationCss.chartContainer}>
-                <h2>Shelling news during time</h2>
+                <h2>{filteringState.currentCategory} news during time</h2>
+
+                <FilteringBlock
+                    currentOption={filteringState.currentCategory}
+                    options={[
+                        {label: "Shelling", onClick: () => setFilteringState({...filteringState, currentCategory: "Shelling"})},
+                        {label: "Economical", onClick: () => setFilteringState({...filteringState, currentCategory: "Economical"})},
+                        {label: "Humanitarian", onClick: () => setFilteringState({...filteringState, currentCategory: "Humanitarian"})},
+                        {label: "Political", onClick: () => setFilteringState({...filteringState, currentCategory: "Political"})},
+                    ]}
+                />
 
                 <AreaChart
                     width={1210}
@@ -311,23 +342,35 @@ const SuccessReport = (props) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="categories.Shelling" stroke="#D0261B" fill="#DD261B" name={"Shelling"} />
+                    <Area
+                        type="monotone"
+                        dataKey={`categories.${filteringState.currentCategory}`}
+                        stroke="#D0261B"
+                        fill="#DD261B"
+                        name={filteringState.currentCategory}
+                    />
                 </AreaChart>
             </div>
             <div className={visualizationCss.chartContainer}>
-                <h2>Shelling news percentage during time</h2>
+                <h2>{filteringState.currentCategory} news percentage during time</h2>
 
                 <AreaChart
                     width={1210}
                     height={400}
-                    data={getDataPercentage(messagesCountByDateByCategory, "date", "categories", "Shelling")}
+                    data={getDataPercentage(messagesCountByDateByCategory, "date", "categories", filteringState.currentCategory)}
                 >
 
                     <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="Shelling" stroke="#D0261B" fill="#DD261B" name={"Shelling"} />
+                    <Area
+                        type="monotone"
+                        dataKey={filteringState.currentCategory}
+                        stroke="#D0261B"
+                        fill="#DD261B"
+                        name={filteringState.currentCategory}
+                    />
                 </AreaChart>
             </div>
 

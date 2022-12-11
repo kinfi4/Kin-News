@@ -46,3 +46,7 @@ export function downloadFile(url, contentType='csv') {
         });
 
 }
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
