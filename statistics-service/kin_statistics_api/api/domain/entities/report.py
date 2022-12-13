@@ -6,7 +6,7 @@ from config.constants import MessageCategories, ReportProcessingResult, Sentimen
 
 
 class ReportGetEntity(BaseModel):
-    report_id: int
+    report_id: int = Field(..., alias='reportId')
     name: str
     processing_status: ReportProcessingResult = Field(..., alias='processingStatus')
 

@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = bool(int(os.environ.get('DEBUG')))
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+NOSE_ARGS = ['--nocapture', '--nologcapture']
 
 ALLOWED_HOSTS = ['*']
 
@@ -118,7 +119,7 @@ MAX_SUBSCRIPTIONS_ALLOWED = os.getenv('MAX_SUBSCRIPTIONS_ALLOWED', 12)
 
 KIN_TOKEN = os.getenv('KIN_TOKEN')
 
-USER_REPORTS_FOLDER_PATH = BASE_DIR / "data/reports/"
+USER_REPORTS_FOLDER_PATH = os.getenv("USER_REPORTS_FOLDER_PATH")
 
 
 # Celery

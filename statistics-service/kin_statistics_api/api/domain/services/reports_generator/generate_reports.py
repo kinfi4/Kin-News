@@ -2,7 +2,7 @@ import os
 import csv
 import logging
 from datetime import datetime, date
-from typing import Union, Any
+from typing import Union, Any, Optional
 
 from api.domain.services.reports_generator import IGeneratingReportsService
 from api.domain.services.reports_generator.predictor.predictor import Predictor
@@ -31,7 +31,7 @@ class GeneratingReportsService(IGeneratingReportsService):
 
         self._csv_writer = None
 
-    def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> None:
+    def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> Optional[ReportGetEntity]:
         self._logger.info(f'[GeneratingReportsService] Starting generating report for user: {user_id}')
 
         self._access_repository.set_user_is_generating_report(user_id, is_generating=True)
@@ -48,6 +48,8 @@ class GeneratingReportsService(IGeneratingReportsService):
             report_entity = self._build_report_entity(report_id, generate_report_entity)
 
             self._reports_repository.save_user_report(report_entity)
+
+            return report_entity
         except Exception as error:
             self._logger.error(
                 f'[GeneratingReportsService] {error.__class__.__name__} occurred during processing report for user: {user_id} with message: {str(error)}'
@@ -64,6 +66,7 @@ class GeneratingReportsService(IGeneratingReportsService):
 
         return (
             ReportsBuilder.from_report_id(report_id)
+            .set_total_messages_count(report_data['total_messages'])
             .set_messages_count_by_day_hour(report_data['messages_count_by_day_hour'])
             .set_messages_count_by_category(report_data['messages_count_by_category'])
             .set_messages_count_by_channel(report_data['messages_count_by_channel'])

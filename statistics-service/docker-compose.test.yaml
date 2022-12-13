@@ -7,9 +7,30 @@ services:
       dockerfile: ./etc/kin-stats/Dockerfile
     image: 'kin-statistics-api'
     container_name: 'kin-statistics-api-test'
+    command: bash -c "python manage.py test"
     env_file:
       - ./etc/kin-stats/env/.test.env
     volumes:
       - ./kin_statistics_api/api:/app/api
       - ./kin_statistics_api/config:/app/config
       - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
+    networks:
+      - kin-network-test-stats
+
+  postgres:
+    image: "postgres"
+    container_name: "postgres-test"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=kin-stats-test
+      - POSTGRES_USER=kin-stats-user
+      - POSTGRES_PASSWORD=kin-stats-password
+    networks:
+      - kin-network-test-stats
+
+
+networks:
+  kin-network-test-stats:
+    external:
+      name: kin-network-test-stats
