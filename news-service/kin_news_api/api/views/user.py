@@ -49,7 +49,6 @@ class RegisterView(APIView):
         request: Request,
         user_service: UserService = Provide[Container.domain_services.user_service],
     ) -> Response:
-        print(request.data)
         try:
             user_entity = UserRegistrationEntity(**request.data)
         except ValidationError as err:

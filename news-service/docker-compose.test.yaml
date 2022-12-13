@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  test-api:
+    build:
+      context: .
+      dockerfile: ./etc/kin-news/Dockerfile
+    container_name: "kin-news-api-test"
+    image: "kin-news-api"
+    command: bash -c "python manage.py test"
+    env_file:
+      - ./etc/kin-news/env/test.env
+    volumes:
+      - ./kin_news_api/api:/app/api
+      - ./kin_news_api/config:/app/config
+      - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
+      - ./media/:/media
+    networks:
+      - kin-network-test
+
+  postgres:
+    image: "postgres"
+    container_name: "postgres-test"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=kin-news-test
+      - POSTGRES_USER=kin-news-user
+      - POSTGRES_PASSWORD=kin-news-password
+    networks:
+      - kin-network-test
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: "redis-test"
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+    networks:
+      - kin-network-test
+
+networks:
+  kin-network-test:
+    external:
+      name: kin-network-test

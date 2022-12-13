@@ -18,7 +18,7 @@ class RatingsService:
 
     def rate_channel(self, user: User, rate_entity: RatePostEntity) -> RatingGetEntity:
         try:
-            user_rating = self._ratings_repository.set_user_ratings(
+            self._ratings_repository.set_user_ratings(
                 user,
                 channel_link=rate_entity.channel_link,
                 rate=rate_entity.rating,
@@ -30,7 +30,7 @@ class RatingsService:
 
         return RatingGetEntity(
             channel_link=rate_entity.channel_link,
-            my_rate=user_rating.rate,
+            my_rate=rate_entity.rating,
             total_rates=rating_stats['total_rates'],
             average_rating=rating_stats['average_rate'],
         )

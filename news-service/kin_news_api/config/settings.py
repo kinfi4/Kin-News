@@ -15,6 +15,8 @@ ALLOWED_HOSTS = [
 CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
 
+NOSE_ARGS = ['--nocapture', '--nologcapture']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -100,6 +102,8 @@ TELEGRAM_SESSION_STRING = os.getenv('TELEGRAM_SESSION_STRING')
 
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = int(os.getenv('REDIS_PORT'))
+REDIS_CHANNEL_DB_NAME = int(os.getenv('REDIS_CHANNELS_DB'))
+REDIS_PHOTO_DB_NAME = int(os.getenv('REDIS_PHOTOS_DB'))
 
 KIN_TOKEN = os.getenv('KIN_TOKEN')
 

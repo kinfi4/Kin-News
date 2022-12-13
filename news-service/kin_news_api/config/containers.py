@@ -13,8 +13,8 @@ from kin_news_core.cache import RedisCache, AbstractCache
 
 
 class RedisResource(resources.Resource):
-    def init(self, host: str, port: int = 6379, password: Optional[str] = None) -> RedisCache:
-        return RedisCache.from_settings(host, port, password)
+    def init(self, host: str, port: int = 6379, password: Optional[str] = None, **kwargs) -> RedisCache:
+        return RedisCache.from_settings(host, port, password, **kwargs)
 
 
 class Repositories(containers.DeclarativeContainer):
@@ -30,6 +30,8 @@ class Clients(containers.DeclarativeContainer):
         RedisResource,
         host=config.REDIS_HOST,
         port=config.REDIS_PORT,
+        photo_db_name=config.REDIS_PHOTO_DB_NAME,
+        channel_db_name=config.REDIS_CHANNEL_DB_NAME,
     )
 
     telegram_client: providers.Factory[TelegramClientProxy] = providers.Factory(
