@@ -1,17 +1,21 @@
 from typing import Optional
+from collections import Counter
 
 from pydantic import BaseModel, Field, validator, ValidationError
 
-from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes
+from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes, ReportTypes
 
 
-class ReportGetEntity(BaseModel):
+class BaseReport(BaseModel):
     report_id: int = Field(..., alias='reportId')
-    name: str
+    name: str = Field(max_length=80)
+    report_type: ReportTypes = Field(ReportTypes.STATISTICAL, alias='reportType')
     processing_status: ReportProcessingResult = Field(..., alias='processingStatus')
 
     report_failed_reason: Optional[str] = Field(None, alias='reportFailedReason')
 
+
+class StatisticalReport(BaseReport):
     total_messages_count: Optional[int] = Field(None, alias='totalMessagesCount')
 
     messages_count_by_channel: Optional[dict[str, int]] = Field(None, alias='messagesCountByChannel')
@@ -57,8 +61,25 @@ class ReportGetEntity(BaseModel):
         allow_population_by_field_name = True
 
 
+class WordCloudReport(BaseReport):
+    total_words: Optional[int] = Field(None, alias='totalWords')
+    total_words_frequency: Optional[list[tuple[str, int]]] = Field(None, alias='totalWordsFrequency')
+    data_by_channel: Optional[dict[str, list[tuple[str, int]]]] = Field(None, alias='dataByChannel')
+
+    data_by_category: Optional[
+        dict[SentimentTypes | MessageCategories, list[tuple[str, int]]]
+    ] = Field(None, alias='dataByCategory')
+
+    data_by_channel_by_category: Optional[
+        dict[str, dict[SentimentTypes | MessageCategories, list[tuple[str, int]]]]
+    ] = Field(None, alias='dataByChannelByCategory')
+
+    class Config:
+        allow_population_by_field_name = True
+
+
 class ReportPutEntity(BaseModel):
-    name: str
+    name: str = Field(max_length=80)
     report_id: int = Field(..., alias='reportId')
 
     class Config:

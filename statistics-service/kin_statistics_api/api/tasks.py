@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 @celery_app.task
 @inject
-def generate_report_task(
+def generate_statistical_report_task(
     start_date: str,
     end_date: str,
     channel_list: list[str],
@@ -29,3 +29,23 @@ def generate_report_task(
     )
 
     generating_reports_service.generate_report(generate_report_entity, user_id)
+
+
+@celery_app.task
+@inject
+def generate_word_cloud_task(
+    start_date: str,
+    end_date: str,
+    channel_list: list[str],
+    user_id: int,
+    generating_word_cloud_service: IGeneratingReportsService = Provide[Container.services.generating_word_cloud_service],
+) -> None:
+    _logger.info(f'Instantiating generate report entity and running the processing...')
+
+    generate_report_entity = GenerateReportEntity(
+        start_date=start_date,
+        end_date=end_date,
+        channel_list=channel_list,
+    )
+
+    generating_word_cloud_service.generate_report(generate_report_entity, user_id)

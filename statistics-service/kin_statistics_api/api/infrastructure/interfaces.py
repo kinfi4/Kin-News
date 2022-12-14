@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
 
-from api.domain.entities import ReportGetEntity
-from api.domain.entities.report import ReportIdentificationEntity
+from api.domain.entities import StatisticalReport
+from api.domain.entities.report import ReportIdentificationEntity, WordCloudReport, BaseReport
 
 
 class IReportRepository(ABC):
     @abstractmethod
-    def save_user_report(self, report: ReportGetEntity) -> None:
+    def save_user_report(self, report: BaseReport) -> None:
         pass
 
     @abstractmethod
-    def get_report(self, report_id: int) -> ReportGetEntity:
+    def get_report(self, report_id: int) -> StatisticalReport | WordCloudReport:
         pass
 
     @abstractmethod

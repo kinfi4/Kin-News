@@ -1,3 +1,4 @@
 from .interfaces import IGeneratingReportsService
-from .generate_reports import GeneratingReportsService
+from .statistical_report.generate_statistical_reports import GenerateStatisticalReportService
+from .word_cloud.generate_word_cloud_report import GenerateWordCloudReportService
 from .predictor import IPredictor

@@ -1,19 +1,19 @@
 import os
 import csv
-import logging
-from datetime import datetime, date
-from typing import Union, Any, Optional
+from typing import Union, Any
 
-from api.domain.services.reports_generator import IGeneratingReportsService
+from api.domain.services.reports_generator.interfaces import IGeneratingReportsService
 from api.domain.services.reports_generator.predictor.predictor import Predictor
 from api.infrastructure.repositories import IReportRepository, ReportsAccessManagementRepository
 from api.domain.entities import GenerateReportEntity, StatisticalReport
-from api.domain.services.reports_generator.reports_builder import ReportsBuilder
+from api.domain.services.reports_generator.statistical_report.reports_builder import ReportsBuilder
 from kin_news_core.telegram.interfaces import ITelegramProxy
-from config.constants import DEFAULT_DATE_FORMAT, ReportProcessingResult, MessageCategories, SentimentTypes
+from config.constants import DEFAULT_DATE_FORMAT, MessageCategories, SentimentTypes
 
 
-class GeneratingReportsService(IGeneratingReportsService):
+class GenerateStatisticalReportService(IGeneratingReportsService):
+    reports_builder = ReportsBuilder
+
     def __init__(
         self,
         telegram_client: ITelegramProxy,
@@ -22,47 +22,18 @@ class GeneratingReportsService(IGeneratingReportsService):
         predictor: Predictor,
         reports_folder_path: str,
     ) -> None:
-        self._logger = logging.getLogger(self.__class__.__name__)
-        self._telegram = telegram_client
-        self._reports_repository = reports_repository
-        self._access_repository = report_access_repository
-        self._predictor = predictor
+        super().__init__(telegram_client, reports_repository, report_access_repository, predictor)
+
         self._reports_folder_path = reports_folder_path
 
         self._csv_writer = None
 
-    def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> Optional[StatisticalReport]:
-        self._logger.info(f'[GeneratingReportsService] Starting generating report for user: {user_id}')
-
-        self._access_repository.set_user_is_generating_report(user_id, is_generating=True)
-        report_id = self._access_repository.create_new_user_report(user_id)
-
-        empty_report = self._build_empty_report(report_id)
-        self._reports_repository.save_user_report(empty_report)
-
+    def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> StatisticalReport:
         user_report_file = open(os.path.join(self._reports_folder_path, f'{report_id}.csv'), 'w')
         self._csv_writer = csv.writer(user_report_file)
         self._csv_writer.writerow(['date', 'channel', 'hour', 'text', 'sentiment', 'category'])
 
-        try:
-            report_entity = self._build_report_entity(report_id, generate_report_entity)
-
-            self._reports_repository.save_user_report(report_entity)
-
-            return report_entity
-        except Exception as error:
-            self._logger.error(
-                f'[GeneratingReportsService] {error.__class__.__name__} occurred during processing report for user: {user_id} with message: {str(error)}'
-            )
-
-            postponed_report = self._build_processing_failed_entity(report_id, error)
-            self._reports_repository.save_user_report(postponed_report)
-        finally:
-            user_report_file.close()
-            self._access_repository.set_user_is_generating_report(user_id, is_generating=False)
-
-    def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> StatisticalReport:
-        report_data = self._gather_report_data(generate_report_entity)
+        report_data = self.__gather_report_data(generate_report_entity)
 
         return (
             ReportsBuilder.from_report_id(report_id)
@@ -79,24 +50,7 @@ class GeneratingReportsService(IGeneratingReportsService):
             .build()
         )
 
-    @staticmethod
-    def _build_empty_report(report_id: int) -> StatisticalReport:
-        return (
-            ReportsBuilder.from_report_id(report_id)
-            .set_status(ReportProcessingResult.PROCESSING)
-            .build()
-        )
-
-    @staticmethod
-    def _build_processing_failed_entity(report_id: int, error: Exception) -> StatisticalReport:
-        return (
-            ReportsBuilder.from_report_id(report_id)
-            .set_status(ReportProcessingResult.POSTPONED)
-            .set_failed_reason(str(error))
-            .build()
-        )
-
-    def _gather_report_data(self, generate_entity: GenerateReportEntity) -> dict[Union[str, MessageCategories], Any]:
+    def __gather_report_data(self, generate_entity: GenerateReportEntity) -> dict[Union[str, MessageCategories], Any]:
         report_data = self._initialize_report_date_dict(generate_entity)
 
         for channel in generate_entity.channel_list:
@@ -107,7 +61,7 @@ class GeneratingReportsService(IGeneratingReportsService):
                 skip_messages_without_text=True,
             )
 
-            self._logger.info(f'[GeneratingReportsService] Gathered {len(telegram_messages)} messages from {channel}')
+            self._logger.info(f'[GenerateStatisticalReportService] Gathered {len(telegram_messages)} messages from {channel}')
 
             for message in telegram_messages:
 
@@ -164,14 +118,6 @@ class GeneratingReportsService(IGeneratingReportsService):
         report_data['messages_count_by_date'] = self._reverse_dict_keys(report_data['messages_count_by_date'])
 
         return report_data
-
-    @staticmethod
-    def _datetime_from_date(dt: date, end_of_day: bool = False) -> datetime:
-        return datetime(
-            year=dt.year,
-            month=dt.month,
-            day=dt.day + int(end_of_day),
-        )
 
     @staticmethod
     def _reverse_dict_keys(dct: dict[str, Any]) -> dict[str, Any]:

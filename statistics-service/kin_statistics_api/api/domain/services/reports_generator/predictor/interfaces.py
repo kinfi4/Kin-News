@@ -8,6 +8,10 @@ from config.constants import MessageCategories, MAX_POST_LEN_IN_WORDS, Sentiment
 
 class IPredictor(ABC):
     @abstractmethod
+    def preprocess_text(self, text: str) -> str:
+        pass
+
+    @abstractmethod
     def get_sentiment_type(self, text: str, news_type: MessageCategories) -> SentimentTypes:
         pass
 

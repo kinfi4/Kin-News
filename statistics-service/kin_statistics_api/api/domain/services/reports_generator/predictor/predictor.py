@@ -33,6 +33,9 @@ class Predictor(IPredictor):
         self._ml_models = [self._knn_model, self._svc_model, self._gaussian_model]
         self._nn_models = [self._lstm_model]
 
+    def preprocess_text(self, text: str) -> str:
+        return self._text_preprocessor.preprocess_text(text)
+
     def get_sentiment_type(self, text: str, news_type: MessageCategories, make_preprocessing: bool = False) -> SentimentTypes:
         if make_preprocessing:
             text = self._text_preprocessor.preprocess_and_lemmatize(text)

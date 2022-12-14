@@ -10,11 +10,12 @@ from rest_framework.authentication import SessionAuthentication
 from api.domain.services import ManagingReportsService, UserService
 from api.domain.entities import ReportPutEntity, GenerateReportEntity
 from api.exceptions import ReportAccessForbidden
-from api.tasks import generate_report_task
+from api.domain.services.reports_generator.generate_report_usecase import generate_report_use_case
 from config.containers import Container
 from config.constants import DEFAULT_DATE_FORMAT
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import KinNewsCoreException
+from kin_news_core.utils import pydantic_errors_prettifier
 
 _logger = logging.getLogger(__name__)
 
@@ -52,18 +53,21 @@ class ReportsListView(APIView):
                 start_date=request.data['startDate'],
                 end_date=request.data['endDate'],
                 channel_list=request.data['channels'],
+                report_type=request.data['reportType'],
             )
 
             _logger.info(f'Creating Celery job for report generation...')
 
-            generate_report_task.delay(
+            use_case = generate_report_use_case(generate_report.report_type)
+
+            use_case.delay(
                 start_date=generate_report.start_date.strftime(DEFAULT_DATE_FORMAT),
                 end_date=generate_report.end_date.strftime(DEFAULT_DATE_FORMAT),
                 channel_list=generate_report.channel_list,
                 user_id=request.user.id,
             )
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except KinNewsCoreException as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
 
@@ -101,7 +105,7 @@ class ReportsSingleView(APIView):
             report_put_entity = ReportPutEntity(**request.data, report_id=report_id)
             report_identity = reports_service.set_report_name(request.user, report_put_entity)
         except ValidationError as err:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except ReportAccessForbidden:
             return Response(status=status.HTTP_403_FORBIDDEN, data={'errors': 'User does not have rights to this report!'})
         except KinNewsCoreException as err:

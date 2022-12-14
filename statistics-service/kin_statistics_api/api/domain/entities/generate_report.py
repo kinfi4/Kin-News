@@ -1,10 +1,10 @@
 from datetime import date, datetime
-from typing import Union, Any
+from typing import Union, Any, Optional
 
 from django.conf import settings
 from pydantic import BaseModel, validator, ValidationError, Field, root_validator
 
-from config.constants import DEFAULT_DATE_FORMAT
+from config.constants import DEFAULT_DATE_FORMAT, ReportTypes
 
 
 def _cast_string_to_date(date_string: str) -> date:
@@ -21,6 +21,7 @@ class GenerateReportEntity(BaseModel):
     start_date: date = Field(..., alias='startDate')
     end_date: date = Field(..., alias='endDate')
     channel_list: list[str] = Field(..., alias='channels')
+    report_type: Optional[ReportTypes] = Field(None, alias='reportType')
 
     @validator('channel_list', pre=True, allow_reuse=True)
     def validate_channels(cls, channels: list[str]) -> list[str]:

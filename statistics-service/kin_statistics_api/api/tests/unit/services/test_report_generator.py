@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from api.views import container
 from api.tests import factories
-from api.domain.entities import ReportGetEntity
+from api.domain.entities import StatisticalReport
 from config.constants import ReportProcessingResult, MessageCategories, SentimentTypes, DEFAULT_DATE_FORMAT
 
 
@@ -26,7 +26,7 @@ class TestReportGenerationService(TestCase):
         sentiment_types = [factories.get_random_sentiment_type() for _ in range(100)]
         predictor_mock.get_sentiment_type.side_effect = sentiment_types
 
-        target_report = ReportGetEntity(
+        target_report = StatisticalReport(
             report_id=1,
             name='',
             processing_status=ReportProcessingResult.READY,
@@ -88,7 +88,7 @@ class TestReportGenerationService(TestCase):
             and container.clients.telegram_client.override(telegram_client_mock)
             and container.predicting.predictor.override(predictor_mock)
         ):
-            result: ReportGetEntity = container.services.generating_reports_service().generate_report(
+            result: StatisticalReport = container.services.generating_reports_service().generate_report(
                 factories.build_generate_report_entity(), 2
             )
 

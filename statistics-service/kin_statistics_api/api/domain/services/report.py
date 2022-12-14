@@ -2,7 +2,7 @@ import logging
 
 from django.contrib.auth.models import User
 
-from api.domain.entities.report import ReportIdentificationEntity, ReportGetEntity, ReportPutEntity
+from api.domain.entities.report import ReportIdentificationEntity, StatisticalReport, ReportPutEntity, WordCloudReport
 from api.exceptions import ReportAccessForbidden
 from api.infrastructure.interfaces import IReportRepository
 from api.infrastructure.repositories.reports import ReportsAccessManagementRepository
@@ -39,7 +39,7 @@ class ManagingReportsService:
             name=report_put_entity.name,
         )
 
-    def get_user_detailed_report(self, user: User, report_id: int) -> ReportGetEntity:
+    def get_user_detailed_report(self, user: User, report_id: int) -> StatisticalReport | WordCloudReport:
         self._check_user_access(user, report_ids=[report_id])
 
         return self._reports_repository.get_report(report_id)

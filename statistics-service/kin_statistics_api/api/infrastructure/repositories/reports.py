@@ -5,12 +5,11 @@ from django.contrib.auth.models import User
 from django.db.models import Max, F
 from pymongo import MongoClient
 
-from api.domain.entities import ReportGetEntity
+from api.domain.entities import StatisticalReport, BaseReport, ReportIdentificationEntity, WordCloudReport
 from api.exceptions import ReportNotFound, ImpossibleToModifyProcessingReport
 from api.models import UserReport, UserGeneratesReport
-from api.domain.entities.report import ReportIdentificationEntity
 from api.infrastructure.interfaces import IReportRepository
-from config.constants import ReportProcessingResult
+from config.constants import ReportProcessingResult, ReportTypes
 
 
 class ReportsMongoRepository(IReportRepository):
@@ -33,7 +32,7 @@ class ReportsMongoRepository(IReportRepository):
             for report_dict in dict_reports
         ]
 
-    def save_user_report(self, report: ReportGetEntity) -> None:
+    def save_user_report(self, report: BaseReport) -> None:
         self._logger.info(f'[ReportsMongoRepository] Saving user report with id: {report.report_id} and status: {report.processing_status}')
 
         report_dict = report.dict()
@@ -54,7 +53,7 @@ class ReportsMongoRepository(IReportRepository):
             {'$set': {'name': report_name}},
         )
 
-    def get_report(self, report_id: int) -> ReportGetEntity:
+    def get_report(self, report_id: int) -> StatisticalReport | WordCloudReport:
         dict_report = self._reports_collection.find_one({
             'report_id': report_id
         })
@@ -65,13 +64,13 @@ class ReportsMongoRepository(IReportRepository):
         return self._map_dict_to_entity(dict_report)
 
     def delete_report(self, report_id: int) -> None:
-        try:
-            report = self.get_report(report_id)
-        except ReportNotFound:
-            return
-
-        if report.processing_status == ReportProcessingResult.PROCESSING:
-            raise ImpossibleToModifyProcessingReport('You can not delete the report during processing.')
+        # try:
+        #     report = self.get_report(report_id)
+        # except ReportNotFound:
+        #     return
+        #
+        # if report.processing_status == ReportProcessingResult.PROCESSING:
+        #     raise ImpossibleToModifyProcessingReport('You can not delete the report during processing.')
 
         self._reports_collection.delete_one({
             'report_id': report_id
@@ -86,9 +85,24 @@ class ReportsMongoRepository(IReportRepository):
         )
 
     @staticmethod
-    def _map_dict_to_entity(dict_report: dict[str, Any]) -> ReportGetEntity:
-        return ReportGetEntity(
+    def _map_dict_to_entity(dict_report: dict[str, Any]) -> StatisticalReport | WordCloudReport:
+        if dict_report.get('report_type') == ReportTypes.WORD_CLOUD:
+            return WordCloudReport(
+                report_id=dict_report['report_id'],
+                report_type=dict_report['report_type'],
+                name=dict_report['name'],
+                processing_status=dict_report['processing_status'],
+                report_failed_reason=dict_report.get('report_failed_reason'),
+                total_words=dict_report.get('total_words'),
+                data_by_channel_by_category=dict_report.get('data_by_channel_by_category'),
+                data_by_category=dict_report.get('data_by_category'),
+                data_by_channel=dict_report.get('data_by_channel'),
+                total_words_frequency=dict_report.get('total_words_frequency'),
+            )
+
+        return StatisticalReport(
             report_id=dict_report['report_id'],
+            report_type=dict_report['report_type'],
             name=dict_report['name'],
             processing_status=dict_report['processing_status'],
             report_failed_reason=dict_report['report_failed_reason'],

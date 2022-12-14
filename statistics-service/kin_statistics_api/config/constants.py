@@ -50,3 +50,8 @@ emoji_regex_compiled = re.compile(
     "]+",
     re.UNICODE
 )
+
+
+class ReportTypes(str, Enum):
+    STATISTICAL = 'Statistical'
+    WORD_CLOUD = 'WordCloud'

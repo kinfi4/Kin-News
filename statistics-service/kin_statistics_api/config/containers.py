@@ -11,10 +11,11 @@ from api.infrastructure.repositories import (
 from api.domain.services import (
     ManagingReportsService,
     IGeneratingReportsService,
-    GeneratingReportsService,
+    GenerateStatisticalReportService,
     UserService,
     file_generator_user_case,
     IReportFileGenerator,
+    GenerateWordCloudReportService,
 )
 from kin_news_core.telegram import TelegramClientProxy
 
@@ -104,12 +105,20 @@ class Services(containers.DeclarativeContainer):
     )
 
     generating_reports_service: providers.Factory[IGeneratingReportsService] = providers.Factory(
-        GeneratingReportsService,
+        GenerateStatisticalReportService,
         telegram_client=clients.telegram_client,
         reports_repository=repositories.reports_repository,
         report_access_repository=repositories.reports_access_management_repository,
         predictor=predicting.predictor,
         reports_folder_path=config.USER_REPORTS_FOLDER_PATH,
+    )
+
+    generating_word_cloud_service: providers.Factory[IGeneratingReportsService] = providers.Factory(
+        GenerateWordCloudReportService,
+        telegram_client=clients.telegram_client,
+        reports_repository=repositories.reports_repository,
+        report_access_repository=repositories.reports_access_management_repository,
+        predictor=predicting.predictor,
     )
 
     user_service: providers.Singleton[UserService] = providers.Singleton(

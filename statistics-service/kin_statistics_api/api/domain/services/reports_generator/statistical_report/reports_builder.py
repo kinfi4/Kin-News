@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from api.domain.entities import StatisticalReport
-from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes
+from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes, ReportTypes
 
 
 class ReportsBuilder:
@@ -11,6 +11,7 @@ class ReportsBuilder:
         self._total_messages_count = 0
         self._status = ReportProcessingResult.READY
         self._failed_reason = None
+        self._report_type = ReportTypes.STATISTICAL
 
         self._messages_count_by_category = {category: 0 for category in MessageCategories}
         self._messages_count_by_sentiment_type = {sentiment_type: 0 for sentiment_type in SentimentTypes}
@@ -82,6 +83,7 @@ class ReportsBuilder:
         return StatisticalReport(
             report_id=self._report_id,
             name=self._report_name,
+            report_type=self._report_type,
             processing_status=self._status,
             report_failed_reason=self._failed_reason,
             total_messages_count=self._total_messages_count,
