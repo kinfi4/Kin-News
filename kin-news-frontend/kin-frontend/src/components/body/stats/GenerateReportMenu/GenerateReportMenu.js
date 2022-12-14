@@ -9,6 +9,7 @@ import SelectChannelsWindow from "./SelectChannels";
 import {generateReport, setChannelsListForGeneration} from "../../../../redux/reducers/reportsReducer";
 import {fetchChannels} from "../../../../redux/reducers/channelsReducer";
 import {IoIosArrowRoundBack} from "react-icons/io"
+import {STATISTICAL_REPORT, WORD_CLOUD_REPORT} from "../../../../config";
 
 
 const GenerateReportMenu = (props) => {
@@ -56,13 +57,23 @@ const GenerateReportMenu = (props) => {
                         SELECT CHANNELS
                     </div>
 
-                    <div
-                        className={mainPageCss.controlButton}
-                        onClick={() => props.sendGenerationRequest(data.startDate, data.endDate, props.channels)}
-                        style={{backgroundColor: "#2CA884"}}
-                    >
-                        GENERATE
+                    <div className={statsCss.generateReportsControlsContainer}>
+                        <div
+                            className={mainPageCss.controlButton}
+                            onClick={() => props.sendGenerationRequest(data.startDate, data.endDate, props.channels, STATISTICAL_REPORT)}
+                            style={{backgroundColor: "#2CA884", fontSize: "22px"}}
+                        >
+                            GENERATE STATISTICAL REPORT
+                        </div>
+                        <div
+                            className={mainPageCss.controlButton}
+                            onClick={() => props.sendGenerationRequest(data.startDate, data.endDate, props.channels, WORD_CLOUD_REPORT)}
+                            style={{backgroundColor: "#2CA884", fontSize: "22px"}}
+                        >
+                            GENERATE WORD CLOUD
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -81,7 +92,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         showModal: (content, width, height) => dispatch(showModalWindow(content, width, height)),
-        sendGenerationRequest: (startDate, endDate, channels) => dispatch(generateReport(startDate, endDate, channels)),
+        sendGenerationRequest: (startDate, endDate, channels, reportType) => dispatch(generateReport(startDate, endDate, channels, reportType)),
         setChannels: (channels) => dispatch(setChannelsListForGeneration(channels)),
         fetchChannels: () => dispatch(fetchChannels()),
     }

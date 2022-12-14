@@ -94,3 +94,27 @@ export const getDataPercentage = (data, key, targetKey, targetCategory) => {
         return res
     })
 }
+
+
+export function transformReportToWordsList(report, channelFilter=null, categoryFilter=null) {
+    const all = "All";
+    const allChannels = "All Channels";
+
+    if (channelFilter !== allChannels && categoryFilter !== all) {
+        return report.dataByChannelByCategory[channelFilter][categoryFilter].map(el => {
+            return {text: el[0], value: el[1]}
+        });
+    } else if (channelFilter !== allChannels && categoryFilter === all) {
+        return report.dataByChannel[channelFilter].map(el => {
+            return {text: el[0], value: el[1]}
+        });
+    } else if (channelFilter === allChannels && categoryFilter !== all) {
+        return report.dataByCategory[categoryFilter].map(el => {
+            return {text: el[0], value: el[1]}
+        });
+    } else {
+        return report.totalWordsFrequency.map(el => {
+            return {text: el[0], value: el[1]}
+        });
+    }
+}

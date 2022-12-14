@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from api.domain.entities import ReportGetEntity
+from api.domain.entities import StatisticalReport
 from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes
 
 
@@ -78,8 +78,8 @@ class ReportsBuilder:
         self._failed_reason = reason
         return self
 
-    def build(self) -> ReportGetEntity:
-        return ReportGetEntity(
+    def build(self) -> StatisticalReport:
+        return StatisticalReport(
             report_id=self._report_id,
             name=self._report_name,
             processing_status=self._status,

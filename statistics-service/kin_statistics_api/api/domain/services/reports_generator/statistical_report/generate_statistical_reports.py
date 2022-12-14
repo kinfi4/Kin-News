@@ -7,7 +7,7 @@ from typing import Union, Any, Optional
 from api.domain.services.reports_generator import IGeneratingReportsService
 from api.domain.services.reports_generator.predictor.predictor import Predictor
 from api.infrastructure.repositories import IReportRepository, ReportsAccessManagementRepository
-from api.domain.entities import GenerateReportEntity, ReportGetEntity
+from api.domain.entities import GenerateReportEntity, StatisticalReport
 from api.domain.services.reports_generator.reports_builder import ReportsBuilder
 from kin_news_core.telegram.interfaces import ITelegramProxy
 from config.constants import DEFAULT_DATE_FORMAT, ReportProcessingResult, MessageCategories, SentimentTypes
@@ -31,7 +31,7 @@ class GeneratingReportsService(IGeneratingReportsService):
 
         self._csv_writer = None
 
-    def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> Optional[ReportGetEntity]:
+    def generate_report(self, generate_report_entity: GenerateReportEntity, user_id: int) -> Optional[StatisticalReport]:
         self._logger.info(f'[GeneratingReportsService] Starting generating report for user: {user_id}')
 
         self._access_repository.set_user_is_generating_report(user_id, is_generating=True)
@@ -61,7 +61,7 @@ class GeneratingReportsService(IGeneratingReportsService):
             user_report_file.close()
             self._access_repository.set_user_is_generating_report(user_id, is_generating=False)
 
-    def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> ReportGetEntity:
+    def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> StatisticalReport:
         report_data = self._gather_report_data(generate_report_entity)
 
         return (
@@ -80,7 +80,7 @@ class GeneratingReportsService(IGeneratingReportsService):
         )
 
     @staticmethod
-    def _build_empty_report(report_id: int) -> ReportGetEntity:
+    def _build_empty_report(report_id: int) -> StatisticalReport:
         return (
             ReportsBuilder.from_report_id(report_id)
             .set_status(ReportProcessingResult.PROCESSING)
@@ -88,7 +88,7 @@ class GeneratingReportsService(IGeneratingReportsService):
         )
 
     @staticmethod
-    def _build_processing_failed_entity(report_id: int, error: Exception) -> ReportGetEntity:
+    def _build_processing_failed_entity(report_id: int, error: Exception) -> StatisticalReport:
         return (
             ReportsBuilder.from_report_id(report_id)
             .set_status(ReportProcessingResult.POSTPONED)

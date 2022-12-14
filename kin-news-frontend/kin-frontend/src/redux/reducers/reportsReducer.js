@@ -56,7 +56,7 @@ export let fetchReportDetails = (reportId) => (dispatch) => {
     })
 }
 
-export let generateReport = (startDate, endDate, channels) => (dispatch) => {
+export let generateReport = (startDate, endDate, channels, reportType) => (dispatch) => {
     if(!channels.length) {
         showMessage([{message: "You didn't specify any channel!", type: "danger"}])
         return;
@@ -73,6 +73,7 @@ export let generateReport = (startDate, endDate, channels) => (dispatch) => {
         startDate: startDateString,
         endDate: endDateString,
         channels: channels,
+        reportType: reportType,
     }
 
     axios.post(STATISTICS_SERVICE_URL + `/api/v1/reports`, body, {
@@ -126,7 +127,6 @@ export let setChannelsListForGeneration = (channels) => (dispatch) => {
 export let reportsReducer = (state=initialState, action) => {
     switch (action.type){
         case REPORT_DETAILS_LOADED:
-            console.log(action.detailedReport)
             return {...state, detailedReport: action.detailedReport}
         case SET_CHANNELS:
             return {...state, channelListForGeneration: action.channels}

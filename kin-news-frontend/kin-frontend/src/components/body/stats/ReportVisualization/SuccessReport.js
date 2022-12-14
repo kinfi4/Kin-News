@@ -22,7 +22,7 @@ import {
 } from "./helpers/DataTransformers";
 import visualizationCss from "./ReportsVisualization.module.css"
 import {STATISTICS_SERVICE_URL} from "../../../../config";
-import {capitalizeFirstLetter, downloadFile} from "../../../../utils/utils";
+import {capitalizeFirstLetter, downloadFile, transformLargeNumberToReadable} from "../../../../utils/utils";
 import FilteringBlock from "./helpers/FilteringBlock";
 import {FaFileCsv} from "react-icons/fa";
 import {VscJson} from "react-icons/vsc";
@@ -72,7 +72,18 @@ const SuccessReport = (props) => {
     return (
         <div className={visualizationCss.visualizationContainer}>
             <div className={visualizationCss.header}>
-                {props.report.name}
+                <span>
+                    {props.report.name}
+                    <span
+                        style={{
+                            fontSize: "20px",
+                            marginLeft: "20px",
+                            color: "#7b6991",
+                        }}
+                    >
+                        [{transformLargeNumberToReadable(props.report.totalMessagesCount)} messages processed]
+                    </span>
+                </span>
                 <div
                     className={visualizationCss.exportButton}
                     onMouseEnter={() => setExportOptions({activeExportOptions: true})}
