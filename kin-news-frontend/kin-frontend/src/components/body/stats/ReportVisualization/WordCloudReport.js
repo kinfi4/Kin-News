@@ -71,7 +71,7 @@ const WordCloudReport = ({report}) => {
                 <WordCloud
                     data={words}
                     width={1500}
-                    height={1000}
+                    height={1500}
                     padding={calcPadding(words.length)}
                     fontSize={(word) => calcFontSize(word, words, theBiggestWordValue, theSmallestWordValue)}
                     fill={(w, i) => colors[i % colors.length]}

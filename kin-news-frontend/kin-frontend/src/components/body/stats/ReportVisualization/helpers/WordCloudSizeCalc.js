@@ -1,14 +1,17 @@
 export function calcFontSize(word, allWords, theBiggestWordValue, theSmallestWordValue) {
-    const maxSize = 100;
-    const minSize = 10;
+    const maxSize = 200;
+    const minSize = 7;
 
-    let size = ((word.value - theSmallestWordValue) / theBiggestWordValue) * maxSize;
-    let firstQuater = (theBiggestWordValue - theSmallestWordValue) / 4;
+    let size = ((word.value - theSmallestWordValue) / theBiggestWordValue) * maxSize + minSize;
+    let lastQuater = (theBiggestWordValue - theSmallestWordValue) * 0.75;
+    let firstQuater = (theBiggestWordValue - theSmallestWordValue) * 0.25;
 
-    if(word.value < firstQuater) {
-        let computedSize = size + Math.log10(word.value) * 4;
-        return computedSize;
+    if(word.value > lastQuater) {
+        return size - minSize;
     }
+    // if(word.value < firstQuater) {
+    //     return size * 1.5;
+    // }
 
     return size;
 }
