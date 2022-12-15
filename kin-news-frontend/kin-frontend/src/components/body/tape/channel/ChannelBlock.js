@@ -10,7 +10,7 @@ const ChannelBlock = (props) => {
         <div
             className={channelCss.channelBlockContainer}
             onClick={(event) => {
-                props.showModal(<ChannelInfo channel={props.channel} />, 900, 500)
+                props.showModal(<ChannelInfo channel={props.channel} />, 900, 600)
             }}
         >
             {

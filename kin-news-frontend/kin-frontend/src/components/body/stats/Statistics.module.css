@@ -53,7 +53,7 @@
 
     width: 400px;
 
-    box-shadow: 1px 1px 4px #7744bb;
+    box-shadow: 0 0 10px #7744bb;
 }
 .choseReportLink {
     text-decoration: none;
@@ -61,7 +61,7 @@
 
     position: absolute;
     left: 20px;
-    top: 140px;
+    top: 125px;
 }
 .choseReportLink a {
     display: flex;
@@ -71,7 +71,7 @@
     color: #c2c2c2;
 }
 .choseReportLink a:hover {
-    color: #7744bb;
+    color: #7b6991;
 }
 .generateReportsControlsContainer {
     display: flex;

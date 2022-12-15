@@ -22,10 +22,11 @@
     color: #f7fdff;
 }
 .controlButton {
-    padding: 7px 12px;
+    padding: 20px 25px;
     width: 200px;
     text-align: center;
-    font-size: 25px;
+    font-size: 27px;
+    font-weight: bold;
     border-radius: 2px;
     cursor: pointer;
     margin-bottom: 30px;

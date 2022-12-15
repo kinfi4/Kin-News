@@ -73,9 +73,7 @@ const GenerateReportMenu = (props) => {
                             GENERATE WORD CLOUD
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </>
     )
