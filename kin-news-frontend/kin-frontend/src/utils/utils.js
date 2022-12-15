@@ -6,7 +6,6 @@ export function truncate(str, n){
 
 
 export function translateDateToString(date) {
-    console.log(date.getMonth() + 1)
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 }
 

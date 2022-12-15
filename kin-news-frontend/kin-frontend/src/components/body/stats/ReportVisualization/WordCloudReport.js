@@ -10,7 +10,10 @@ import {calcFontSize, calcPadding} from "./helpers/WordCloudSizeCalc";
 const WordCloudReport = ({report}) => {
     const colors = ['#408f5e', '#2F6B9A', '#82a6c2', '#BA97B4', '#2CA884', '#E39E21', '#00C6B5', '#BF8520'];
     const [filters, setFilters] = useState({channelFilter: "All Channels", categoryFilter: "All"});
+
     let words = transformReportToWordsList(report, filters.channelFilter, filters.categoryFilter);
+    let theBiggestWordValue = Math.max(...words.map(el => el.value));
+    let theSmallestWordValue = Math.min(...words.map(el => el.value));
 
     console.log(report)
 
@@ -54,7 +57,6 @@ const WordCloudReport = ({report}) => {
                         options={[
                             {label: "All Channels", onClick: () => setFilters({...filters, channelFilter: "All Channels"})},
                             ...Object.keys(report.dataByChannel).map(el => {
-                                console.log(el)
                                 return {
                                     label: el,
                                     onClick: () => setFilters({...filters, channelFilter: el})
@@ -71,7 +73,7 @@ const WordCloudReport = ({report}) => {
                     width={1500}
                     height={1000}
                     padding={calcPadding(words.length)}
-                    fontSize={(word) => calcFontSize(word, words.length)}
+                    fontSize={(word) => calcFontSize(word, words, theBiggestWordValue, theSmallestWordValue)}
                     fill={(w, i) => colors[i % colors.length]}
                     rotate={() => 0}
                 />

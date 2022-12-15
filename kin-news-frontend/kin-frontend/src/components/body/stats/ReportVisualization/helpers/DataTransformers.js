@@ -36,7 +36,6 @@ export const generateColorsList = (numberOfColors) => {
     ];
 
     let res = shuffle(allColors).slice(0, numberOfColors);
-    console.log(res)
 
     return res;
 }
@@ -74,7 +73,6 @@ export const renderTooltipContent = (o) => {
 const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 
 export const makePercentage = (data) => {
-    console.log(data)
     let totalCount = sumValues(data);
 
     Object.keys(data).forEach(key => {

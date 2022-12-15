@@ -174,7 +174,6 @@ const SuccessReport = (props) => {
 
                         {
                             messagesCountBySentimentType.map((entry, index) => {
-                                console.log(entry.sentiment)
                                 return <Cell fill={getColor(entry.sentiment)} name={entry.sentiment} />
                             })
                         }
