@@ -6,6 +6,7 @@ import {channelsReducer} from "./reducers/channelsReducer";
 import {postsReducer} from "./reducers/postsReducer";
 import {ratingReducer} from "./reducers/ratingReducer";
 import {reportsReducer} from "./reducers/reportsReducer";
+import {wordsCloudReducer} from "./reducers/wordCloud";
 
 let store = createStore(
     combineReducers({
@@ -15,6 +16,7 @@ let store = createStore(
         postsReducer: postsReducer,
         ratingReducer: ratingReducer,
         reportsReducer: reportsReducer,
+        wordsCloudReducer: wordsCloudReducer,
     }),
     applyMiddleware(thunk)
 )

@@ -94,25 +94,32 @@ export const getDataPercentage = (data, key, targetKey, targetCategory) => {
 }
 
 
-export function transformReportToWordsList(report, channelFilter=null, categoryFilter=null) {
+export function transformReportToWordsList(report, channelFilter=null, categoryFilter=null, wordsFilters=[]) {
     const all = "All";
     const allChannels = "All Channels";
+    let result = [];
 
     if (channelFilter !== allChannels && categoryFilter !== all) {
-        return report.dataByChannelByCategory[channelFilter][categoryFilter].map(el => {
-            return {text: el[0], value: el[1]}
+        result = report.dataByChannelByCategory[channelFilter][categoryFilter].map(el => {
+            return {text: el[0], value: el[1]};
         });
     } else if (channelFilter !== allChannels && categoryFilter === all) {
-        return report.dataByChannel[channelFilter].map(el => {
-            return {text: el[0], value: el[1]}
+        result = report.dataByChannel[channelFilter].map(el => {
+            return {text: el[0], value: el[1]};
         });
     } else if (channelFilter === allChannels && categoryFilter !== all) {
-        return report.dataByCategory[categoryFilter].map(el => {
-            return {text: el[0], value: el[1]}
+        result = report.dataByCategory[categoryFilter].map(el => {
+            return {text: el[0], value: el[1]};
         });
     } else {
-        return report.totalWordsFrequency.map(el => {
-            return {text: el[0], value: el[1]}
+        result = report.totalWordsFrequency.map(el => {
+            return {text: el[0], value: el[1]};
         });
     }
+
+    if(wordsFilters !== []) {
+        result = result.filter(el => !wordsFilters.includes(el.text));
+    }
+
+    return result;
 }

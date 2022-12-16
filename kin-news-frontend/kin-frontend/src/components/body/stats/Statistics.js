@@ -1,6 +1,6 @@
 import mainPageCss from "../MainPage.module.css";
 import statisticsCss from "./Statistics.module.css"
-import React from "react";
+import React, {useEffect} from "react";
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -10,9 +10,15 @@ import {useRouteMatch} from "react-router-dom/cjs/react-router-dom";
 import GenerateReportMenu from "./GenerateReportMenu/GenerateReportMenu";
 import SelectReportMenu from "./SelectReport/SelectReportMenu";
 import ReportVisualization from "./ReportVisualization/ReportVisualization";
+import {connect} from "react-redux";
+import {loadFilteredWordsFromStorage} from "../../../redux/reducers/wordCloud";
 
 
 const Statistics = (props) => {
+    useEffect(() => {
+        props.loadFilteredWordsFromStorage();
+    }, []);
+
     let {path, url} = useRouteMatch();
 
     return (
@@ -34,4 +40,14 @@ const Statistics = (props) => {
     )
 }
 
-export default Statistics;
+let mapStateToProps = (state) => {
+    return {}
+}
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        loadFilteredWordsFromStorage: () => dispatch(loadFilteredWordsFromStorage)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Statistics);

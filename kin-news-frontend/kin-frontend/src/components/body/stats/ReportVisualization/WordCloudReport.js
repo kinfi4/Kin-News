@@ -4,18 +4,20 @@ import {transformLargeNumberToReadable} from "../../../../utils/utils";
 import {transformReportToWordsList} from "./helpers/DataTransformers";
 import WordCloud from 'react-d3-cloud';
 import FilteringBlock from "./helpers/FilteringBlock";
-import {calcFontSize, calcPadding} from "./helpers/WordCloudSizeCalc";
+import {calcFontSize, calcPadding} from "./helpers/WordCloudHelpers";
+import {connect} from "react-redux";
+import {FiFilter} from "react-icons/fi"
+import {showModalWindow} from "../../../../redux/reducers/modalWindowReducer";
+import SelectFilteredWords from "./helpers/SelectFilteredWords";
 
 
-const WordCloudReport = ({report}) => {
+const WordCloudReport = ({report, wordsList, showModal}) => {
     const colors = ['#408f5e', '#2F6B9A', '#82a6c2', '#BA97B4', '#2CA884', '#E39E21', '#00C6B5', '#BF8520'];
     const [filters, setFilters] = useState({channelFilter: "All Channels", categoryFilter: "All"});
 
-    let words = transformReportToWordsList(report, filters.channelFilter, filters.categoryFilter);
+    let words = transformReportToWordsList(report, filters.channelFilter, filters.categoryFilter, wordsList);
     let theBiggestWordValue = Math.max(...words.map(el => el.value));
     let theSmallestWordValue = Math.min(...words.map(el => el.value));
-
-    console.log(report)
 
     return (
         <div className={visualizationCss.visualizationContainer}>
@@ -65,6 +67,20 @@ const WordCloudReport = ({report}) => {
                         ]}
                     />
                 </div>
+
+                <div style={{position: "relative"}}>
+                    <div
+                        className={visualizationCss.filterOutWordsButton}
+                        onClick={() => showModal(
+                            <SelectFilteredWords />,
+                            500,
+                            800,
+                        )}
+                    >
+                        <FiFilter style={{marginRight: "5px"}} /> Filter out words
+                    </div>
+                </div>
+
             </div>
 
             <div className={visualizationCss.wordCloudContainer}>
@@ -82,4 +98,16 @@ const WordCloudReport = ({report}) => {
     );
 };
 
-export default WordCloudReport;
+let mapStateToProps = (state) => {
+    return {
+        wordsList: state.wordsCloudReducer.wordsList,
+    }
+}
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        showModal: (content, width, height) => dispatch(showModalWindow(content, width, height)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WordCloudReport);

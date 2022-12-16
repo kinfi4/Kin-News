@@ -3,7 +3,7 @@ import filteringCss from './Filtering.module.css';
 import {HiOutlineBarsArrowDown} from "react-icons/hi2";
 import {capitalizeFirstLetter} from "../../../../../utils/utils";
 
-const FilteringBlock = ({currentOption, options}) => {
+const FilteringBlock = ({currentOption, options, style}) => {
     const [filteringOptions, setFilteringOptions] = useState({optionsActive: false});
 
     function renderOptions() {
@@ -34,6 +34,7 @@ const FilteringBlock = ({currentOption, options}) => {
             className={filteringCss.filterContainer}
             onMouseEnter={() => setFilteringOptions({optionsActive: true})}
             onMouseLeave={() => setFilteringOptions({optionsActive: false})}
+            style={style}
         >
             <div>
                 <HiOutlineBarsArrowDown className={filteringCss.filterIcon} />
