@@ -14,23 +14,25 @@ services:
       - ./kin_statistics_api/api:/app/api
       - ./kin_statistics_api/config:/app/config
       - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
-    networks:
-      - kin-network-test-stats
+    depends_on:
+      - postgres
+      - mongo
 
   postgres:
     image: "postgres"
-    container_name: "postgres-test"
+    container_name: "postgres-stats-test"
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=kin-stats-test
       - POSTGRES_USER=kin-stats-user
       - POSTGRES_PASSWORD=kin-stats-password
-    networks:
-      - kin-network-test-stats
 
-
-networks:
-  kin-network-test-stats:
-    external:
-      name: kin-network-test-stats
+  mongo:
+    image: "mongo:6.0.3"
+    container_name: "mongo-test"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=kin-news-user-test
+      - MONGO_INITDB_ROOT_PASSWORD=kin-news-password-test
+    ports:
+      - "27017:27017"

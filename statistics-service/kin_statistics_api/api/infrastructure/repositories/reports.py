@@ -87,36 +87,9 @@ class ReportsMongoRepository(IReportRepository):
     @staticmethod
     def _map_dict_to_entity(dict_report: dict[str, Any]) -> StatisticalReport | WordCloudReport:
         if dict_report.get('report_type') == ReportTypes.WORD_CLOUD:
-            return WordCloudReport(
-                report_id=dict_report['report_id'],
-                report_type=dict_report['report_type'],
-                name=dict_report['name'],
-                processing_status=dict_report['processing_status'],
-                report_failed_reason=dict_report.get('report_failed_reason'),
-                total_words=dict_report.get('total_words'),
-                data_by_channel_by_category=dict_report.get('data_by_channel_by_category'),
-                data_by_category=dict_report.get('data_by_category'),
-                data_by_channel=dict_report.get('data_by_channel'),
-                total_words_frequency=dict_report.get('total_words_frequency'),
-            )
+            return WordCloudReport.from_dict(dict_report)
 
-        return StatisticalReport(
-            report_id=dict_report['report_id'],
-            report_type=dict_report['report_type'],
-            name=dict_report['name'],
-            processing_status=dict_report['processing_status'],
-            report_failed_reason=dict_report['report_failed_reason'],
-            total_messages_count=dict_report['total_messages_count'],
-            messages_count_by_channel=dict_report['messages_count_by_channel'],
-            messages_count_by_date=dict_report['messages_count_by_date'],
-            messages_count_by_day_hour=dict_report['messages_count_by_day_hour'],
-            messages_count_by_category=dict_report['messages_count_by_category'],
-            messages_count_by_date_by_category=dict_report['messages_count_by_date_by_category'],
-            messages_count_by_channel_by_category=dict_report['messages_count_by_channel_by_category'],
-            messages_count_by_sentiment_type=dict_report['messages_count_by_sentiment_type'],
-            messages_count_by_channel_by_sentiment_type=dict_report['messages_count_by_channel_by_sentiment_type'],
-            messages_count_by_date_by_sentiment_type=dict_report['messages_count_by_date_by_sentiment_type'],
-        )
+        return StatisticalReport.from_dict(dict_report)
 
 
 class ReportsAccessManagementRepository:

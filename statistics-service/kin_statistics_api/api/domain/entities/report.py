@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 from collections import Counter
 
 from pydantic import BaseModel, Field, validator, ValidationError
@@ -60,6 +60,26 @@ class StatisticalReport(BaseReport):
     class Config:
         allow_population_by_field_name = True
 
+    @classmethod
+    def from_dict(cls, dict_report: dict[str, Any]) -> "StatisticalReport":
+        return cls(
+            report_id=dict_report['report_id'],
+            report_type=dict_report['report_type'],
+            name=dict_report['name'],
+            processing_status=dict_report['processing_status'],
+            report_failed_reason=dict_report['report_failed_reason'],
+            total_messages_count=dict_report['total_messages_count'],
+            messages_count_by_channel=dict_report['messages_count_by_channel'],
+            messages_count_by_date=dict_report['messages_count_by_date'],
+            messages_count_by_day_hour=dict_report['messages_count_by_day_hour'],
+            messages_count_by_category=dict_report['messages_count_by_category'],
+            messages_count_by_date_by_category=dict_report['messages_count_by_date_by_category'],
+            messages_count_by_channel_by_category=dict_report['messages_count_by_channel_by_category'],
+            messages_count_by_sentiment_type=dict_report['messages_count_by_sentiment_type'],
+            messages_count_by_channel_by_sentiment_type=dict_report['messages_count_by_channel_by_sentiment_type'],
+            messages_count_by_date_by_sentiment_type=dict_report['messages_count_by_date_by_sentiment_type'],
+        )
+
 
 class WordCloudReport(BaseReport):
     total_words: Optional[int] = Field(None, alias='totalWords')
@@ -76,6 +96,21 @@ class WordCloudReport(BaseReport):
 
     class Config:
         allow_population_by_field_name = True
+
+    @classmethod
+    def from_dict(cls, dict_report: dict[str, Any]) -> "WordCloudReport":
+        return cls(
+            report_id=dict_report['report_id'],
+            report_type=dict_report['report_type'],
+            name=dict_report['name'],
+            processing_status=dict_report['processing_status'],
+            report_failed_reason=dict_report.get('report_failed_reason'),
+            total_words=dict_report.get('total_words'),
+            data_by_channel_by_category=dict_report.get('data_by_channel_by_category'),
+            data_by_category=dict_report.get('data_by_category'),
+            data_by_channel=dict_report.get('data_by_channel'),
+            total_words_frequency=dict_report.get('total_words_frequency'),
+        )
 
 
 class ReportPutEntity(BaseModel):

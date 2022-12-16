@@ -10,9 +10,9 @@ from api.views import (
 
 
 urlpatterns = [
-    path('healthcheck', HealthCheckView.as_view()),
-    path('reports', ReportsListView.as_view()),
-    path('reports/<int:report_id>', ReportsSingleView.as_view()),
-    path('users', RegisterUserView.as_view()),
-    path('data/<int:report_id>', GetReportDataView.as_view())
+    path('healthcheck', HealthCheckView.as_view(), name='healthcheck'),
+    path('reports', ReportsListView.as_view(), name='reports'),
+    path('reports/<int:report_id>', ReportsSingleView.as_view(), name='reports-single'),
+    path('users', RegisterUserView.as_view(), name='users'),
+    path('data/<int:report_id>', GetReportDataView.as_view(), name='report-data'),
 ]
