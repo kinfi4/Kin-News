@@ -1,12 +1,12 @@
 from unittest import mock
 
-from django.db.utils import IntegrityError
-from django.test import TestCase, Client
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
+from django.test import Client, TestCase
 
 import api.tests.factories as fc
-from api.models import User, Channel
+from api.models import Channel, User
 from api.tests.integration.e2e.urls import APIUrls
 from api.views import container
 from kin_news_core.auth import create_jwt_token

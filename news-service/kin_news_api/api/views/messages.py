@@ -1,17 +1,17 @@
 import logging
-from typing import Optional
 from datetime import datetime, timedelta
+from typing import Optional
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.views import APIView
 
+from api.domain.services import ChannelService, MessageService
 from api.exceptions import InvalidURIParams, UserAlreadyFetchingNews
-from api.domain.services import MessageService, ChannelService
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import TelegramIsUnavailable
@@ -76,12 +76,12 @@ class MessagesView(APIView):
                 end_time = datetime.now()
 
             if start_time > end_time:
-                raise InvalidURIParams(f'Start time must be earlier than end time.')
+                raise InvalidURIParams('Start time must be earlier than end time.')
 
             if (end_time - start_time).total_seconds() > 3600 * 24:
-                raise InvalidURIParams(f'You can not fetch data for such long period of time!')
+                raise InvalidURIParams('You can not fetch data for such long period of time!')
         except ValueError as err:
             _logger.info(f'Invalid query params passed: {err}')
-            raise InvalidURIParams(f'You have passed invalid query params! Offset/End time must be integers representing timestamp')
+            raise InvalidURIParams('You have passed invalid query params! Offset/End time must be integers representing timestamp')
 
         return start_time, end_time

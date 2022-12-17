@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, Field, validator
 
 from api.domain.utils import truncate_channel_link_to_username
 

@@ -37,3 +37,7 @@ typing_extensions==4.4.0
 uritemplate==4.1.1
 urllib3==1.26.12
 wrapt==1.14.1
+isort==5.11.2
+mypy==0.991
+mypy-extensions==0.4.3
+flake8==6.0.0

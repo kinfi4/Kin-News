@@ -4,7 +4,6 @@ from api.domain.entities import RatePostEntity
 from api.models import Channel, PossibleRating
 from kin_news_core.telegram.entities import TelegramChannelEntity, TelegramMessageEntity
 
-
 faker = Faker()
 
 

@@ -1,8 +1,7 @@
 import logging
 import random
 import time
-from datetime import datetime, timedelta
-from typing import Optional
+from datetime import datetime
 
 from api.domain.entities import ChannelGetEntity
 from api.domain.entities.message import MessageGetEntity

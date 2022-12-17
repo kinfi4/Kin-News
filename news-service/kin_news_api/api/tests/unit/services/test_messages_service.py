@@ -2,9 +2,9 @@ from unittest import mock
 
 from django.test import TestCase
 
-from api.views import container
 from api.domain.entities import MessageGetEntity
 from api.tests.factories import build_telegram_message
+from api.views import container
 
 
 class TestMessageService(TestCase):

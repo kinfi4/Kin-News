@@ -1,12 +1,12 @@
 from unittest import mock
 
-from django.test import TestCase
 from django.conf import settings
+from django.test import TestCase
 
-from api.domain.entities import ChannelPostEntity, ChannelGetEntity
+from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.models import Channel, User
-from api.views import container
 from api.tests.factories import build_telegram_channel_entity
+from api.views import container
 
 
 class TestChannels(TestCase):

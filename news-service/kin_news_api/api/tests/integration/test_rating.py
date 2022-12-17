@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-from api.domain.entities import RatingGetEntity, RatePostEntity
+from api.domain.entities import RatePostEntity, RatingGetEntity
+from api.models import Channel, ChannelRatings, User
 from api.views import container
-from api.models import User, ChannelRatings, Channel
 
 
 class TestRating(TestCase):

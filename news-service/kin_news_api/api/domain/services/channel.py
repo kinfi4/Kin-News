@@ -1,17 +1,17 @@
-import os
 import logging
+import os
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
 
 from api.constants import DELETED_CHANNEL_TITLE
 from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.exceptions import UserIsNotSubscribed
 from api.infrastructure.repositories import ChannelRepository, UserRepository
-from kin_news_core.telegram import ITelegramProxy
-from kin_news_core.exceptions import InvalidChannelURLError
 from kin_news_core.cache import AbstractCache
+from kin_news_core.exceptions import InvalidChannelURLError
+from kin_news_core.telegram import ITelegramProxy
 
 
 class ChannelService:

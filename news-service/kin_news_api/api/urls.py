@@ -1,17 +1,16 @@
 from django.urls import path
 
 from api.views import (
-    RegisterView,
-    LoginView,
-    UserView,
+    ChannelExistsView,
     ChannelListView,
     ChannelRateView,
     ChannelUnsubscribeView,
     HealthCheckView,
+    LoginView,
     MessagesView,
-    ChannelExistsView,
+    RegisterView,
+    UserView,
 )
-
 
 urlpatterns = [
     path('register', RegisterView.as_view(), name='register'),

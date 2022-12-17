@@ -1,12 +1,12 @@
-from .user import UserView, LoginView, RegisterView
-from .channels import ChannelListView, ChannelUnsubscribeView, ChannelExistsView
-from .ratings import ChannelRateView
+from api import views
+from config import settings
+from config.containers import Container
+
+from .channels import ChannelExistsView, ChannelListView, ChannelUnsubscribeView
 from .healthcheck import HealthCheckView
 from .messages import MessagesView
-
-from config.containers import Container
-from config import settings
-from api import views
+from .ratings import ChannelRateView
+from .user import LoginView, RegisterView, UserView
 
 container = Container()
 container.config.from_dict(settings.__dict__)

@@ -2,10 +2,10 @@ import logging
 
 from django.core.exceptions import ObjectDoesNotExist
 
+from api.domain.entities import UserEntity, UserRegistrationEntity
+from api.exceptions import LoginFailedError, UsernameAlreadyTakenError
 from api.infrastructure.clients.statistics_service import StatisticsServiceProxy
 from api.infrastructure.repositories import UserRepository
-from api.exceptions import UsernameAlreadyTakenError, LoginFailedError
-from api.domain.entities import UserEntity, UserRegistrationEntity
 from kin_news_core.auth import create_jwt_token
 from kin_news_core.exceptions import ServiceProxyError
 
@@ -20,7 +20,7 @@ class UserService:
         try:
             user = self._repository.get_user_by_username(user_entity.username)
         except ObjectDoesNotExist:
-            raise LoginFailedError(f'Can not find user with specified username and password')
+            raise LoginFailedError('Can not find user with specified username and password')
 
         if not user.check_password(user_entity.password):
             raise LoginFailedError('Specified password is incorrect!')

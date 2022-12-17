@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator, Field, validator
+from pydantic import BaseModel, Field, root_validator, validator
 
 
 class UserEntity(BaseModel):

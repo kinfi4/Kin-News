@@ -1,10 +1,10 @@
 import logging
 from typing import Any
 
-from django.db.models import Count, Avg, F, Q
+from django.db.models import Avg, Count, F, Q
 from django.db.models.functions import Coalesce
 
-from api.models import User, ChannelRatings, Channel, PossibleRating
+from api.models import Channel, ChannelRatings, PossibleRating, User
 
 
 class RatingsRepository:

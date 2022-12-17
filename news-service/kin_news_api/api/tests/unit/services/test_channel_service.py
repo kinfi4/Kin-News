@@ -2,9 +2,9 @@ from unittest import mock
 
 from django.test import TestCase
 
-from api.views import container
-from api.domain.entities import ChannelPostEntity, ChannelGetEntity
+from api.domain.entities import ChannelGetEntity, ChannelPostEntity
 from api.tests import factories
+from api.views import container
 
 
 class ChannelsServiceTest(TestCase):

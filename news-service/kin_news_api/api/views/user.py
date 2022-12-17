@@ -1,11 +1,11 @@
+from dependency_injector.wiring import Provide, inject
 from pydantic import ValidationError
-from dependency_injector.wiring import inject, Provide
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from api.domain.entities import UserEntity, UserRegistrationEntity
 from api.domain.services import UserService

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, validator
 
-from api.models import PossibleRating
 from api.domain.utils import truncate_channel_link_to_username
+from api.models import PossibleRating
 
 
 class RatePostEntity(BaseModel):

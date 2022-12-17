@@ -2,10 +2,10 @@ from dependency_injector.wiring import Provide, inject
 from pydantic import ValidationError
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 
 from api.domain.entities import RatePostEntity
 from api.domain.services import RatingsService
@@ -30,7 +30,7 @@ class ChannelRateView(APIView):
         if not channel_link:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={'errors': f'Please provide a channel name'}
+                data={'errors': 'Please provide a channel name'}
             )
 
         ratings = rating_service.get_channel_rating_stats(request.user, channel_link)
