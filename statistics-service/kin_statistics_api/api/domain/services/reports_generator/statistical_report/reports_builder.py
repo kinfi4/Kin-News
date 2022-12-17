@@ -1,8 +1,13 @@
 from datetime import datetime
+from typing import Optional
 
 from api.domain.entities import StatisticalReport
-from config.constants import (MessageCategories, ReportProcessingResult,
-                              ReportTypes, SentimentTypes)
+from config.constants import (
+    MessageCategories,
+    ReportProcessingResult,
+    ReportTypes,
+    SentimentTypes,
+)
 
 
 class ReportsBuilder:
@@ -11,18 +16,18 @@ class ReportsBuilder:
         self._report_id = report_id
         self._total_messages_count = 0
         self._status = ReportProcessingResult.READY
-        self._failed_reason = None
+        self._failed_reason: Optional[str] = None
         self._report_type = ReportTypes.STATISTICAL
 
         self._messages_count_by_category = {category: 0 for category in MessageCategories}
         self._messages_count_by_sentiment_type = {sentiment_type: 0 for sentiment_type in SentimentTypes}
         self._messages_count_by_day_hour = {str(hour): 0 for hour in range(24)}
-        self._messages_count_by_date = {}
-        self._messages_count_by_channel = {}
-        self._messages_count_by_date_by_category = {}
-        self._messages_count_by_channel_by_category = {}
-        self._messages_count_by_channel_by_sentiment_type = {}
-        self._messages_count_by_date_by_sentiment_type = {}
+        self._messages_count_by_date: dict = {}
+        self._messages_count_by_channel: dict = {}
+        self._messages_count_by_date_by_category: dict = {}
+        self._messages_count_by_channel_by_category: dict = {}
+        self._messages_count_by_channel_by_sentiment_type: dict = {}
+        self._messages_count_by_date_by_sentiment_type: dict = {}
 
     @classmethod
     def from_report_id(cls, report_id: int) -> "ReportsBuilder":

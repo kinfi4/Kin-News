@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 
 from api.domain.entities import StatisticalReport
-from api.domain.entities.report import (BaseReport, ReportIdentificationEntity,
-                                        WordCloudReport)
+from api.domain.entities.report import (
+    BaseReport,
+    ReportIdentificationEntity,
+    WordCloudReport,
+)
 
 
 class IReportRepository(ABC):

@@ -1,9 +1,13 @@
-from collections import Counter
 from datetime import datetime
+from typing import Optional
 
 from api.domain.entities import WordCloudReport
-from config.constants import (MessageCategories, ReportProcessingResult,
-                              ReportTypes, SentimentTypes)
+from config.constants import (
+    MessageCategories,
+    ReportProcessingResult,
+    ReportTypes,
+    SentimentTypes,
+)
 
 
 class WordCloudReportBuilder:
@@ -13,12 +17,12 @@ class WordCloudReportBuilder:
         self._total_words_count = 0
         self._report_type = ReportTypes.WORD_CLOUD
         self._status = ReportProcessingResult.READY
-        self._failed_reason = None
+        self._failed_reason: Optional[str] = None
 
-        self._data_by_channel_by_category = None
-        self._data_by_channel = None
-        self._data_by_category = None
-        self._total_words_frequency = None
+        self._data_by_channel_by_category: Optional[dict] = None
+        self._data_by_channel: Optional[dict] = None
+        self._data_by_category: Optional[dict] = None
+        self._total_words_frequency: Optional[list[tuple[str, int]]] = None
 
     @classmethod
     def from_report_id(cls, report_id: int) -> "WordCloudReportBuilder":

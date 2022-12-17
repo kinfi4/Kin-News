@@ -5,8 +5,7 @@ from faker import Faker
 
 from api.domain.entities import GenerateReportEntity
 from config.constants import MessageCategories, SentimentTypes
-from kin_news_core.telegram.entities import (TelegramChannelEntity,
-                                             TelegramMessageEntity)
+from kin_news_core.telegram.entities import TelegramChannelEntity, TelegramMessageEntity
 
 faker = Faker()
 

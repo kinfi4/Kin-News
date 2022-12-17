@@ -9,8 +9,9 @@ from rest_framework.views import APIView, Request, Response
 
 from api.domain.entities import GenerateReportEntity, ReportPutEntity
 from api.domain.services import ManagingReportsService, UserService
-from api.domain.services.reports_generator.generate_report_usecase import \
-    generate_report_use_case
+from api.domain.services.reports_generator.generate_report_usecase import (
+    generate_report_use_case,
+)
 from api.exceptions import ReportAccessForbidden
 from config.constants import DEFAULT_DATE_FORMAT
 from config.containers import Container
@@ -57,7 +58,7 @@ class ReportsListView(APIView):
                 report_type=request.data['reportType'],
             )
 
-            _logger.info(f'Creating Celery job for report generation...')
+            _logger.info('Creating Celery job for report generation...')
 
             use_case = generate_report_use_case(generate_report.report_type)
 

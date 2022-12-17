@@ -5,8 +5,12 @@ from django.test import TestCase
 from api.domain.entities import StatisticalReport
 from api.tests import factories
 from api.views import container
-from config.constants import (DEFAULT_DATE_FORMAT, MessageCategories,
-                              ReportProcessingResult, SentimentTypes)
+from config.constants import (
+    DEFAULT_DATE_FORMAT,
+    MessageCategories,
+    ReportProcessingResult,
+    SentimentTypes,
+)
 
 
 class TestReportGenerationService(TestCase):

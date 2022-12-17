@@ -6,13 +6,15 @@ import pandas as pd
 from keras.models import load_model
 
 from api.domain.services.reports_generator.predictor import (
-    ISentimentAnalyzer, ITextPreprocessor, SentimentAnalyzer)
-from api.domain.services.reports_generator.predictor.interfaces import \
-    IPredictor
-from api.domain.services.reports_generator.predictor.preprocessor import \
-    TextPreprocessor
-from config.constants import (MAX_POST_LEN_IN_WORDS, MessageCategories,
-                              SentimentTypes)
+    ISentimentAnalyzer,
+    ITextPreprocessor,
+    SentimentAnalyzer,
+)
+from api.domain.services.reports_generator.predictor.interfaces import IPredictor
+from api.domain.services.reports_generator.predictor.preprocessor import (
+    TextPreprocessor,
+)
+from config.constants import MAX_POST_LEN_IN_WORDS, MessageCategories, SentimentTypes
 
 
 class Predictor(IPredictor):
@@ -49,14 +51,14 @@ class Predictor(IPredictor):
     def get_news_type(self, text: str) -> MessageCategories:
         ml_prediction_results = self._get_ml_models_predictions(text)
         # nn_prediction_results = self._get_nn_models_predictions(text)
-        nn_prediction_results = []
+        nn_prediction_results: list = []
 
         counter = Counter([*ml_prediction_results, *nn_prediction_results])
 
         most_common_prediction = counter.most_common(1)[0][0]
         return most_common_prediction
 
-    def _get_nn_models_predictions(self, text: str):
+    def _get_nn_models_predictions(self, text: str) -> tuple:
         text_sequences = self._text_preprocessor.keras_tokenize_and_pad_text(
             pd.Series([text]),
             make_preprocessing=True,
@@ -74,7 +76,7 @@ class Predictor(IPredictor):
 
         return tuple(map(self._get_predicted_news_type_label, prediction_results))
 
-    def _get_ml_models_predictions(self, text: str):
+    def _get_ml_models_predictions(self, text: str) -> tuple:
         test_vectors_for_ml_models = self._text_preprocessor.sklearn_vectorize_text(
             [text],
             make_preprocessing=True

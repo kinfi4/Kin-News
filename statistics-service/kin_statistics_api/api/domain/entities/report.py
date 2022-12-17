@@ -1,10 +1,13 @@
-from collections import Counter
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field, ValidationError, validator
 
-from config.constants import (MessageCategories, ReportProcessingResult,
-                              ReportTypes, SentimentTypes)
+from config.constants import (
+    MessageCategories,
+    ReportProcessingResult,
+    ReportTypes,
+    SentimentTypes,
+)
 
 
 class BaseReport(BaseModel):
@@ -51,10 +54,10 @@ class StatisticalReport(BaseReport):
     @validator('messages_count_by_day_hour', pre=True)
     def _validate_day_hour(cls, messages_dict: dict[str, int]):
         if len(messages_dict) != 24:
-            raise ValidationError(f'Invalid format for messagesCountByDayHour field')
+            raise ValidationError('Invalid format for messagesCountByDayHour field')
 
         if any([int(n) not in range(24) for n in messages_dict.keys()]):  # all hours must be between 0 and 23
-            raise ValidationError(f'Invalid format for messagesCountByDayHour field')
+            raise ValidationError('Invalid format for messagesCountByDayHour field')
 
         return messages_dict
 

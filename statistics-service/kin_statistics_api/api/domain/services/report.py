@@ -2,13 +2,15 @@ import logging
 
 from django.contrib.auth.models import User
 
-from api.domain.entities.report import (ReportIdentificationEntity,
-                                        ReportPutEntity, StatisticalReport,
-                                        WordCloudReport)
+from api.domain.entities.report import (
+    ReportIdentificationEntity,
+    ReportPutEntity,
+    StatisticalReport,
+    WordCloudReport,
+)
 from api.exceptions import ReportAccessForbidden
 from api.infrastructure.interfaces import IReportRepository
-from api.infrastructure.repositories.reports import \
-    ReportsAccessManagementRepository
+from api.infrastructure.repositories.reports import ReportsAccessManagementRepository
 
 
 class ManagingReportsService:
@@ -60,4 +62,4 @@ class ManagingReportsService:
         user_reports = self._access_management_repository.get_user_report_ids(user_id=user.id)
 
         if not all([report_id in user_reports for report_id in report_ids]):
-            raise ReportAccessForbidden(f'You do not have permission for this report!')
+            raise ReportAccessForbidden('You do not have permission for this report!')

@@ -1,7 +1,6 @@
 from typing import Callable
 
-from api.tasks import (generate_statistical_report_task,
-                       generate_word_cloud_task)
+from api.tasks import generate_statistical_report_task, generate_word_cloud_task
 from config.constants import ReportTypes
 
 

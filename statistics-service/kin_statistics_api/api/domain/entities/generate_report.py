@@ -2,8 +2,7 @@ from datetime import date, datetime
 from typing import Any, Optional, Union
 
 from django.conf import settings
-from pydantic import (BaseModel, Field, ValidationError, root_validator,
-                      validator)
+from pydantic import BaseModel, Field, ValidationError, root_validator, validator
 
 from config.constants import DEFAULT_DATE_FORMAT, ReportTypes
 
@@ -15,7 +14,7 @@ def _cast_string_to_date(date_string: str) -> date:
 
         return datetime.strptime(date_string, DEFAULT_DATE_FORMAT).date()
     except ValueError:
-        raise ValueError(f'Invalid string format for incoming StartDate field!')
+        raise ValueError('Invalid string format for incoming StartDate field!')
 
 
 class GenerateReportEntity(BaseModel):
@@ -27,7 +26,7 @@ class GenerateReportEntity(BaseModel):
     @validator('channel_list', pre=True, allow_reuse=True)
     def validate_channels(cls, channels: list[str]) -> list[str]:
         if len(channels) > settings.MAX_SUBSCRIPTIONS_ALLOWED or not channels:
-            raise ValidationError(f'You passed invalid list of channels to process!')
+            raise ValidationError('You passed invalid list of channels to process!')
 
         return channels
 

@@ -26,6 +26,7 @@ docopt==0.6.2
 drf-yasg==1.21.4
 exceptiongroup==1.0.4
 Faker==15.3.3
+flake8==6.0.0
 flatbuffers==22.10.26
 gast==0.4.0
 google-auth==2.14.1
@@ -37,6 +38,7 @@ idna==3.4
 importlib-metadata==5.0.0
 inflection==0.5.1
 iniconfig==1.1.1
+isort==5.11.2
 itypes==1.2.0
 Jinja2==3.1.2
 joblib==1.2.0
@@ -46,6 +48,9 @@ kombu==5.2.4
 libclang==14.0.6
 Markdown==3.4.1
 MarkupSafe==2.1.1
+mccabe==0.7.0
+mypy==0.991
+mypy-extensions==0.4.3
 nltk==3.7
 np==1.0.2
 numpy==1.23.4
@@ -60,7 +65,9 @@ psycopg2-binary==2.9.4
 pyaes==1.6.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
+pycodestyle==2.10.0
 pydantic==1.10.2
+pyflakes==3.0.1
 PyJWT==2.5.0
 pymongo==4.3.2
 pymorphy2==0.9.1

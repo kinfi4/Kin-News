@@ -16,6 +16,7 @@ services:
       - kin-network
     volumes:
       - ./kin_statistics_api/api:/app/api
+      - ./kin_statistics_api/setup.cfg:/app/setup.cfg
       - ./kin_statistics_api/config:/app/config
       - ./kin_statistics_api/models:/app/models
       - ./kin_statistics_api/data:/app/data

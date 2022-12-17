@@ -5,8 +5,12 @@ from django.contrib.auth.models import User
 from django.db.models import F, Max
 from pymongo import MongoClient
 
-from api.domain.entities import (BaseReport, ReportIdentificationEntity,
-                                 StatisticalReport, WordCloudReport)
+from api.domain.entities import (
+    BaseReport,
+    ReportIdentificationEntity,
+    StatisticalReport,
+    WordCloudReport,
+)
 from api.exceptions import ImpossibleToModifyProcessingReport, ReportNotFound
 from api.infrastructure.interfaces import IReportRepository
 from api.models import UserGeneratesReport, UserReport

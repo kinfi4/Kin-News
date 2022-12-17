@@ -3,10 +3,10 @@ from itertools import chain
 from typing import Any
 
 from api.domain.entities import GenerateReportEntity, WordCloudReport
-from api.domain.services.reports_generator.interfaces import \
-    IGeneratingReportsService
-from api.domain.services.reports_generator.word_cloud.reports_builder import \
-    WordCloudReportBuilder
+from api.domain.services.reports_generator.interfaces import IGeneratingReportsService
+from api.domain.services.reports_generator.word_cloud.reports_builder import (
+    WordCloudReportBuilder,
+)
 from config.constants import MessageCategories, SentimentTypes
 
 

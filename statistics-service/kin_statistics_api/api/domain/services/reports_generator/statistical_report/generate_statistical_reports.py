@@ -3,15 +3,17 @@ import os
 from typing import Any, Union
 
 from api.domain.entities import GenerateReportEntity, StatisticalReport
-from api.domain.services.reports_generator.interfaces import \
-    IGeneratingReportsService
+from api.domain.services.reports_generator.interfaces import IGeneratingReportsService
 from api.domain.services.reports_generator.predictor.predictor import Predictor
-from api.domain.services.reports_generator.statistical_report.reports_builder import \
-    ReportsBuilder
-from api.infrastructure.repositories import (IReportRepository,
-                                             ReportsAccessManagementRepository)
-from config.constants import (DEFAULT_DATE_FORMAT, MessageCategories,
-                              SentimentTypes)
+from api.domain.services.reports_generator.statistical_report.reports_builder import (
+    ReportsBuilder,
+)
+from api.infrastructure.repositories import (
+    IReportRepository,
+    ReportsAccessManagementRepository,
+)
+from api.type_hints import CSV_WRITER
+from config.constants import DEFAULT_DATE_FORMAT, MessageCategories, SentimentTypes
 from kin_news_core.telegram.interfaces import ITelegramProxy
 
 
@@ -30,7 +32,7 @@ class GenerateStatisticalReportService(IGeneratingReportsService):
 
         self._reports_folder_path = reports_folder_path
 
-        self._csv_writer = None
+        self._csv_writer: CSV_WRITER = None
 
     def _build_report_entity(self, report_id: int, generate_report_entity: GenerateReportEntity) -> StatisticalReport:
         user_report_file = open(os.path.join(self._reports_folder_path, f'{report_id}.csv'), 'w')
