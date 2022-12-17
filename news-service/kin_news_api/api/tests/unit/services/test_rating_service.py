@@ -9,7 +9,7 @@ from api.views import container
 
 
 class TestRatingService(TestCase):
-    def test__getting_user_rates(self):
+    def test__getting_user_rates_unit(self):
         rating_repository_mock = mock.MagicMock()
 
         rating_repository_mock.user_rate.return_value = 1
@@ -27,7 +27,7 @@ class TestRatingService(TestCase):
 
         self.assertEqual(result, target)
 
-    def test__setting_rate(self):
+    def test__setting_rate_unit(self):
         rating_repository_mock = mock.MagicMock()
 
         rating_repository_mock.get_channel_ratings_stats.return_value = {"total_rates": 3, "average_rate": 2.2}

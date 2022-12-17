@@ -14,9 +14,9 @@ def build_orm_channel():
     )
 
 
-def build_telegram_channel_entity():
+def build_telegram_channel_entity(link: str = None):
     return TelegramChannelEntity(
-        link=faker.word(),
+        link=link if link is not None else faker.word(),
         title=faker.word(),
         description=faker.text(),
         participants_count="300K",
