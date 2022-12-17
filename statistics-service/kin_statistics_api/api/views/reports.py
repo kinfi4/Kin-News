@@ -1,18 +1,19 @@
 import logging
 
+from dependency_injector.wiring import Provide, inject
 from pydantic import ValidationError
-from dependency_injector.wiring import inject, Provide
 from rest_framework import status
-from rest_framework.views import APIView, Request, Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Request, Response
 
+from api.domain.entities import GenerateReportEntity, ReportPutEntity
 from api.domain.services import ManagingReportsService, UserService
-from api.domain.entities import ReportPutEntity, GenerateReportEntity
+from api.domain.services.reports_generator.generate_report_usecase import \
+    generate_report_use_case
 from api.exceptions import ReportAccessForbidden
-from api.domain.services.reports_generator.generate_report_usecase import generate_report_use_case
-from config.containers import Container
 from config.constants import DEFAULT_DATE_FORMAT
+from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import KinNewsCoreException
 from kin_news_core.utils import pydantic_errors_prettifier

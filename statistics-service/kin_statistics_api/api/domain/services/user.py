@@ -1,6 +1,6 @@
+from api.domain.entities import CreateUserEntity
 from api.exceptions import UsernameTaken
 from api.infrastructure.repositories import UserRepository
-from api.domain.entities import CreateUserEntity
 
 
 class UserService:

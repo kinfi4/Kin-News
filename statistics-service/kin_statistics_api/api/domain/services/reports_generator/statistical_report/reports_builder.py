@@ -1,7 +1,8 @@
 from datetime import datetime
 
 from api.domain.entities import StatisticalReport
-from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes, ReportTypes
+from config.constants import (MessageCategories, ReportProcessingResult,
+                              ReportTypes, SentimentTypes)
 
 
 class ReportsBuilder:

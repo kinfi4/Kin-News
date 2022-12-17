@@ -1,12 +1,11 @@
 import logging
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
-from api.domain.services import IGeneratingReportsService
 from api.domain.entities import GenerateReportEntity
+from api.domain.services import IGeneratingReportsService
 from config.celery import celery_app
 from config.containers import Container
-
 
 _logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ def generate_statistical_report_task(
     user_id: int,
     generating_reports_service: IGeneratingReportsService = Provide[Container.services.generating_reports_service],
 ) -> None:
-    _logger.info(f'Instantiating generate report entity and running the processing...')
+    _logger.info('Instantiating generate report entity and running the processing...')
 
     generate_report_entity = GenerateReportEntity(
         start_date=start_date,
@@ -40,7 +39,7 @@ def generate_word_cloud_task(
     user_id: int,
     generating_word_cloud_service: IGeneratingReportsService = Provide[Container.services.generating_word_cloud_service],
 ) -> None:
-    _logger.info(f'Instantiating generate report entity and running the processing...')
+    _logger.info('Instantiating generate report entity and running the processing...')
 
     generate_report_entity = GenerateReportEntity(
         start_date=start_date,

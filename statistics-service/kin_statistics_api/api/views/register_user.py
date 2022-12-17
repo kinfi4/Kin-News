@@ -1,14 +1,14 @@
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 from pydantic import ValidationError
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 
 from api.domain.entities import CreateUserEntity
-from api.exceptions import UsernameTaken
 from api.domain.services import UserService
+from api.exceptions import UsernameTaken
 from config.containers import Container
 from kin_news_core.auth.kin_token import KinTokenAuthentication
 

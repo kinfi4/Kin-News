@@ -1,13 +1,7 @@
 from django.urls import path
 
-from api.views import (
-    HealthCheckView,
-    ReportsSingleView,
-    ReportsListView,
-    RegisterUserView,
-    GetReportDataView,
-)
-
+from api.views import (GetReportDataView, HealthCheckView, RegisterUserView,
+                       ReportsListView, ReportsSingleView)
 
 urlpatterns = [
     path('healthcheck', HealthCheckView.as_view(), name='healthcheck'),

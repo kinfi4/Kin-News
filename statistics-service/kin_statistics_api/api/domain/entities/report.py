@@ -1,9 +1,10 @@
-from typing import Optional, Any
 from collections import Counter
+from typing import Any, Optional
 
-from pydantic import BaseModel, Field, validator, ValidationError
+from pydantic import BaseModel, Field, ValidationError, validator
 
-from config.constants import MessageCategories, ReportProcessingResult, SentimentTypes, ReportTypes
+from config.constants import (MessageCategories, ReportProcessingResult,
+                              ReportTypes, SentimentTypes)
 
 
 class BaseReport(BaseModel):

@@ -1,11 +1,11 @@
 from typing import Callable
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 from django.http import StreamingHttpResponse
+from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.request import Request
-from rest_framework import status
 
 from api.domain.services import IReportFileGenerator
 from api.exceptions import ReportDataNotFound

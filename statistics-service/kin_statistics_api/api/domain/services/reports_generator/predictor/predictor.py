@@ -5,10 +5,14 @@ import joblib
 import pandas as pd
 from keras.models import load_model
 
-from api.domain.services.reports_generator.predictor.interfaces import IPredictor
-from api.domain.services.reports_generator.predictor import ITextPreprocessor, ISentimentAnalyzer, SentimentAnalyzer
-from api.domain.services.reports_generator.predictor.preprocessor import TextPreprocessor
-from config.constants import MessageCategories, MAX_POST_LEN_IN_WORDS, SentimentTypes
+from api.domain.services.reports_generator.predictor import (
+    ISentimentAnalyzer, ITextPreprocessor, SentimentAnalyzer)
+from api.domain.services.reports_generator.predictor.interfaces import \
+    IPredictor
+from api.domain.services.reports_generator.predictor.preprocessor import \
+    TextPreprocessor
+from config.constants import (MAX_POST_LEN_IN_WORDS, MessageCategories,
+                              SentimentTypes)
 
 
 class Predictor(IPredictor):

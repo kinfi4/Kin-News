@@ -2,7 +2,8 @@ from collections import Counter
 from datetime import datetime
 
 from api.domain.entities import WordCloudReport
-from config.constants import ReportProcessingResult, SentimentTypes, MessageCategories, ReportTypes
+from config.constants import (MessageCategories, ReportProcessingResult,
+                              ReportTypes, SentimentTypes)
 
 
 class WordCloudReportBuilder:

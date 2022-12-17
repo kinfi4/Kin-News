@@ -7,7 +7,6 @@ from nltk.tokenize import word_tokenize
 from api.domain.services.reports_generator.predictor import ISentimentAnalyzer
 from config.constants import MessageCategories, SentimentTypes
 
-
 Word = namedtuple('Word', 'form label value')
 
 

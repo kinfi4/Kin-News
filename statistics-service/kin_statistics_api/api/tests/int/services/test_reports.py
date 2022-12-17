@@ -1,10 +1,10 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 
 from api.exceptions import ReportNotFound
-from api.tests.int.urls import APIUrls
-from api.views import container
 from api.models import User
 from api.tests.int import factories as fc
+from api.tests.int.urls import APIUrls
+from api.views import container
 from kin_news_core.auth import create_jwt_token
 
 

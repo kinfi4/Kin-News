@@ -1,6 +1,7 @@
 from faker import Faker
 
-from api.domain.services.reports_generator.word_cloud.reports_builder import WordCloudReportBuilder
+from api.domain.services.reports_generator.word_cloud.reports_builder import \
+    WordCloudReportBuilder
 from config.constants import ReportProcessingResult
 
 _faker = Faker()

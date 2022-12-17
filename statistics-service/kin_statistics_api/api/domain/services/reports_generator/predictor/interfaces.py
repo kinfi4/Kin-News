@@ -3,7 +3,8 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 from api.domain.entities import GenerateReportEntity
-from config.constants import MessageCategories, MAX_POST_LEN_IN_WORDS, SentimentTypes
+from config.constants import (MAX_POST_LEN_IN_WORDS, MessageCategories,
+                              SentimentTypes)
 
 
 class IPredictor(ABC):

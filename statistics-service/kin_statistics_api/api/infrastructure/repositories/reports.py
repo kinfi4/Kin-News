@@ -2,13 +2,14 @@ import logging
 from typing import Any
 
 from django.contrib.auth.models import User
-from django.db.models import Max, F
+from django.db.models import F, Max
 from pymongo import MongoClient
 
-from api.domain.entities import StatisticalReport, BaseReport, ReportIdentificationEntity, WordCloudReport
-from api.exceptions import ReportNotFound, ImpossibleToModifyProcessingReport
-from api.models import UserReport, UserGeneratesReport
+from api.domain.entities import (BaseReport, ReportIdentificationEntity,
+                                 StatisticalReport, WordCloudReport)
+from api.exceptions import ImpossibleToModifyProcessingReport, ReportNotFound
 from api.infrastructure.interfaces import IReportRepository
+from api.models import UserGeneratesReport, UserReport
 from config.constants import ReportProcessingResult, ReportTypes
 
 

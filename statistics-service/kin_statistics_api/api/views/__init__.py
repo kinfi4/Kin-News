@@ -1,11 +1,11 @@
+from api import tasks, views
+from config import settings
+from config.containers import Container
+
 from .healthcheck import HealthCheckView
-from .reports import ReportsSingleView, ReportsListView
 from .register_user import RegisterUserView
 from .report_data import GetReportDataView
-
-from config.containers import Container
-from config import settings
-from api import views, tasks
+from .reports import ReportsListView, ReportsSingleView
 
 container = Container()
 container.config.from_dict(settings.__dict__)

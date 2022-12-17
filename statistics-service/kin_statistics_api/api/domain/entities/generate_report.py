@@ -1,8 +1,9 @@
 from datetime import date, datetime
-from typing import Union, Any, Optional
+from typing import Any, Optional, Union
 
 from django.conf import settings
-from pydantic import BaseModel, validator, ValidationError, Field, root_validator
+from pydantic import (BaseModel, Field, ValidationError, root_validator,
+                      validator)
 
 from config.constants import DEFAULT_DATE_FORMAT, ReportTypes
 

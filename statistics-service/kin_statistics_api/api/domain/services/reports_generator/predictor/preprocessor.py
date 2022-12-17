@@ -1,19 +1,19 @@
 import json
 import re
-from typing import Optional
 from string import punctuation
+from typing import Optional
 
 import numpy as np
 import pandas as pd
-from pymorphy2 import MorphAnalyzer
-from nltk.tokenize import word_tokenize
-from sklearn.feature_extraction.text import TfidfVectorizer
+from django.conf import settings
 from keras.preprocessing.text import Tokenizer
 from keras_preprocessing.sequence import pad_sequences
-from django.conf import settings
+from nltk.tokenize import word_tokenize
+from pymorphy2 import MorphAnalyzer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 from api.domain.services.reports_generator.predictor import ITextPreprocessor
-from config.constants import emoji_regex_compiled, MAX_POST_LEN_IN_WORDS
+from config.constants import MAX_POST_LEN_IN_WORDS, emoji_regex_compiled
 
 
 class TextPreprocessor(ITextPreprocessor):

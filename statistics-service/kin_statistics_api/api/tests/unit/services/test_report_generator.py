@@ -2,10 +2,11 @@ from unittest import mock
 
 from django.test import TestCase
 
-from api.views import container
-from api.tests import factories
 from api.domain.entities import StatisticalReport
-from config.constants import ReportProcessingResult, MessageCategories, SentimentTypes, DEFAULT_DATE_FORMAT
+from api.tests import factories
+from api.views import container
+from config.constants import (DEFAULT_DATE_FORMAT, MessageCategories,
+                              ReportProcessingResult, SentimentTypes)
 
 
 class TestReportGenerationService(TestCase):

@@ -2,10 +2,13 @@ import logging
 
 from django.contrib.auth.models import User
 
-from api.domain.entities.report import ReportIdentificationEntity, StatisticalReport, ReportPutEntity, WordCloudReport
+from api.domain.entities.report import (ReportIdentificationEntity,
+                                        ReportPutEntity, StatisticalReport,
+                                        WordCloudReport)
 from api.exceptions import ReportAccessForbidden
 from api.infrastructure.interfaces import IReportRepository
-from api.infrastructure.repositories.reports import ReportsAccessManagementRepository
+from api.infrastructure.repositories.reports import \
+    ReportsAccessManagementRepository
 
 
 class ManagingReportsService:

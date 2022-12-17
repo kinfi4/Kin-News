@@ -2,10 +2,13 @@ import logging
 from abc import ABC, abstractmethod
 from datetime import date, datetime
 
+from api.domain.entities import (BaseReport, GenerateReportEntity,
+                                 StatisticalReport)
 from api.domain.services.reports_generator.predictor.predictor import Predictor
-from api.domain.services.reports_generator.statistical_report.reports_builder import ReportsBuilder
-from api.domain.services.reports_generator.word_cloud.reports_builder import WordCloudReport, WordCloudReportBuilder
-from api.domain.entities import GenerateReportEntity, BaseReport, StatisticalReport
+from api.domain.services.reports_generator.statistical_report.reports_builder import \
+    ReportsBuilder
+from api.domain.services.reports_generator.word_cloud.reports_builder import (
+    WordCloudReport, WordCloudReportBuilder)
 from api.infrastructure.interfaces import IReportRepository
 from api.infrastructure.repositories import ReportsAccessManagementRepository
 from config.constants import ReportProcessingResult
