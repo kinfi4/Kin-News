@@ -28,3 +28,6 @@ format:
 
 
 ci: format-check | tests
+
+logs:
+	docker-compose logs -f 
