@@ -28,7 +28,7 @@ services:
       - kin-network
 
   mongo:
-    image: "mongo:6.0.2"
+    image: "mongo:6.0.3"
     container_name: "mongo"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=kin-news-user
