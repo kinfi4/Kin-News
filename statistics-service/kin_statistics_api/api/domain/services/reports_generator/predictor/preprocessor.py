@@ -36,6 +36,7 @@ class TextPreprocessor(ITextPreprocessor):
 
     def preprocess_text(self, text: str) -> str:
         text = text.lower()
+        text = self.remove_html_tags(text)
         text = self.remove_links(text)
         text = self.remove_emoji(text)
         text = self.remove_punctuation(text)
@@ -74,6 +75,10 @@ class TextPreprocessor(ITextPreprocessor):
         return self._vectorizer.transform(texts)
 
     @staticmethod
+    def remove_html_tags(text: str) -> str:
+        return re.sub(r'<[^>]+>', ' ', text)
+
+    @staticmethod
     def remove_links(text: str) -> str:
         return re.sub(r'https?://\S+|www\.\S+', '', text)
 
@@ -95,4 +100,4 @@ class TextPreprocessor(ITextPreprocessor):
 
     @staticmethod
     def remove_extra_spaces(text: str) -> str:
-        return re.sub(' +', ' ', text)
+        return re.sub(r' +', ' ', text)
