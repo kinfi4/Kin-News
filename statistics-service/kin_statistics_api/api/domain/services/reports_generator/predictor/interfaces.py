@@ -29,11 +29,11 @@ class ITextPreprocessor(ABC):
         pass
 
     @abstractmethod
-    def sklearn_vectorize_text(self, texts, make_preprocessing: bool = True):
+    def ml_vectorizing(self, texts, make_preprocessing: bool = True):
         pass
 
     @abstractmethod
-    def keras_tokenize_and_pad_text(
+    def nn_vectorizing(
         self,
         texts,
         make_preprocessing: bool = True,

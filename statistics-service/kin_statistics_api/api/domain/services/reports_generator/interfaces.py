@@ -14,7 +14,7 @@ from api.domain.services.reports_generator.word_cloud.reports_builder import (
 from api.infrastructure.interfaces import IReportRepository
 from api.infrastructure.repositories import ReportsAccessManagementRepository
 from config.constants import ReportProcessingResult
-from kin_news_core.telegram import ITelegramProxy
+from kin_news_core.telegram import IDataGetterProxy
 
 
 class IGeneratingReportsService(ABC):
@@ -22,7 +22,7 @@ class IGeneratingReportsService(ABC):
 
     def __init__(
         self,
-        telegram_client: ITelegramProxy,
+        telegram_client: IDataGetterProxy,
         reports_repository: IReportRepository,
         report_access_repository: ReportsAccessManagementRepository,
         predictor: Predictor,

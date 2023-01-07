@@ -14,7 +14,7 @@ from api.infrastructure.repositories import (
 )
 from api.type_hints import CSV_WRITER
 from config.constants import DEFAULT_DATE_FORMAT, MessageCategories, SentimentTypes
-from kin_news_core.telegram.interfaces import ITelegramProxy
+from kin_news_core.telegram.interfaces import IDataGetterProxy
 
 
 class GenerateStatisticalReportService(IGeneratingReportsService):
@@ -22,7 +22,7 @@ class GenerateStatisticalReportService(IGeneratingReportsService):
 
     def __init__(
         self,
-        telegram_client: ITelegramProxy,
+        telegram_client: IDataGetterProxy,
         reports_repository: IReportRepository,
         report_access_repository: ReportsAccessManagementRepository,
         predictor: Predictor,

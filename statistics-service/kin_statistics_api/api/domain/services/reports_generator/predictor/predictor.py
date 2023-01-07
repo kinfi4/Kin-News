@@ -59,7 +59,7 @@ class Predictor(IPredictor):
         return most_common_prediction
 
     def _get_nn_models_predictions(self, text: str) -> tuple:
-        text_sequences = self._text_preprocessor.keras_tokenize_and_pad_text(
+        text_sequences = self._text_preprocessor.nn_vectorizing(
             pd.Series([text]),
             make_preprocessing=True,
             max_words_number=MAX_POST_LEN_IN_WORDS,
@@ -77,10 +77,7 @@ class Predictor(IPredictor):
         return tuple(map(self._get_predicted_news_type_label, prediction_results))
 
     def _get_ml_models_predictions(self, text: str) -> tuple:
-        test_vectors_for_ml_models = self._text_preprocessor.sklearn_vectorize_text(
-            [text],
-            make_preprocessing=True
-        )
+        test_vectors_for_ml_models = self._text_preprocessor.ml_vectorizing([text], make_preprocessing=True)
 
         # model.predict is going to return a list with a single value in it
         prediction_results = [model.predict(test_vectors_for_ml_models.toarray())[0] for model in self._ml_models]

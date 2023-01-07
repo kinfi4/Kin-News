@@ -51,7 +51,7 @@ class TextPreprocessor(ITextPreprocessor):
 
         return ' '.join((self._morph.parse(word)[0].normal_form for word in tokens))
 
-    def keras_tokenize_and_pad_text(
+    def nn_vectorizing(
         self,
         texts,
         make_preprocessing: bool = True,
@@ -67,7 +67,11 @@ class TextPreprocessor(ITextPreprocessor):
         padded_tokens = pad_sequences(tokens, maxlen=max_words_number, padding=padding, truncating=truncating)
         return np.array(padded_tokens)
 
-    def sklearn_vectorize_text(self, texts, make_preprocessing: bool = True):
+    def ml_vectorizing(
+        self,
+        texts,
+        make_preprocessing: bool = True,
+    ):
         if make_preprocessing:
             texts = texts if isinstance(texts, pd.Series) else pd.Series(texts)
             texts = texts.apply(self.preprocess_and_lemmatize)
