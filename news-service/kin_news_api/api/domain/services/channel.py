@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from api.constants import DELETED_CHANNEL_TITLE
 from api.domain.entities import ChannelGetEntity, ChannelPostEntity
-from api.exceptions import UserIsNotSubscribed
+from api.exceptions import UserIsNotSubscribed, UserMaxSubscriptionsExceeded
 from api.infrastructure.repositories import ChannelRepository, UserRepository
 from kin_news_core.cache import AbstractCache
 from kin_news_core.exceptions import InvalidChannelURLError
@@ -35,6 +35,9 @@ class ChannelService:
             raise UserIsNotSubscribed(f'You are not subscribed to {channel_post_entity.link}')
 
     def subscribe_user(self, user: User, channel_post_entity: ChannelPostEntity) -> ChannelGetEntity:
+        if self._is_user_subscriptions_exceeded(user):
+            raise UserMaxSubscriptionsExceeded(f'User: {user.username} subscriptions exceeded!')
+
         channel_entity = self._get_channel_entity(channel_post_entity.link)
 
         channel = self._channel_repository.get_channel_by_link(channel_entity.link)
@@ -94,3 +97,7 @@ class ChannelService:
             participants_count='0 K',
             profile_photo_url=f'{settings.MEDIA_URL}{os.path.join("profile_photos", "default.jpg")}',
         )
+
+    def _is_user_subscriptions_exceeded(self, user: User) -> bool:
+        return self._user_repository.get_user_subscriptions(user).count() > settings.MAX_USER_SUBSCRIPTIONS
+

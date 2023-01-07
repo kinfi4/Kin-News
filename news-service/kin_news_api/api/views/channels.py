@@ -1,4 +1,5 @@
 from dependency_injector.wiring import Provide, inject
+from django.conf import settings
 from pydantic import ValidationError
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
@@ -9,7 +10,7 @@ from rest_framework.views import APIView
 
 from api.domain.entities import ChannelPostEntity
 from api.domain.services import ChannelService
-from api.exceptions import UserIsNotSubscribed
+from api.exceptions import UserIsNotSubscribed, UserMaxSubscriptionsExceeded
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import InvalidChannelURLError
@@ -40,6 +41,12 @@ class ChannelListView(APIView):
         try:
             channels_entity = ChannelPostEntity(**request.data)
             channel = channel_service.subscribe_user(request.user, channels_entity)
+        except UserMaxSubscriptionsExceeded:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'errors': f'We are sorry, but you have exceeded maximum number of subscriptions. '
+                                f'You may subscribe only up to {settings.MAX_USER_SUBSCRIPTIONS} at the same time.'}
+            )
         except ValidationError as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': pydantic_errors_prettifier(err.errors())})
         except InvalidChannelURLError as err:

@@ -18,6 +18,10 @@ class UserIsNotSubscribed(KinNewsBaseException):
     pass
 
 
+class UserMaxSubscriptionsExceeded(KinNewsBaseException):
+    pass
+
+
 class ChannelDoesNotExists(KinNewsBaseException):
     pass
 
