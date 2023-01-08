@@ -9,11 +9,13 @@ let initialState = {
     posts: [],
     loading: false,
     postsOffset: null,
-}
+    userHasPosts: true,
+};
 
-const POSTS_LOADED = "POSTS_LOADED"
-const POSTS_LOADING = "POSTS_LOADING"
-const POSTS_STOP_LOADING = "POSTS_STOP_LOADING"
+const POSTS_LOADED = "POSTS_LOADED";
+const POSTS_LOADING = "POSTS_LOADING";
+const POSTS_STOP_LOADING = "POSTS_STOP_LOADING";
+const USER_HAS_NO_POSTS = "USER_HAS_NO_POSTS";
 
 
 export let fetchNextPosts = () => (dispatch, getState) => {
@@ -44,8 +46,13 @@ export let fetchNextPosts = () => (dispatch, getState) => {
     }).then(res => {
            dispatch({type: POSTS_LOADED, posts: res.data.messages, newOffset: startTimeTimestamp})
        }).catch(err => {
-           dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
-           dispatch({type: POSTS_STOP_LOADING})
+            if(err.response.status === 404) {  // that means user has no subscriptions
+                dispatch({type: USER_HAS_NO_POSTS})
+                return;
+            }
+
+            dispatch({type: FETCH_ERROR, errors: err.response.data.errors})
+            dispatch({type: POSTS_STOP_LOADING})
        })
 }
 
@@ -53,11 +60,13 @@ export let fetchNextPosts = () => (dispatch, getState) => {
 export let postsReducer = (state=initialState, action) => {
     switch (action.type){
         case POSTS_LOADED:
-            return {loading: false, posts: state.posts.concat(action.posts), postsOffset: action.newOffset}
+            return {loading: false, posts: state.posts.concat(action.posts), postsOffset: action.newOffset, userHasPosts: true}
         case POSTS_LOADING:
             return {...state, loading: true}
         case POSTS_STOP_LOADING:
             return {...state, loading: false}
+        case USER_HAS_NO_POSTS:
+            return {...state, userHasPosts: false}
         default:
             return state
     }

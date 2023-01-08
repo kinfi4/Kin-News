@@ -35,6 +35,20 @@ const PostsTape = (props) => {
         }
     }, [props.posts]);
 
+    if (props.userHasPosts === false) {
+        return (
+            <div
+                style={{
+                    color: "#fff",
+                    fontWeight: "bold",
+                    fontSize: "25px"
+                }}
+            >
+                SORRY, BUT YOU HAVE NO SUBSCRIPTIONS :(
+            </div>
+        )
+    }
+
     if(props.posts.length === 0) {
         props.fetchNewPosts();
         return (
@@ -72,6 +86,7 @@ const PostsTape = (props) => {
 let mapStateToProps = (state) => {
     return {
         loading: state.postsReducer.loading,
+        userHasPosts: state.postsReducer.userHasPosts,
     }
 }
 

@@ -44,7 +44,6 @@
 
     width: 100%;
 
-    background-image: url("https://i.pinimg.com/564x/c4/e1/23/c4e123cfefe1b239b804c9820c2c7724.jpg");
-    background-attachment: fixed;
-    background-size: cover;
+    background: rgb(21,32,43);
+    background: linear-gradient(90deg, rgba(21,32,43,1) 0%, rgba(78,76,93,1) 84%, rgba(88,84,91,1) 100%);
 }
