@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.domain.services import ChannelService, MessageService
-from api.exceptions import InvalidURIParams, UserAlreadyFetchingNews
+from api.exceptions import InvalidURIParams, UserAlreadyFetchingNews, UserIsNotSubscribed
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import TelegramIsUnavailable
@@ -36,6 +36,8 @@ class MessagesView(APIView):
             user_channels = channel_service.get_user_channels(request.user)
 
             messages = message_service.get_user_posts(request.user.id, user_channels, start_time=start_time, end_time=end_time)
+        except UserIsNotSubscribed:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except InvalidURIParams as err:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': str(err)})
         except UserAlreadyFetchingNews as err:

@@ -5,7 +5,7 @@ from datetime import datetime
 
 from api.domain.entities import ChannelGetEntity
 from api.domain.entities.message import MessageGetEntity
-from api.exceptions import UserAlreadyFetchingNews
+from api.exceptions import UserAlreadyFetchingNews, UserIsNotSubscribed
 from api.infrastructure.repositories import UserRepository
 from kin_news_core.exceptions import InvalidChannelURLError
 from kin_news_core.telegram import ITelegramProxy
@@ -28,6 +28,9 @@ class MessageService:
             raise UserAlreadyFetchingNews(
                 'You are sending too many requests. We are preparing your news already. Please wait.'
             )
+
+        if len(user_channels) == 0:
+            raise UserIsNotSubscribed()
 
         messages = []
         try:
