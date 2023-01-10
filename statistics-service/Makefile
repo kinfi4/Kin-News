@@ -17,11 +17,11 @@ tests:
 	docker-compose -f docker-compose.test.yaml rm -f postgres mongo
 
 mypy:
-	docker-compose run -u $(UUID) --rm --no-deps statistics-api mypy --no-warn-no-return api/
+	docker-compose -f docker-compose.test.yaml run -u $(UUID) --rm --no-deps test-statistics-api mypy --no-warn-no-return api/
 
 format-check: mypy |
-	docker-compose run -u $(UUID) --rm --no-deps statistics-api isort --settings-path /app/setup.cfg --check-only api/
-	docker-compose run -u $(UUID) --rm --no-deps statistics-api flake8 --config /app/setup.cfg api/
+	docker-compose -f docker-compose.test.yaml run -u $(UUID) --rm --no-deps test-statistics-api isort --settings-path /app/setup.cfg --check-only api/
+	docker-compose -f docker-compose.test.yaml run -u $(UUID) --rm --no-deps test-statistics-api flake8 --config /app/setup.cfg api/
 
 format:
 	docker-compose run -u $(UUID) --rm --no-deps statistics-api isort --settings-path /app/setup.cfg api/

@@ -7,3 +7,8 @@ run-services:
 	cd kin-news-frontend && make run-silent
 
 run: | run-infra run-services
+
+build:
+	cd news-service && make build
+	cd statistics-service && make build
+	cd kin-news-frontend && make build

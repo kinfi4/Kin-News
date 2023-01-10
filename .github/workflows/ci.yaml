@@ -1,0 +1,14 @@
+name: Kin-News CI Actions
+on: [push]
+
+jobs:
+  ci_job:
+    runs-on: ubuntu-latest
+    name:  CI Job
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "Starting CI for statistics service..."
+      - name: Statistics service CI
+        working-directory: statistics-service
+        run: make ci
+      - run: echo "Statistics service CI passed successfully!!!"
