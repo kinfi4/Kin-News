@@ -9,9 +9,6 @@ from config.constants import DEFAULT_DATE_FORMAT, ReportTypes
 
 def _cast_string_to_date(date_string: str) -> date:
     try:
-        if date_string[:2] == '31':  # we need this, because datetime for some reason is very bed with 31st days of the month
-            date_string = '30' + date_string[2:]
-
         return datetime.strptime(date_string, DEFAULT_DATE_FORMAT).date()
     except ValueError:
         raise ValueError('Invalid string format for incoming StartDate field!')
@@ -33,7 +30,6 @@ class GenerateReportEntity(BaseModel):
     @validator('start_date', pre=True)
     def validate_and_cast_start_date(cls, value: Union[str, date]):
         if isinstance(value, str):
-
             return _cast_string_to_date(value)
 
         return value

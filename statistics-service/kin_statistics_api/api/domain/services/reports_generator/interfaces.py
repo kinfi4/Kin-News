@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from api.domain.entities import BaseReport, GenerateReportEntity, StatisticalReport
 from api.domain.services.reports_generator.predictor.predictor import Predictor
@@ -65,11 +65,7 @@ class IGeneratingReportsService(ABC):
 
     @staticmethod
     def _datetime_from_date(dt: date, end_of_day: bool = False) -> datetime:
-        return datetime(
-            year=dt.year,
-            month=dt.month,
-            day=dt.day + int(end_of_day),
-        )
+        return datetime(year=dt.year, month=dt.month, day=dt.day) + timedelta(days=int(end_of_day))
 
     @classmethod
     def _build_empty_report(cls, report_id: int) -> StatisticalReport | WordCloudReport:
