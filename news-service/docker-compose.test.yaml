@@ -15,6 +15,7 @@ services:
       - ./kin_news_api/config:/app/config
       - ./submodules/kin-news-core/kin_news_core:/app/kin_news_core
       - ./media/:/media
+      - ./kin_news_api/setup.cfg:/app/setup.cfg
     depends_on:
       - postgres
       - redis

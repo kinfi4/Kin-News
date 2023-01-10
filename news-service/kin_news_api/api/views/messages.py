@@ -11,7 +11,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.domain.services import ChannelService, MessageService
-from api.exceptions import InvalidURIParams, UserAlreadyFetchingNews, UserIsNotSubscribed
+from api.exceptions import (
+    InvalidURIParams,
+    UserAlreadyFetchingNews,
+    UserIsNotSubscribed,
+)
 from config.containers import Container
 from kin_news_core.auth import JWTAuthentication
 from kin_news_core.exceptions import TelegramIsUnavailable

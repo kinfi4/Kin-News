@@ -99,5 +99,4 @@ class ChannelService:
         )
 
     def _is_user_subscriptions_exceeded(self, user: User) -> bool:
-        return self._user_repository.get_user_subscriptions(user).count() > settings.MAX_USER_SUBSCRIPTIONS
-
+        return self._user_repository.count_user_subscriptions(user) > settings.MAX_USER_SUBSCRIPTIONS

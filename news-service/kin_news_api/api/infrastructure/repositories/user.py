@@ -38,6 +38,9 @@ class UserRepository:
 
         return self._channel_query.filter(subscribers__username=user.username)
 
+    def count_user_subscriptions(self, user: User) -> int:
+        return self._channel_query.filter(subscribers__username=user.username).count()
+
     def check_if_user_fetching_news(self, user_id: int) -> bool:
         self._logger.info('[UserRepository] Checking if user is already fetching news')
 

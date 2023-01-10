@@ -58,6 +58,7 @@ class ChannelsServiceTest(TestCase):
         telegram_client_mock = mock.MagicMock()
         cache_client_mock = mock.MagicMock()
         channel_repository_mock = mock.MagicMock()
+        users_repository_mock = mock.MagicMock()
 
         cache_client_mock.get_channel_info.return_value = None
         cache_client_mock.get_channel_photo_url.return_value = None
@@ -68,10 +69,13 @@ class ChannelsServiceTest(TestCase):
         telegram_channel = factories.build_telegram_channel_entity()
         telegram_client_mock.get_channel.return_value = telegram_channel
 
+        users_repository_mock.count_user_subscriptions.return_value = 1
+
         with (
             container.clients.telegram_client.override(telegram_client_mock)
             and container.clients.cache_client.override(cache_client_mock)
             and container.repositories.channel_repository.override(channel_repository_mock)
+            and container.repositories.user_repository.override(users_repository_mock)
         ):
             response = container.domain_services.channel_service().subscribe_user("user", ChannelPostEntity(link="something"))
 
